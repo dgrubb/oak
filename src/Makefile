@@ -20,6 +20,8 @@ CPPFLAGS = -O3 \
 
 # Source files
 SRCS = oak.cpp \
+	A3000.cpp \
+	timers.cpp \
 	debug.cpp
 
 OBJS=$(subst .cpp,.o,$(SRCS))
