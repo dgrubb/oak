@@ -4,20 +4,33 @@
  * Date:24/04/2018
  */
 
+/* Library includes */
+#include <cstdlib> // getopt()
+#include <unistd.h> // opterr
+#include <signal.h>
+#include <iostream>
+#include <cstring>
+
+/* Project includes */
+#include "A3000.h"
+#include "oak.h"
+#include "debug.h"
+
 using namespace std;
 
-bool running = true;
+volatile bool running = true;
 
 void
 exit_handler(int sig)
 {
-    printf("Exiting ...\n");
+    printf("Signal [ %s ], exiting ...\n", strsignal(sig));
     running = false;
 }
 
 int
 main (int argc, char* argv[])
 {
+    A3000 archimedes();
 
     if (-1 == parse_arguments(argc, argv)) {
         printf("Failed to parse arguments\n");
@@ -29,6 +42,7 @@ main (int argc, char* argv[])
     signal(SIGTERM, &exit_handler);
     signal(SIGINT, &exit_handler);
 
+    print_banner();
     while (running) {
         // Main program loop
     }
@@ -49,9 +63,35 @@ parse_arguments(int argc, char* argv[])
         switch (c) {
             case 'd':
                 if (-1 != validate_debug_level(atoi(optarg))) {
+                    set_debug_level(atoi(optarg));
                 } else {
-                    print_usage()
+                    print_usage();
+                    return -1;
                 }
+                break;
+            case 'h':
+                print_usage();
+                exit(EXIT_SUCCESS);
+            default:
+                return -1;
         }
     }
+
+    return 0;
+}
+
+void
+print_banner()
+{
+    printf("=====\n");
+    printf("%s\n", PROGRAM_NAME);
+    printf("%s\n", PROGRAM_VERSION);
+    printf("=====\n");
+}
+
+void
+print_usage()
+{
+    print_banner();
+    printf("%s\n", PROGRAM_USAGE);
 }

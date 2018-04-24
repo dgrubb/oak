@@ -9,16 +9,18 @@ RM  = rm -rf
 
 # Compilation flags
 CPPFLAGS = -O3 \
-           -g \
-           -Wall \
-           -Wextra \
-           -Werror \
-           -pedantic \
-           -fPIC \
-           -std=c++11
+		   -g \
+		   -Wall \
+		   -Wextra \
+		   -Werror \
+		   -pedantic \
+		   -fPIC \
+		   -std=c++11 \
+		   -Wno-vla
 
 # Source files
-SRCS = oak.cpp
+SRCS = oak.cpp \
+	debug.cpp
 
 OBJS=$(subst .cpp,.o,$(SRCS))
 
@@ -31,16 +33,16 @@ LIBS =
 all: oak
 
 oak: $(OBJS)
-    $(CPP) $(OBJS) -o oak $(LIBS)
+	$(CPP) $(OBJS) -o oak $(LIBS)
 
 %.o: %.cpp
-    $(CPP) $(CPPFLAGS) -c $< -o $@
+	$(CPP) $(CPPFLAGS) -c $< -o $@
 
 clean: clean-objects
 
 dist-clean: clean-objects
-    $(RM) oak
+	$(RM) oak
 
 clean-objects:
-    for i in $(OBJS); \
-        do (if test -e "$$i"; then ($(RM) $$i ); fi ); done
+	for i in $(OBJS); \
+		do (if test -e "$$i"; then ($(RM) $$i ); fi ); done
