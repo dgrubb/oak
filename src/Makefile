@@ -21,6 +21,7 @@ CPPFLAGS = -O3 \
 # Source files
 SRCS = oak.cpp \
 	A3000.cpp \
+	state.cpp \
 	timers.cpp \
 	debug.cpp
 
