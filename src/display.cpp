@@ -44,6 +44,14 @@ Display::ProcessEvents()
                     break;
             }
         }
+        if (SDL_KEYDOWN == e.type) {
+            switch (e.key.keysym.sym) {
+                case SDLK_SPACE:
+                    DBG_PRINT((DBG_INFO, "Space bar pressed\n"));
+                    this->ToggleFullscreen();
+                    break;
+            }
+        }
     }
     return 0;
 }
@@ -51,7 +59,21 @@ Display::ProcessEvents()
 int
 Display::SetFullscreen(bool fullscreen)
 {
-    return 0;
+    this->m_fullscreen = fullscreen;
+    if (NULL != this->m_window) {
+        DBG_PRINT((DBG_INFO, "Setting fullscreen: %s\n", (this->m_fullscreen ? "true" : "false")));
+        SDL_SetWindowFullscreen(this->m_window, (this->m_fullscreen ? SDL_TRUE : SDL_FALSE));
+        return 0;
+    } else {
+        DBG_PRINT((DBG_ERROR, "Unable to set fullscreen, no window pointer\n"));
+        return -1;
+    }
+}
+
+int
+Display::ToggleFullscreen()
+{
+    this->SetFullscreen(!this->m_fullscreen);
 }
 
 bool
