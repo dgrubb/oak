@@ -11,6 +11,7 @@ using namespace std;
 int
 A3000::Reset()
 {
+    return 0;
 }
 
 A3000::A3000()

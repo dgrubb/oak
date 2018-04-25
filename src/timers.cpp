@@ -4,7 +4,7 @@
  * Date:24/04/2018
  */
 
-#include "Timers.h"
+#include "timers.h"
 
 using namespace std;
 
