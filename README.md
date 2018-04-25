@@ -1,4 +1,4 @@
-# oak
+# Oak
 
 ![Archimedes logo](./docs/Archimedes-logo.png)
 
