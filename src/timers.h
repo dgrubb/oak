@@ -12,6 +12,8 @@
 
 #define NS_IN_MS 1000000
 
+using namespace std;
+
 typedef void (*callback)(void*);
 typedef struct {
     timer_t     timer;

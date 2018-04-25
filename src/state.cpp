@@ -10,6 +10,7 @@
 
 /* Project includes */
 #include "lock.h"
+#include "state.h"
 
 using namespace std;
 

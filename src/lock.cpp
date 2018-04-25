@@ -16,7 +16,7 @@ Lock::Relock()
 }
 
 void
-Unlock()
+Lock::Unlock()
 {
     pthread_mutex_unlock(this->m_pLock);
 }

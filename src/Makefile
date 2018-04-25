@@ -16,18 +16,23 @@ CPPFLAGS = -O3 \
 		   -pedantic \
 		   -fPIC \
 		   -std=c++11 \
-		   -Wno-vla
+		   -Wno-vla \
+		   -Wno-return-type \
+		   -Wno-unused-parameter \
+		   -Wno-missing-field-initializers
 
 # Source files
 SRCS = oak.cpp \
 	A3000.cpp \
+	lock.cpp \
 	state.cpp \
 	timers.cpp \
 	debug.cpp
 
 OBJS=$(subst .cpp,.o,$(SRCS))
 
-LIBS = 
+LDFLAGS=-lrt \
+		-lpthread
 
 ####################
 # Cleanup directives
@@ -36,7 +41,7 @@ LIBS =
 all: oak
 
 oak: $(OBJS)
-	$(CPP) $(OBJS) -o oak $(LIBS)
+	$(CPP) -o oak $(OBJS) $(LDFLAGS)
 
 %.o: %.cpp
 	$(CPP) $(CPPFLAGS) -c $< -o $@

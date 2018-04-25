@@ -22,7 +22,7 @@ static void info_signal_handler(int sig, siginfo_t *si, void *uc)
     DBG_PRINT((DBG_ULTRA_VERBOSE, "Timer signal handler called, index: %d\n",
                 si->si_value.sival_int));
     if (-1 != State::Interfaces()->GetTimersPtr(timers)) {
-        Timers->ExecuteCallback(si->si_value.sival_int);
+        timers->ExecuteCallback(si->si_value.sival_int);
     }
 }
 
@@ -92,7 +92,7 @@ int
 Timers::ExecuteCallback(int timer_index)
 {
     TimerCallback timer_callback;
-    if (-1 != GetTimerCallbackEntry(timer_entry, trimer_callback)) {
+    if (-1 != GetTimerCallbackEntry(timer_index, timer_callback)) {
         return -1;
     }
 
@@ -149,16 +149,15 @@ Timers::DestroyTimer(int timer_index)
         return -1;
     }
 
-    if (-1 !- timer_delete(timer_callback.timer)) {
+    if (-1 != timer_delete(timer_callback.timer)) {
         map<int, TimerCallback>::iterator it = this->m_timers.find(timer_index);
-        if (it != this.timers.end()) {
+        if (it != this->m_timers.end()) {
             this->m_timers.erase(it);
         }
         DBG_PRINT((DBG_INFO, "Deleted timer [ %d ]\n", timer_index));
         return 0;
     } else {
-        DBG_PRINT((DBG_ERROR, "Error deleting timer [ %d ]\n%s\n",
-                   timer_index, strerror(errno)))
+        DBG_PRINT((DBG_ERROR, "Error deleting timer [ %d ]\n%s\n", timer_index, strerror(errno)));
     }
     return -1;
 }
@@ -167,7 +166,7 @@ void
 Timers::ListTimers()
 {
     DBG_PRINT((DBG_INFO, "Timer count: %d\n", this->m_timers.size()));
-    for (map<int, TimerCallback>::iterator it=this->timers.begin(); it != this.timers.end(); ++it) {
+    for (map<int, TimerCallback>::iterator it=this->m_timers.begin(); it != this->m_timers.end(); ++it) {
         DBG_PRINT((DBG_INFO, "Timer ID: [ %d ] [ %d ]\n", it->first, it->second));
     }
 }
@@ -179,7 +178,7 @@ Timers::Timers()
 
 Timers::~Timers()
 {
-    while (!this->timers.empty()) {
+    while (!this->m_timers.empty()) {
         DestroyTimer(this->m_timers.rbegin()->first);
     }
 }
