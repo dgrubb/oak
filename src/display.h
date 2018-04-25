@@ -24,15 +24,27 @@ public:
 
     // Methods
     int ProcessEvents();
+    bool GetFullscreen();
+    int SetFullscreen(bool fullscreen);
+    int ToggleFullscreen();
+    bool GetMinimised();
+    bool GetFocused();
+
 
 private:
 
     // Methods
-    int Init(int width, int height);
+    int Init();
 
     // Private data
     SDL_Window* m_window = NULL;
     SDL_Surface* m_surface = NULL;
+    int m_width = DISPLAY_DEFAULT_WIDTH;
+    int m_height = DISPLAY_DEFAULT_HEIGHT;
+    bool m_mouse_focus = false;
+    bool m_keyboard_focus = false;
+    bool m_fullscreen = false;
+    bool m_minimised = false;
 };
 
 

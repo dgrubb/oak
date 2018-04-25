@@ -19,14 +19,63 @@ Display::ProcessEvents()
             return -1;
         }
         // TODO: map keyboard and mouse inputs to emulated state machine
+        if (SDL_WINDOWEVENT == e.type) {
+            switch (e.window.event) {
+                case SDL_WINDOWEVENT_ENTER:
+                    this->m_mouse_focus = true;
+                    break;
+                case SDL_WINDOWEVENT_LEAVE:
+                    this->m_mouse_focus = false;
+                    break;
+                case SDL_WINDOWEVENT_FOCUS_GAINED:
+                    this->m_keyboard_focus = true;
+                    break;
+                case SDL_WINDOWEVENT_FOCUS_LOST:
+                    this->m_keyboard_focus = false;
+                    break;
+                case SDL_WINDOWEVENT_MINIMIZED:
+                    this->m_minimised = true;
+                    break;
+                case SDL_WINDOWEVENT_MAXIMIZED:
+                    this->m_minimised = false;
+                    break;
+                case SDL_WINDOWEVENT_RESTORED:
+                    this->m_minimised = false;
+                    break;
+            }
+        }
     }
     return 0;
 }
 
 int
-Display::Init(int width, int height)
+Display::SetFullscreen(bool fullscreen)
 {
-    DBG_PRINT((DBG_VERBOSE, "Creating application display, resolution: %dx%d\n", width, height));
+    return 0;
+}
+
+bool
+Display::GetFullscreen()
+{
+    return this->m_fullscreen;
+}
+
+bool
+Display::GetFocused()
+{
+    return (this->m_mouse_focus && this->m_keyboard_focus);
+}
+
+bool
+Display::GetMinimised()
+{
+    return this->m_minimised;
+}
+
+int
+Display::Init()
+{
+    DBG_PRINT((DBG_VERBOSE, "Creating application display, resolution: %dx%d\n", this->m_width, this->m_height));
     if (-1 != SDL_Init(SDL_INIT_VIDEO)) {
         DBG_PRINT((DBG_VERBOSE, "Initialised SDL\n"));
     } else {
@@ -35,7 +84,7 @@ Display::Init(int width, int height)
     }
 
     this->m_window = SDL_CreateWindow(PROGRAM_NAME, SDL_WINDOWPOS_UNDEFINED,
-            SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
+            SDL_WINDOWPOS_UNDEFINED, this->m_width, this->m_height, SDL_WINDOW_SHOWN);
     if (this->m_window != NULL) {
         DBG_PRINT((DBG_VERBOSE, "Created SDL window\n"));
     } else {
@@ -57,12 +106,16 @@ Display::Init(int width, int height)
 
 Display::Display()
 {
-    this->Init(DISPLAY_DEFAULT_WIDTH, DISPLAY_DEFAULT_HEIGHT);
+    this->m_width = DISPLAY_DEFAULT_WIDTH;
+    this->m_height = DISPLAY_DEFAULT_HEIGHT;
+    this->Init();
 }
 
 Display::Display(int width, int height)
 {
-    this->Init(width, height);
+    this->m_width = width;
+    this->m_height = height;
+    this->Init();
 }
 
 Display::~Display()
