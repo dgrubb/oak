@@ -30,7 +30,7 @@ int get_debug_level(int &dbg_level);
 int set_debug_level(int dbg_level);
 int validate_debug_level(int dbg_level);
 void debug_print(bool enable, int dbg_level, const char *file,
-		int line, const char *text, ...);
+        int line, const char *text, ...);
 const char * get_debug_level_string(int dbg_level);
 
 #endif // _DEBUG_H
