@@ -173,11 +173,13 @@ Timers::ListTimers()
 
 Timers::Timers()
 {
+    DBG_PRINT((DBG_VERBOSE, "Creating Timers object\n"));
     this->m_timers.clear();
 }
 
 Timers::~Timers()
 {
+    DBG_PRINT((DBG_VERBOSE, "Destroyed Timers object\n"));
     while (!this->m_timers.empty()) {
         DestroyTimer(this->m_timers.rbegin()->first);
     }

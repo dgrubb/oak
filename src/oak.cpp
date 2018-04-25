@@ -14,6 +14,8 @@
 /* Project includes */
 #include "A3000.h"
 #include "oak.h"
+#include "state.h"
+#include "timers.h"
 #include "debug.h"
 
 using namespace std;
@@ -43,10 +45,14 @@ main (int argc, char* argv[])
     signal(SIGINT, &exit_handler);
 
     print_banner();
+
+    init_interfaces();
+
     while (running) {
         // Main program loop
     }
 
+    deinit_interfaces();
     return EXIT_SUCCESS;
 
 fail: ;
@@ -78,6 +84,24 @@ parse_arguments(int argc, char* argv[])
     }
 
     return 0;
+}
+
+void
+init_interfaces()
+{
+    DBG_PRINT((DBG_VERBOSE, "Initialising interfaces\n"));
+    Timers *timers = new Timers();
+    State::Interfaces()->SetTimersPtr(timers);
+}
+
+void
+deinit_interfaces()
+{
+    DBG_PRINT((DBG_VERBOSE, "Destroying interfaces\n"));
+    Timers *timers;
+    if (-1 != State::Interfaces()->GetTimersPtr(timers)) {
+        delete timers;
+    }
 }
 
 void
