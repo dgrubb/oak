@@ -10,6 +10,20 @@
 #include "debug.h"
 
 int
+Display::ProcessEvents()
+{
+    SDL_Event e;
+    while (0 != SDL_PollEvent(&e)) {
+        if (SDL_QUIT == e.type) {
+            DBG_PRINT((DBG_INFO, "Received SDL quit\n"));
+            return -1;
+        }
+        // TODO: map keyboard and mouse inputs to emulated state machine
+    }
+    return 0;
+}
+
+int
 Display::Init(int width, int height)
 {
     DBG_PRINT((DBG_VERBOSE, "Creating application display, resolution: %dx%d\n", width, height));

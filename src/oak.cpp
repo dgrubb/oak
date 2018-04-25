@@ -32,6 +32,7 @@ exit_handler(int sig)
 int
 main (int argc, char* argv[])
 {
+    Display *display;
     A3000 archimedes();
 
     if (-1 == parse_arguments(argc, argv)) {
@@ -47,9 +48,13 @@ main (int argc, char* argv[])
     print_banner();
 
     init_interfaces();
+    State::Interfaces()->GetDisplayPtr(display);
 
     while (running) {
         // Main program loop
+        if ((NULL == display) || (-1 == display->ProcessEvents())) {
+            running = false;
+        }
     }
 
     deinit_interfaces();

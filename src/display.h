@@ -23,6 +23,7 @@ public:
     ~Display();
 
     // Methods
+    int ProcessEvents();
 
 private:
 
