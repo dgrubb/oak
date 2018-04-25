@@ -32,9 +32,10 @@ and you can even run [RISC OS on a Raspberry Pi!](https://www.riscosopen.org/con
 
 # Requirements
 
-+ Rust and its associated tooling (e.g., Cargo package manager)
+The usual tooling for compiling C++ under Linux and the SDL development libraries. Under Debian/Ubuntu: 
+
 ```
-$ sudo apt-get install libsdl2-2.0-0 libsdl2-dev
+$ sudo apt-get install g++ automake build-essential libsdl2-2.0-0 libsdl2-dev
 ```
 
 ## Compilation
