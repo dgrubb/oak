@@ -19,10 +19,12 @@ State* State::m_pInterfaces = NULL;
 
 typedef struct {
     Timers  *pTimers;
+    Display *pDisplay;
 } InterfacesTable;
 
 InterfacesTable DefaultTable = {
-    NULL // Timers
+    NULL, // Timers
+    NULL  // Display
 };
 
 static InterfacesTable table = DefaultTable;
@@ -50,6 +52,22 @@ State::GetTimersPtr(Timers * &timers)
 {
     Lock locker(&lock);
     timers = table.pTimers;
+    return 0;
+}
+
+int
+State::SetDisplayPtr(Display *display)
+{
+    Lock locker(&lock);
+    table.pDisplay = display;
+    return 0;
+}
+
+int
+State::GetDisplayPtr(Display * &display)
+{
+    Lock locker(&lock);
+    display = table.pDisplay;
     return 0;
 }
 

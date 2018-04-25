@@ -6,6 +6,8 @@
 
 #define PROGRAM_NAME "Oak"
 #define PROGRAM_VERSION "0.0.1"
+#define PROGRAM_AUTHOR "dgrubb"
+#define PROGRAM_WEBSITE "https://github.com/dgrubb/oak"
 #define PROGRAM_USAGE "An Acorn Archimedes A3000 emulator.\n\n" \
 "Usage:\n$ ./oak -d 4 -r <ROM FILE>\n" \
 "\t-h\tPrint usage.\n" \

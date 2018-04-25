@@ -12,7 +12,7 @@
 #include <cstring>
 
 /* Project includes */
-#include "A3000.h"
+#include "acorn/A3000.h"
 #include "oak.h"
 #include "state.h"
 #include "timers.h"
@@ -56,7 +56,7 @@ main (int argc, char* argv[])
     return EXIT_SUCCESS;
 
 fail: ;
-      return EXIT_FAILURE;
+    return EXIT_FAILURE;
 }
 
 int
@@ -89,28 +89,35 @@ parse_arguments(int argc, char* argv[])
 void
 init_interfaces()
 {
-    DBG_PRINT((DBG_VERBOSE, "Initialising interfaces\n"));
+    DBG_PRINT((DBG_INFO, "Initialising interfaces\n"));
     Timers *timers = new Timers();
     State::Interfaces()->SetTimersPtr(timers);
+    Display *display = new Display();
+    State::Interfaces()->SetDisplayPtr(display);
 }
 
 void
 deinit_interfaces()
 {
-    DBG_PRINT((DBG_VERBOSE, "Destroying interfaces\n"));
+    DBG_PRINT((DBG_INFO, "Destroying interfaces\n"));
     Timers *timers;
     if (-1 != State::Interfaces()->GetTimersPtr(timers)) {
         delete timers;
+    }
+    Display *display;
+    if (-1 != State::Interfaces()->GetDisplayPtr(display)) {
+        delete display;
     }
 }
 
 void
 print_banner()
 {
-    printf("=====\n");
-    printf("%s\n", PROGRAM_NAME);
-    printf("%s\n", PROGRAM_VERSION);
-    printf("=====\n");
+    printf("======================================\n");
+    printf("%s, version: %s\n", PROGRAM_NAME, PROGRAM_VERSION);
+    printf("Author: %s\n", PROGRAM_AUTHOR);
+    printf("Website: %s\n", PROGRAM_WEBSITE);
+    printf("======================================\n");
 }
 
 void

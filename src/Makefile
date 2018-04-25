@@ -23,7 +23,8 @@ CPPFLAGS = -O3 \
 
 # Source files
 SRCS = oak.cpp \
-	A3000.cpp \
+	acorn/A3000.cpp \
+	display.cpp \
 	lock.cpp \
 	state.cpp \
 	timers.cpp \
@@ -32,7 +33,8 @@ SRCS = oak.cpp \
 OBJS=$(subst .cpp,.o,$(SRCS))
 
 LDFLAGS=-lrt \
-		-lpthread
+		-lpthread \
+		-lSDL2
 
 ####################
 # Cleanup directives

@@ -7,6 +7,7 @@
 #ifndef _STATE_H
 #define _STATE_H
 
+#include "display.h"
 #include "timers.h"
 
 class State {
@@ -18,6 +19,8 @@ public:
     ~State();
 
     // Methods
+    int SetDisplayPtr(Display *display);
+    int GetDisplayPtr(Display * &display);
     int SetTimersPtr(Timers *timers);
     int GetTimersPtr(Timers * &timers);
 
