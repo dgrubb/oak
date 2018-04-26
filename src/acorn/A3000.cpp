@@ -4,7 +4,9 @@
  * Date:24/04/2018
  */
 
+/* Project includes */
 #include "A3000.h"
+#include "arm.h"
 #include "debug.h"
 
 using namespace std;

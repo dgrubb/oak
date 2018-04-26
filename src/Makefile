@@ -23,11 +23,13 @@ CPPFLAGS = -O3 \
 
 # Include directories
 INC = -I./ \
-	  -I./acorn
+	  -I./acorn \
+	  -I./acorn/arm250
 
 # Source files
 SRCS = oak.cpp \
 	acorn/A3000.cpp \
+	acorn/arm250/arm.cpp \
 	display.cpp \
 	lock.cpp \
 	settings.cpp \
