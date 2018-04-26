@@ -40,7 +40,7 @@ main (int argc, char* argv[])
         print_usage();
         goto fail;
     }
-    // Catch these signals to allwo for cleaning up before exiting
+    // Catch these signals to allow for cleaning up before exiting
     signal(SIGABRT, &exit_handler);
     signal(SIGTERM, &exit_handler);
     signal(SIGINT, &exit_handler);
