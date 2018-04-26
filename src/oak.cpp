@@ -6,7 +6,7 @@
 
 /* Library includes */
 #include <cstdlib> // getopt()
-#include <unistd.h> // opterr
+#include <unistd.h> // opterr, sleep()
 #include <signal.h>
 #include <iostream>
 #include <cstring>
@@ -49,6 +49,11 @@ main (int argc, char* argv[])
 
     init_interfaces();
     State::Interfaces()->GetDisplayPtr(display);
+
+    // Just an aesthetic touch
+    display->ShowSplash();
+    sleep(3);
+    display->Clear();
 
     while (running) {
         // Main program loop

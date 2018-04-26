@@ -114,6 +114,12 @@ Display::Init()
         return -1;
     }
 
+    int image_flags = IMG_INIT_PNG;
+    if (!(IMG_Init(image_flags) & image_flags)) {
+        DBG_PRINT((DBG_ERROR, "SDL_Image failed to initialise: %s\n", IMG_GetError()));
+        return -1;
+    }
+
     this->m_surface = SDL_GetWindowSurface(this->m_window);
     if (this->m_surface != NULL) {
         DBG_PRINT((DBG_VERBOSE, "Retrieved SDL surface reference\n"));
@@ -122,8 +128,58 @@ Display::Init()
         return -1;
     }
 
+    SDL_FillRect(this->m_surface, NULL, SDL_MapRGB(this->m_surface->format,
+                DISPLAY_BACKGROUND_RED, DISPLAY_BACKGROUND_GREEN, DISPLAY_BACKGROUND_BLUE));
+    SDL_UpdateWindowSurface(this->m_window);
+
+    return 0;
+}
+
+int
+Display::ShowSplash()
+{
+    DBG_PRINT((DBG_INFO, "Displaying splash screen\n"));
+    SDL_Rect logo_destination = {
+        DISPLAY_LOGO_X,
+        DISPLAY_LOGO_Y,
+        DISPLAY_LOGO_WIDTH,
+        DISPLAY_LOGO_HEIGHT
+    };
+    SDL_Surface* image_surface = IMG_Load(DISPLAY_LOGO_PATH);
+    if (NULL == image_surface) {
+        DBG_PRINT((DBG_ERROR, "Error loading image [ %s ]: %s\n", DISPLAY_LOGO_PATH, IMG_GetError()));
+        return -1;
+    }
+    if (NULL == this->m_surface) {
+        DBG_PRINT((DBG_ERROR, "Error getting reference to main window surface\n"));
+        return -1;
+    }
+    this->m_logo = SDL_ConvertSurface(image_surface, this->m_surface->format, 0);
+    if (NULL == this->m_logo) {
+        DBG_PRINT((DBG_ERROR, "Error converting image surface to main window surface format: %s\n", SDL_GetError()));
+        return -1;
+    }
+    SDL_FreeSurface(image_surface);
+    SDL_FillRect(this->m_surface, NULL, SDL_MapRGB(this->m_surface->format,
+                DISPLAY_BACKGROUND_RED, DISPLAY_BACKGROUND_GREEN, DISPLAY_BACKGROUND_BLUE));
+
+    SDL_BlitSurface(this->m_logo, NULL, this->m_surface, &logo_destination);
+    SDL_UpdateWindowSurface(this->m_window);
+
+    return 0;
+}
+
+int
+Display::Clear()
+{
+    DBG_PRINT((DBG_INFO, "Clearing screen\n"));
+    if (NULL == this->m_surface) {
+        DBG_PRINT((DBG_ERROR, "Error getting reference to main window surface\n"));
+        return -1;
+    }
     SDL_FillRect(this->m_surface, NULL, SDL_MapRGB(this->m_surface->format, 0x00, 0x00, 0x00));
     SDL_UpdateWindowSurface(this->m_window);
+    return 0;
 }
 
 Display::Display()
@@ -144,5 +200,6 @@ Display::~Display()
 {
     DBG_PRINT((DBG_VERBOSE, "Closing application display\n"));
     SDL_DestroyWindow(this->m_window);
+    SDL_Quit();
 }
 

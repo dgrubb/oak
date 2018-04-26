@@ -34,7 +34,8 @@ OBJS=$(subst .cpp,.o,$(SRCS))
 
 LDFLAGS=-lrt \
 		-lpthread \
-		-lSDL2
+		-lSDL2 \
+		-lSDL2_image
 
 ####################
 # Cleanup directives
