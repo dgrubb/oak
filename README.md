@@ -30,6 +30,39 @@ and you can even run [RISC OS on a Raspberry Pi!](https://www.riscosopen.org/con
 * docs: Contains contemporary technical documentation about the Archimedes.  
 * src: Source for project.
 
+## Usage
+
+```
+Usage:
+$ ./oak -d 4 -r <ROM FILE>
+	-h	Print usage.
+	-c	Path to configuration file.
+	-d	Set debug level:
+
+		0 - Critical
+		1 - Error
+		2 - Always
+		3 - Warning
+		4 - Info
+		5 - Verbose
+		6 - Ultra verbose
+		99- Never
+```
+
+## Configuration file
+
+Oak can be pre-configured at by referencing a settings file. By default Oak shall search for 
+oak.cfg (included in this repository) which applies a configuration similar to an A3000. Custom 
+configuration files can be supplied by the command line where the following settings can be used:
+
+```
+rom_file = "riscs-3.71.rom"; // Path to a RISC OS ROM file, see https://www.4corn.co.uk/aview.php?sPath=/roms
+ram_size = 2048;             // Amount of RAM to simulate in bytes, 2MB by default (same as a stock A3000)
+cpu_frequency = 8000000;     // CPU frequency in hertz, 8MHz by default (same as a stock A3000)
+log_level = 4;               // See Usage, INFO by default. Overriden if user invokes the -d option at runtime
+
+```
+
 # Requirements
 
 The usual tooling for compiling C++ under Linux and the SDL development libraries. Under Debian/Ubuntu: 
