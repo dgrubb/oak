@@ -7,7 +7,22 @@
 #ifndef _IOC_H
 #define _IOC_H
 
+class IOC {
 
+public:
+
+    // Constructors and destructors
+    IOC();
+    ~IOC();
+
+    // Methods
+    int Init();
+
+private:
+
+    // Data
+
+    // Methods
+};
 
 #endif // _IOC_h
-
