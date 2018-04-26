@@ -9,6 +9,7 @@
 
 /* Project includes */
 #include "settings.h"
+#include "state.h"
 #include "debug.h"
 
 using namespace std;
@@ -18,7 +19,7 @@ Settings DefaultSettings = {
     "./risocs-3.71.rom",    // rom_file
     2048,                   // ram_size
     8000000,                // cpu_frequency
-    DBG_LVL_INFO,           // log_level
+    DBG_LVL_DEFAULT,        // log_level
 };
 
 int
@@ -71,7 +72,6 @@ settings_read_file(const char* file_path, Settings &settings)
         DBG_PRINT((DBG_VERBOSE, "cpu_frequency argument absent from configuration file\n"));
     }
 
-
     if (DBG_LVL_DEFAULT == settings.log_level) {
         // Only read this setting if the user hasn't intentionally overriden it
         // at the command line
@@ -88,6 +88,10 @@ settings_read_file(const char* file_path, Settings &settings)
 int
 settings_apply(Settings &settings)
 {
+    State::Interfaces()->SetROMFile(settings.rom_file);
+    State::Interfaces()->SetRAMSize(settings.ram_size);
+    State::Interfaces()->SetCPUFrequency(settings.cpu_frequency);
+    set_debug_level(settings.log_level);
 }
 
 int

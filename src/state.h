@@ -24,8 +24,14 @@ public:
     // Methods
     int SetConfigFile(string config_file);
     int GetConfigFile(string *config_file);
+    int SetCPUFrequency(int cpu_frequency);
+    int GetCPUFrequency(int *cpu_frequency);
     int SetDisplayPtr(Display *display);
     int GetDisplayPtr(Display * &display);
+    int SetRAMSize(int ram_size);
+    int GetRAMSize(int *ram_size);
+    int SetROMFile(string rom_file);
+    int GetROMFile(string *rom_file);
     int SetTimersPtr(Timers *timers);
     int GetTimersPtr(Timers * &timers);
 
