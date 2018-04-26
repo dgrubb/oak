@@ -1,4 +1,4 @@
-# Documentaion
+# Documentation
 
 This directory contains the following pieces of contempory  Acorn Archimedes documentation:
 
