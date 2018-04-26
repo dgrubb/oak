@@ -24,6 +24,9 @@ A3000::Init(int cpu_frequency, int ram_size)
     this->m_cpu_frequency = cpu_frequency;
     this->m_ram_size = ram_size;
     this->m_cpu = new ARM();
+    this->m_ioc = new IOC();
+    this->m_memc = new MEMC();
+    this->m_vidc = new VIDC();
 }
 
 A3000::A3000(int cpu_frequency, int ram_size)

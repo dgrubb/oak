@@ -36,6 +36,7 @@ and you can even run [RISC OS on a Raspberry Pi!](https://www.riscosopen.org/con
 Usage:
 $ ./oak -d 4 -r <ROM FILE>
 	-h	Print usage.
+	-r	Path to RISC OS ROM file.
 	-c	Path to configuration file.
 	-d	Set debug level:
 
