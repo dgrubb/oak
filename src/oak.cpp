@@ -8,12 +8,14 @@
 #include <cstdlib> // getopt()
 #include <unistd.h> // opterr, sleep()
 #include <signal.h>
-#include <iostream>
 #include <cstring>
+#include <iostream>
+#include <string>
 
 /* Project includes */
 #include "acorn/A3000.h"
 #include "oak.h"
+#include "settings.h"
 #include "state.h"
 #include "timers.h"
 #include "debug.h"
@@ -32,8 +34,9 @@ exit_handler(int sig)
 int
 main (int argc, char* argv[])
 {
+    Settings settings;
     Display *display;
-    A3000 archimedes();
+    string config_file;
 
     if (-1 == parse_arguments(argc, argv)) {
         printf("Failed to parse arguments\n");
@@ -46,11 +49,17 @@ main (int argc, char* argv[])
     signal(SIGINT, &exit_handler);
 
     print_banner();
-
     init_interfaces();
-    State::Interfaces()->GetDisplayPtr(display);
+
+    State::Interfaces()->GetConfigFile(&config_file);
+    if (-1 == settings_read_file(config_file.c_str(), settings)) {
+        settings_get_defaults(settings);
+    }
+    settings_print(settings);
+    settings_apply(settings);
 
     // Just an aesthetic touch
+    State::Interfaces()->GetDisplayPtr(display);
     display->ShowSplash();
     sleep(3);
     display->Clear();
@@ -75,8 +84,11 @@ parse_arguments(int argc, char* argv[])
     int c;
     opterr = 0;
 
-    while (-1 != (c = getopt(argc, argv, "hd:"))) {
+    while (-1 != (c = getopt(argc, argv, "hd:c:"))) {
         switch (c) {
+            case 'c':
+                State::Interfaces()->SetConfigFile(string(optarg));
+                break;
             case 'd':
                 if (-1 != validate_debug_level(atoi(optarg))) {
                     set_debug_level(atoi(optarg));

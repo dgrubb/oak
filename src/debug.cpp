@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "debug.h"
 
-int DBG_DebugLevel = DBG_LVL_ALWAYS;
+int DBG_DebugLevel = DBG_LVL_DEFAULT;
 
 int
 set_debug_level(int dbg_level)

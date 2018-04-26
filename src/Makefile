@@ -26,13 +26,15 @@ SRCS = oak.cpp \
 	acorn/A3000.cpp \
 	display.cpp \
 	lock.cpp \
+	settings.cpp \
 	state.cpp \
 	timers.cpp \
 	debug.cpp
 
 OBJS=$(subst .cpp,.o,$(SRCS))
 
-LDFLAGS=-lrt \
+LDFLAGS=-lconfig++ \
+		-lrt \
 		-lpthread \
 		-lSDL2 \
 		-lSDL2_image

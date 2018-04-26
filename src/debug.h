@@ -13,6 +13,8 @@ int extern DBG_DebugLevel;
 #define DBG_LVL_ULTRA_VERBOSE   6
 #define DBG_LVL_NEVER           99
 
+#define DBG_LVL_DEFAULT         DBG_LVL_INFO
+
 #define DBG_PRINT_INFO(x) ((x) <= DBG_DebugLevel),(x),__FILE__,__LINE__
 
 #define DBG_CRITICAL      DBG_PRINT_INFO(DBG_LVL_CRITICAL)

@@ -128,9 +128,7 @@ Display::Init()
         return -1;
     }
 
-    SDL_FillRect(this->m_surface, NULL, SDL_MapRGB(this->m_surface->format,
-                DISPLAY_BACKGROUND_RED, DISPLAY_BACKGROUND_GREEN, DISPLAY_BACKGROUND_BLUE));
-    SDL_UpdateWindowSurface(this->m_window);
+    Clear();
 
     return 0;
 }

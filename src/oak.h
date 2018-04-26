@@ -11,6 +11,7 @@
 #define PROGRAM_USAGE "An Acorn Archimedes A3000 emulator.\n\n" \
 "Usage:\n$ ./oak -d 4 -r <ROM FILE>\n" \
 "\t-h\tPrint usage.\n" \
+"\t-c\tPath to configuration file.\n" \
 "\t-d\tSet debug level:\n\n" \
 "\t\t0 - Critical\n" \
 "\t\t1 - Error\n" \
