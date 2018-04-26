@@ -1,6 +1,6 @@
 # Oak
 
-![Archimedes logo](./docs/Archimedes-logo.png)
+![Archimedes logo](./docs/oak-logo.png)
 
 ## What?
 
