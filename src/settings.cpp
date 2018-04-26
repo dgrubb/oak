@@ -16,8 +16,8 @@ using namespace std;
 using namespace libconfig;
 
 Settings DefaultSettings = {
-    "./risocs-3.71.rom",    // rom_file
-    2048,                   // ram_size
+    SETTINGS_DEFAULT_ROM,   // rom_file
+    2000000,                // ram_size
     8000000,                // cpu_frequency
     DBG_LVL_DEFAULT,        // log_level
 };
@@ -54,10 +54,14 @@ settings_read_file(const char* file_path, Settings &settings)
         return -1;
     }
 
-    try {
-        cfg.lookupValue("rom_file", settings.rom_file);
-    } catch (const SettingNotFoundException &nfex) {
-        DBG_PRINT((DBG_VERBOSE, "rom_file argument absent from configuration file\n"));
+    if (DefaultSettings.rom_file == SETTINGS_DEFAULT_ROM) {
+        // Only read this setting if the user hasn't intentionally overridden it
+        // at the command line
+        try {
+            cfg.lookupValue("rom_file", settings.rom_file);
+        } catch (const SettingNotFoundException &nfex) {
+            DBG_PRINT((DBG_VERBOSE, "rom_file argument absent from configuration file\n"));
+        }
     }
 
     try {

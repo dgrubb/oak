@@ -17,10 +17,12 @@ class A3000 {
 public:
 
     // Constructors and destructors
+    A3000(int cpu_frequency, int ram_size);
     A3000();
     ~A3000();
 
     // Methods
+    int Init(int cpu_frequency, int ram_size);
     int Reset();
 
 private:
@@ -28,7 +30,8 @@ private:
     // Data
 
     // Methods
-    
+    int m_cpu_frequency;
+    int m_ram_size;
 };
 
 #endif // _A3000_H

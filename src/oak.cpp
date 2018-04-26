@@ -27,7 +27,7 @@ volatile bool running = true;
 void
 exit_handler(int sig)
 {
-    printf("Signal [ %s ], exiting ...\n", strsignal(sig));
+    printf("\nSignal [ %s ], exiting ...\n", strsignal(sig));
     running = false;
 }
 
@@ -37,11 +37,12 @@ main (int argc, char* argv[])
     Settings settings;
     Display *display;
     string config_file;
+    int cpu_frequency, ram_size;
 
     if (-1 == parse_arguments(argc, argv)) {
         printf("Failed to parse arguments\n");
         print_usage();
-        goto fail;
+        return EXIT_FAILURE;
     }
     // Catch these signals to allow for cleaning up before exiting
     signal(SIGABRT, &exit_handler);
@@ -64,6 +65,10 @@ main (int argc, char* argv[])
     sleep(3);
     display->Clear();
 
+    State::Interfaces()->GetCPUFrequency(&cpu_frequency);
+    State::Interfaces()->GetRAMSize(&ram_size);
+    A3000 archimedes(cpu_frequency, ram_size);
+
     while (running) {
         // Main program loop
         if ((NULL == display) || (-1 == display->ProcessEvents())) {
@@ -73,9 +78,6 @@ main (int argc, char* argv[])
 
     deinit_interfaces();
     return EXIT_SUCCESS;
-
-fail: ;
-    return EXIT_FAILURE;
 }
 
 int
@@ -84,10 +86,13 @@ parse_arguments(int argc, char* argv[])
     int c;
     opterr = 0;
 
-    while (-1 != (c = getopt(argc, argv, "hd:c:"))) {
+    while (-1 != (c = getopt(argc, argv, "hd:c:r:"))) {
         switch (c) {
             case 'c':
                 State::Interfaces()->SetConfigFile(string(optarg));
+                break;
+            case 'r':
+                State::Interfaces()->SetROMFile(string(optarg));
                 break;
             case 'd':
                 if (-1 != validate_debug_level(atoi(optarg))) {
@@ -121,7 +126,7 @@ init_interfaces()
 void
 deinit_interfaces()
 {
-    DBG_PRINT((DBG_INFO, "Destroying interfaces\n"));
+    DBG_PRINT((DBG_INFO, "Closing interfaces\n"));
     Timers *timers;
     if (-1 != State::Interfaces()->GetTimersPtr(timers)) {
         delete timers;

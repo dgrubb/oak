@@ -12,9 +12,10 @@
 #define SETTINGS_DEFAULT_FILE "./oak.cfg"
 #define SETTINGS_PRINT_TEMPLATE "Using settings:\n" \
 "\tROM file      [ %s ]\n" \
-"\tRAM size      [ %d ]\n" \
+"\tRAM size      [ %d bytes ]\n" \
 "\tCPU frequency [ %d Hz ]\n" \
 "\tLogging level [ %d ]\n"
+#define SETTINGS_DEFAULT_ROM "./riscs-3.71.rom"
 
 using namespace std;
 

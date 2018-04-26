@@ -21,6 +21,10 @@ CPPFLAGS = -O3 \
 		   -Wno-unused-parameter \
 		   -Wno-missing-field-initializers
 
+# Include directories
+INC = -I./ \
+	  -I./acorn
+
 # Source files
 SRCS = oak.cpp \
 	acorn/A3000.cpp \
@@ -46,10 +50,10 @@ LDFLAGS=-lconfig++ \
 all: oak
 
 oak: $(OBJS)
-	$(CPP) -o oak $(OBJS) $(LDFLAGS)
+	$(CPP) $(INC) -o oak $(OBJS) $(LDFLAGS)
 
 %.o: %.cpp
-	$(CPP) $(CPPFLAGS) -c $< -o $@
+	$(CPP) $(CPPFLAGS) $(INC) -c $< -o $@
 
 clean: clean-objects
 

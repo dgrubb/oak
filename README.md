@@ -57,7 +57,7 @@ configuration files can be supplied by the command line where the following sett
 
 ```
 rom_file = "riscs-3.71.rom"; // Path to a RISC OS ROM file, see https://www.4corn.co.uk/aview.php?sPath=/roms
-ram_size = 2048;             // Amount of RAM to simulate in bytes, 2MB by default (same as a stock A3000)
+ram_size = 2000000;          // Amount of RAM to simulate in bytes, 2MB by default (same as a stock A3000)
 cpu_frequency = 8000000;     // CPU frequency in hertz, 8MHz by default (same as a stock A3000)
 log_level = 4;               // See Usage, INFO by default. Overriden if user invokes the -d option at runtime
 
