@@ -7,6 +7,12 @@
 #ifndef _A3000_H
 #define _A3000_H
 
+/* Library includes */
+#include <cstddef> // NULL
+
+/* Project includes */
+#include "arm.h"
+
 #define A3000_SCREEN_WIDTH  800     // pixels
 #define A3000_SCREEN_HEIGHT 600     // pixels
 #define A3000_CPU_FREQUENCY 8000000 // Hz
@@ -28,8 +34,7 @@ public:
 private:
 
     // Data
-
-    // Methods
+    ARM *m_cpu = NULL;
     int m_cpu_frequency;
     int m_ram_size;
 };

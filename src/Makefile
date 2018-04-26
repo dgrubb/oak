@@ -29,6 +29,9 @@ INC = -I./ \
 # Source files
 SRCS = oak.cpp \
 	acorn/A3000.cpp \
+	acorn/ioc.cpp \
+	acorn/memc.cpp \
+	acorn/vidc.cpp \
 	acorn/arm250/arm.cpp \
 	display.cpp \
 	lock.cpp \

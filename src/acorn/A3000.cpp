@@ -6,7 +6,6 @@
 
 /* Project includes */
 #include "A3000.h"
-#include "arm.h"
 #include "debug.h"
 
 using namespace std;
@@ -20,10 +19,11 @@ A3000::Reset()
 int
 A3000::Init(int cpu_frequency, int ram_size)
 {
-    DBG_PRINT((DBG_INFO, "Starting A3000 emulation with %d MHz CPU and %d bytes RAM\n",
-                cpu_frequency, ram_size));
+    DBG_PRINT((DBG_INFO, "Starting A3000 emulation with %d MHz CPU and %d Mbytes RAM\n",
+                cpu_frequency/1000000, ram_size/1000000));
     this->m_cpu_frequency = cpu_frequency;
     this->m_ram_size = ram_size;
+    this->m_cpu = new ARM();
 }
 
 A3000::A3000(int cpu_frequency, int ram_size)
