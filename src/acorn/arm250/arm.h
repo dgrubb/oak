@@ -7,6 +7,84 @@
 #ifndef _ARM_H
 #define _ARM_H
 
+#include <cstdint> // Fixed-width integer types
+
+using namespace std;
+
+// N.B: These need to be kept in the current order to correctly
+// derive whether the modes have shadow registers, see GetShadowRegister()
+enum ARM_Mode {
+    USER = 0,
+    FIQ,
+    IRQ,
+    SVC
+};
+
+const uint32_t FIQ_LEN = FIQ+1;
+const uint32_t SVC_LEN = SVC+1;
+
+enum ARM_Register {
+    R0 = 0,
+    R1,
+    R2,
+    R3,
+    R4,
+    R5,
+    R6,
+    R7,
+    R8,
+    R9,
+    R10,
+    R11,
+    R12,
+    R13,
+    R14,
+    CPSR
+};
+
+const char *ARM_Register_Strings[] = {
+    "r0",
+    "r1",
+    "r2",
+    "r3",
+    "r4",
+    "r5",
+    "r6",
+    "r7",
+    "r8",
+    "r9",
+    "r10",
+    "r11",
+    "r12",
+    "r13",
+    "r14",
+    "cpsr"
+};
+
+typedef struct {
+    ARM_Mode mode;
+    // User mode accessible registers
+    uint32_t r0, r1, r2, r3, r4, r5, r6, r7;
+    // Registers with FIQ shadowed registers
+    // E.g., 
+    // rX[0] = rX_user
+    // rX[1] = rX_fiq
+    uint32_t r8[FIQ_LEN];
+    uint32_t r9[FIQ_LEN];
+    uint32_t r10[FIQ_LEN];
+    uint32_t r11[FIQ_LEN];
+    uint32_t r12[FIQ_LEN];
+    // Registers with FIQ, IRQ and SVC shadowed registers
+    // E.g., 
+    // rX[0] = rX_user
+    // rX[1] = rX_fiq
+    // rX[1] = rX_irq
+    // rX[1] = rX_svc
+    uint32_t r13[SVC_LEN];
+    uint32_t r14[SVC_LEN];
+    uint32_t cpsr;
+} ARM_State;
+
 class ARM {
 
 public:
@@ -18,12 +96,33 @@ public:
     // Methods
     int Init();
     int Reset();
+    int Register(uint32_t reg, uint32_t value);
+    int Register(uint32_t reg, uint32_t *value);
+
+    uint32_t r0(); int r0(uint32_t value);
+    uint32_t r1(); int r1(uint32_t value);
+    uint32_t r2(); int r2(uint32_t value);
+    uint32_t r3(); int r3(uint32_t value);
+    uint32_t r4(); int r4(uint32_t value);
+    uint32_t r5(); int r5(uint32_t value);
+    uint32_t r6(); int r6(uint32_t value);
+    uint32_t r7(); int r7(uint32_t value);
+    uint32_t r8(); int r8(uint32_t value);
+    uint32_t r9(); int r9(uint32_t value);
+    uint32_t r10(); int r10(uint32_t value);
+    uint32_t r11(); int r11(uint32_t value);
+    uint32_t r12(); int r12(uint32_t value);
+    uint32_t r13(); int r13(uint32_t value);
+    uint32_t r14(); int r14(uint32_t value);
+    uint32_t cpsr(); int cpsr(uint32_t value);
 
 private:
 
     // Data
+    ARM_State m_state;
 
     // Methods
+    int GetShadowRegister(uint32_t reg[], ARM_Mode *mode);
 };
 
 #endif // _ARM_H
