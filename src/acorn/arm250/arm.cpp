@@ -15,6 +15,55 @@ ARM::Init()
 }
 
 int
+ARM::StatusFlag(ARM_StatusFlag flag, bool value)
+{
+    DBG_PRINT((DBG_ULTRA_VERBOSE, "% status flag: %s\n", (value ? "Setting" : "Clearing"), ARM_StatusFlagStrings[flag]));
+    uint32_t cpsr = this->cpsr();
+    if (value) {
+        cpsr |= ARM_StatusFlagMasks[flag];
+    } else {
+        cpsr &= ~ARM_StatusFlagMasks[flag];
+    }
+    return this->cpsr(cpsr);
+}
+
+int
+ARM::StatusFlag(ARM_StatusFlag flag, bool *value)
+{
+    *value = (this->cpsr() & ARM_StatusFlagMasks[flag]);
+    DBG_PRINT((DBG_ULTRA_VERBOSE, "Reading status flag %s: %s\n", ARM_StatusFlagStrings[flag], (value ? "set" : "clear")));
+    return 0;
+}
+
+int
+ARM::Mode(ARM_Mode mode)
+{
+    DBG_PRINT((DBG_ULTRA_VERBOSE, "Setting processor mode: %s\n", ARM_ModeStrings[mode]));
+    uint32_t cpsr = this->cpsr();
+    cpsr &= ~ARM_ModeMasks[ARM_STATUS_MASK_MODE_ALL];
+    cpsr &= ARM_ModeMasks[mode];
+    return this->cpsr(cpsr);
+}
+
+int
+ARM::Mode(ARM_Mode *mode)
+{
+    uint32_t cpsr = this->cpsr();
+    cpsr &= ARM_ModeMasks[ARM_STATUS_MASK_MODE_ALL];
+    switch (cpsr) {
+        case ARM_STATUS_MASK_MODE_USER: *mode = USER; break;
+        case ARM_STATUS_MASK_MODE_FIQ: *mode = FIQ; break;
+        case ARM_STATUS_MASK_MODE_IRQ: *mode = IRQ; break;
+        case ARM_STATUS_MASK_MODE_SVC: *mode = SVC; break;
+        default:
+            DBG_PRINT((DBG_ERROR, "Unknown mode mask: 0x%X\n", cpsr));
+            return -1;
+    }
+    DBG_PRINT((DBG_ULTRA_VERBOSE, "Reading processor mode: %s\n", ARM_ModeStrings[*mode]));
+    return 0;
+}
+
+int
 ARM::Register(uint32_t reg, uint32_t value)
 {
     // In most cases we simply want to set the register directly. However, many
@@ -28,7 +77,7 @@ ARM::Register(uint32_t reg, uint32_t value)
     // call must be made to GetShadowRegister to set the correct register array
     // location for the current mode.
     ARM_Mode mode_select = this->m_state.mode;
-    DBG_PRINT((DBG_ULTRA_VERBOSE, "Setting register [ %s ]: %d\n", ARM_Register_Strings[reg], value));
+    DBG_PRINT((DBG_ULTRA_VERBOSE, "Setting register [ %s ]: %d\n", ARM_RegisterStrings[reg], value));
     switch (reg) {
         case R0:
             this->m_state.r0 = value;
@@ -94,7 +143,6 @@ ARM::Register(uint32_t reg, uint32_t *value)
 {
     // N.B: read comment in Register(uint32_t reg, uint32_t value)
     ARM_Mode mode_select = this->m_state.mode;
-    DBG_PRINT((DBG_ULTRA_VERBOSE, "Setting register [ %s ]: %d\n", ARM_Register_Strings[reg], value));
     switch (reg) {
         case R0:
             *value = this->m_state.r0;
@@ -152,7 +200,7 @@ ARM::Register(uint32_t reg, uint32_t *value)
             DBG_PRINT((DBG_ERROR, "Unknown register: %d", reg));
             return -1;
     }
-    DBG_PRINT((DBG_ULTRA_VERBOSE, "Getting register [ %s ]: %d\n", ARM_Register_Strings[reg], value));
+    DBG_PRINT((DBG_ULTRA_VERBOSE, "Getting register [ %s ]: %d\n", ARM_RegisterStrings[reg], value));
     return 0;
 }
 

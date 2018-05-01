@@ -9,6 +9,19 @@
 
 #include <cstdint> // Fixed-width integer types
 
+#define ARM_STATUS_MASK_NEGATIVE    0x80000000
+#define ARM_STATUS_MASK_ZERO        0x40000000
+#define ARM_STATUS_MASK_CARRY       0x20000000
+#define ARM_STATUS_MASK_OVERFLOW    0x10000000
+#define ARM_STATUS_MASK_IRQ_DISABLE 0x08000000
+#define ARM_STATUS_MASK_FIQ_DISABLE 0x04000000
+
+#define ARM_STATUS_MASK_MODE_USER   0x0
+#define ARM_STATUS_MASK_MODE_FIQ    0x1
+#define ARM_STATUS_MASK_MODE_IRQ    0x3
+#define ARM_STATUS_MASK_MODE_SVC    0x4
+#define ARM_STATUS_MASK_MODE_ALL    0xF
+
 using namespace std;
 
 // N.B: These need to be kept in the current order to correctly
@@ -22,6 +35,23 @@ enum ARM_Mode {
 
 const uint32_t FIQ_LEN = FIQ+1;
 const uint32_t SVC_LEN = SVC+1;
+
+const char *ARM_ModeStrings[] = {
+    "USER",
+    "FIQ",
+    "IRQ",
+    "SVC",
+    "ALL"
+};
+
+
+const uint32_t ARM_ModeMasks[] = {
+    ARM_STATUS_MASK_MODE_USER,
+    ARM_STATUS_MASK_MODE_FIQ,
+    ARM_STATUS_MASK_MODE_IRQ,
+    ARM_STATUS_MASK_MODE_SVC,
+    ARM_STATUS_MASK_MODE_ALL
+};
 
 enum ARM_Register {
     R0 = 0,
@@ -42,7 +72,7 @@ enum ARM_Register {
     CPSR
 };
 
-const char *ARM_Register_Strings[] = {
+const char *ARM_RegisterStrings[] = {
     "r0",
     "r1",
     "r2",
@@ -61,12 +91,39 @@ const char *ARM_Register_Strings[] = {
     "cpsr"
 };
 
+enum ARM_StatusFlag {
+    NEGATIVE = 0,
+    ZERO,
+    CARRY,
+    OVERFLOW,
+    IRQ_DISABLE,
+    FIQ_DISABLE
+};
+
+const char *ARM_StatusFlagStrings[] = {
+    "Negative",
+    "Zero",
+    "Carry",
+    "Overflow",
+    "IRQ disable",
+    "FIQ disable"
+};
+
+const uint32_t ARM_StatusFlagMasks[] = {
+    ARM_STATUS_MASK_NEGATIVE,
+    ARM_STATUS_MASK_ZERO,
+    ARM_STATUS_MASK_CARRY,
+    ARM_STATUS_MASK_OVERFLOW,
+    ARM_STATUS_MASK_IRQ_DISABLE,
+    ARM_STATUS_MASK_FIQ_DISABLE
+};
+
 typedef struct {
     ARM_Mode mode;
     // User mode accessible registers
     uint32_t r0, r1, r2, r3, r4, r5, r6, r7;
     // Registers with FIQ shadowed registers
-    // E.g., 
+    // E.g.,
     // rX[0] = rX_user
     // rX[1] = rX_fiq
     uint32_t r8[FIQ_LEN];
@@ -75,7 +132,7 @@ typedef struct {
     uint32_t r11[FIQ_LEN];
     uint32_t r12[FIQ_LEN];
     // Registers with FIQ, IRQ and SVC shadowed registers
-    // E.g., 
+    // E.g.,
     // rX[0] = rX_user
     // rX[1] = rX_fiq
     // rX[1] = rX_irq
@@ -98,6 +155,12 @@ public:
     int Reset();
     int Register(uint32_t reg, uint32_t value);
     int Register(uint32_t reg, uint32_t *value);
+
+    int StatusFlag(ARM_StatusFlag flag, bool value);
+    int StatusFlag(ARM_StatusFlag flag, bool *value);
+
+    int Mode(ARM_Mode mode);
+    int Mode(ARM_Mode *mode);
 
     uint32_t r0(); int r0(uint32_t value);
     uint32_t r1(); int r1(uint32_t value);
