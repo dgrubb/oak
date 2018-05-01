@@ -11,7 +11,7 @@
 int
 ARM::Init()
 {
-    this->m_state = {};
+    this->Reset();
 }
 
 int
@@ -32,6 +32,24 @@ ARM::StatusFlag(ARM_StatusFlag flag, bool *value)
 {
     *value = (this->cpsr() & ARM_StatusFlagMasks[flag]);
     DBG_PRINT((DBG_ULTRA_VERBOSE, "Reading status flag %s: %s\n", ARM_StatusFlagStrings[flag], (value ? "set" : "clear")));
+    return 0;
+}
+
+int
+ARM::PC(uint32_t value)
+{
+    uint32_t cpsr = this->cpsr();
+    cpsr &= ~ARM_STATUS_MASK_PC;
+    cpsr &= (value << 2);
+    return this->cpsr(cpsr);
+}
+
+int
+ARM::PC(uint32_t *value)
+{
+    uint32_t cpsr = this->cpsr();
+    *value = (cpsr & ARM_STATUS_MASK_PC);
+    *value = (*value >> 2);
     return 0;
 }
 
@@ -251,6 +269,7 @@ int ARM::cpsr(uint32_t value) { return this->Register(CPSR, value); }
 
 int ARM::Reset()
 {
+    this->m_state = {};
 }
 
 ARM::ARM()

@@ -22,6 +22,8 @@
 #define ARM_STATUS_MASK_MODE_SVC    0x4
 #define ARM_STATUS_MASK_MODE_ALL    0xF
 
+#define ARM_STATUS_MASK_PC          0x3FFFFFC
+
 using namespace std;
 
 // N.B: These need to be kept in the current order to correctly
@@ -161,6 +163,9 @@ public:
 
     int Mode(ARM_Mode mode);
     int Mode(ARM_Mode *mode);
+
+    int PC(uint32_t value);
+    int PC(uint32_t *value);
 
     uint32_t r0(); int r0(uint32_t value);
     uint32_t r1(); int r1(uint32_t value);
