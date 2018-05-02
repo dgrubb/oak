@@ -101,7 +101,7 @@ typedef struct {
     uint32_t r13[SVC_LEN];
     uint32_t r14[SVC_LEN];
     uint32_t cpsr;
-    ARM_Pipeline pieline;
+    ARM_Pipeline pipeline;
 } ARM_State;
 
 class ARM {
