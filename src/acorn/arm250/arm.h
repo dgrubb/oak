@@ -38,23 +38,6 @@ enum ARM_Mode {
 const uint32_t FIQ_LEN = FIQ+1;
 const uint32_t SVC_LEN = SVC+1;
 
-const char *ARM_ModeStrings[] = {
-    "USER",
-    "FIQ",
-    "IRQ",
-    "SVC",
-    "ALL"
-};
-
-
-const uint32_t ARM_ModeMasks[] = {
-    ARM_STATUS_MASK_MODE_USER,
-    ARM_STATUS_MASK_MODE_FIQ,
-    ARM_STATUS_MASK_MODE_IRQ,
-    ARM_STATUS_MASK_MODE_SVC,
-    ARM_STATUS_MASK_MODE_ALL
-};
-
 enum ARM_Register {
     R0 = 0,
     R1,
@@ -74,25 +57,6 @@ enum ARM_Register {
     CPSR
 };
 
-const char *ARM_RegisterStrings[] = {
-    "r0",
-    "r1",
-    "r2",
-    "r3",
-    "r4",
-    "r5",
-    "r6",
-    "r7",
-    "r8",
-    "r9",
-    "r10",
-    "r11",
-    "r12",
-    "r13",
-    "r14",
-    "cpsr"
-};
-
 enum ARM_StatusFlag {
     NEGATIVE = 0,
     ZERO,
@@ -100,15 +64,6 @@ enum ARM_StatusFlag {
     OVERFLOW,
     IRQ_DISABLE,
     FIQ_DISABLE
-};
-
-const char *ARM_StatusFlagStrings[] = {
-    "Negative",
-    "Zero",
-    "Carry",
-    "Overflow",
-    "IRQ disable",
-    "FIQ disable"
 };
 
 const uint32_t ARM_StatusFlagMasks[] = {
@@ -119,6 +74,10 @@ const uint32_t ARM_StatusFlagMasks[] = {
     ARM_STATUS_MASK_IRQ_DISABLE,
     ARM_STATUS_MASK_FIQ_DISABLE
 };
+
+typedef struct {
+    uint32_t fetch, decode, execute;
+} ARM_Pipeline;
 
 typedef struct {
     ARM_Mode mode;
@@ -142,6 +101,7 @@ typedef struct {
     uint32_t r13[SVC_LEN];
     uint32_t r14[SVC_LEN];
     uint32_t cpsr;
+    ARM_Pipeline pieline;
 } ARM_State;
 
 class ARM {
@@ -155,6 +115,7 @@ public:
     // Methods
     int Init();
     int Reset();
+    int Tick();
     int Register(uint32_t reg, uint32_t value);
     int Register(uint32_t reg, uint32_t *value);
 

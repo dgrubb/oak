@@ -197,6 +197,8 @@ Display::Display(int width, int height)
 Display::~Display()
 {
     DBG_PRINT((DBG_VERBOSE, "Closing application display\n"));
+    SDL_FreeSurface(this->m_surface);
+    SDL_FreeSurface(this->m_logo);
     SDL_DestroyWindow(this->m_window);
     SDL_Quit();
 }

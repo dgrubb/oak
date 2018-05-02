@@ -41,5 +41,9 @@ A3000::A3000()
 
 A3000::~A3000()
 {
+    delete this->m_cpu;
+    delete this->m_ioc;
+    delete this->m_memc;
+    delete this->m_vidc;
 }
 
