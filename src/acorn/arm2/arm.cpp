@@ -281,6 +281,32 @@ ARM::Tick()
 
 }
 
+int
+ARM::Fetch()
+{
+
+}
+
+int
+ARM::Decode()
+{
+}
+
+int
+ARM::Execute()
+{
+}
+
+int
+ARM::IRQ()
+{
+}
+
+int
+ARM::FIQ()
+{
+}
+
 /* Quick reference getters */
 uint32_t ARM::r0() { uint32_t ret_val; this->Register(R0, &ret_val); return ret_val; }
 uint32_t ARM::r1() { uint32_t ret_val; this->Register(R1, &ret_val); return ret_val; }

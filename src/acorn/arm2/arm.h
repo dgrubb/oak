@@ -128,6 +128,13 @@ public:
     int PC(uint32_t value);
     int PC(uint32_t *value);
 
+    int Fetch();
+    int Decode();
+    int Execute();
+
+    int IRQ();
+    int FIQ();
+
     uint32_t r0(); int r0(uint32_t value);
     uint32_t r1(); int r1(uint32_t value);
     uint32_t r2(); int r2(uint32_t value);
