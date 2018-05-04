@@ -165,6 +165,38 @@ public:
     uint32_t r14(); int r14(uint32_t value);
     uint32_t cpsr(); int cpsr(uint32_t value);
 
+    // Op-codes
+
+    // Data processing operations
+    int OpAND();
+    int OpEOR();
+    int OpSUB();
+    int OpRSB();
+    int OpADD();
+    int OpADC();
+    int OpSBC();
+    int OpRSC();
+    int OpTST();
+    int OpTEQ();
+    int OpCMP();
+    int OpCMN();
+    int OpORR();
+    int OpMOV();
+    int OpBIC();
+    int OpMVN();
+    // Branch and link instructions
+    int OpB();
+    int OpBL();
+    // Multiply and multiply-accumulate
+    int OpMUL();
+    int OpMLA();
+    // Single data transfer
+    int OpLDR();
+    int OpSTR();
+    // Block data transfer
+    int OpLDM();
+    int OpSTM();
+
 private:
 
     // Data

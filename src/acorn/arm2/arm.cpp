@@ -290,7 +290,7 @@ ARM::Decode()
 int
 ARM::Execute()
 {
-
+    
 }
 
 /* Simulate input signals as setters */
@@ -367,7 +367,8 @@ int ARM::r13(uint32_t value) { return this->Register(R13, value); }
 int ARM::r14(uint32_t value) { return this->Register(R14, value); }
 int ARM::cpsr(uint32_t value) { return this->Register(CPSR, value); }
 
-int ARM::Reset()
+int
+ARM::Reset()
 {
     this->m_state = ARM_State();
 }

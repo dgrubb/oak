@@ -33,6 +33,7 @@ SRCS = oak.cpp \
 	acorn/memc.cpp \
 	acorn/vidc.cpp \
 	acorn/arm2/arm.cpp \
+	acorn/arm2/arm_op.cpp \
 	display.cpp \
 	lock.cpp \
 	settings.cpp \
