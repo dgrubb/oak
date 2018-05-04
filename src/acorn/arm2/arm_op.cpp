@@ -10,7 +10,7 @@
 
 /* Data processing */
 int
-ARM::OpAND()
+ARM::OpAND(dst_reg dst, src_reg src, uint32_t op2)
 {
 
 }

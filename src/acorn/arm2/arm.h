@@ -109,6 +109,9 @@ typedef struct {
     ARM_Pipeline pipeline;
 } ARM_State;
 
+typedef uint32_t (*dst_reg)();
+typedef int (*src_reg)(uint32_t);
+
 class ARM {
 
 public:
@@ -168,7 +171,7 @@ public:
     // Op-codes
 
     // Data processing operations
-    int OpAND();
+    int OpAND(dst_reg dst, src_reg src, uint32_t op2);
     int OpEOR();
     int OpSUB();
     int OpRSB();
