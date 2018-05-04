@@ -24,7 +24,7 @@ CPPFLAGS = -O3 \
 # Include directories
 INC = -I./ \
 	  -I./acorn \
-	  -I./acorn/arm250
+	  -I./acorn/arm2
 
 # Source files
 SRCS = oak.cpp \
@@ -32,7 +32,7 @@ SRCS = oak.cpp \
 	acorn/ioc.cpp \
 	acorn/memc.cpp \
 	acorn/vidc.cpp \
-	acorn/arm250/arm.cpp \
+	acorn/arm2/arm.cpp \
 	display.cpp \
 	lock.cpp \
 	settings.cpp \

@@ -101,6 +101,9 @@ typedef struct {
     uint32_t r13[SVC_LEN];
     uint32_t r14[SVC_LEN];
     uint32_t cpsr;
+    bool fiq;
+    bool irq;
+    uint32_t address;
     ARM_Pipeline pipeline;
 } ARM_State;
 
@@ -115,7 +118,8 @@ public:
     // Methods
     int Init();
     int Reset();
-    int Tick();
+    int PH1_Tick();
+    int PH2_Tick();
     int Register(uint32_t reg, uint32_t value);
     int Register(uint32_t reg, uint32_t *value);
 
@@ -132,8 +136,12 @@ public:
     int Decode();
     int Execute();
 
-    int IRQ();
-    int FIQ();
+    int Interrupt(bool assert);
+    int FastInterrupt(bool assert);
+
+    int AddressBus(uint32_t address);
+    int AddressBus(uint32_t *address);
+
 
     uint32_t r0(); int r0(uint32_t value);
     uint32_t r1(); int r1(uint32_t value);
