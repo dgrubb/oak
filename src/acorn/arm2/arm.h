@@ -32,7 +32,8 @@ enum ARM_Mode {
     USER = 0,
     FIQ,
     IRQ,
-    SVC
+    SVC,
+    ALL
 };
 
 const uint32_t FIQ_LEN = FIQ+1;
@@ -118,30 +119,35 @@ public:
 
     // Methods
     int Init();
-    int Reset();
-    int PH1_Tick();
-    int PH2_Tick();
+
+    // Accessors for internal state
     int Register(uint32_t reg, uint32_t value);
     int Register(uint32_t reg, uint32_t *value);
-
     int StatusFlag(ARM_StatusFlag flag, bool value);
     int StatusFlag(ARM_StatusFlag flag, bool *value);
-
     int Mode(ARM_Mode mode);
     int Mode(ARM_Mode *mode);
-
     int PC(uint32_t value);
     int PC(uint32_t *value);
 
+    // State updates
     int Fetch();
     int Decode();
     int Execute();
+    int UndefinedInstruction();
+    int Exception();
 
+    // Input signals
+    int Reset();
+    int Abort();
     int Interrupt(bool assert);
     int FastInterrupt(bool assert);
-
+    int ReadWrite(bool *read_write);
     int AddressBus(uint32_t *address);
+    int PH1_Tick();
+    int PH2_Tick();
 
+    // Quick references for interfaces
     uint32_t r0(); int r0(uint32_t value);
     uint32_t r1(); int r1(uint32_t value);
     uint32_t r2(); int r2(uint32_t value);

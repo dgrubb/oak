@@ -102,7 +102,7 @@ ARM::Mode(ARM_Mode mode)
 {
     DBG_PRINT((DBG_ULTRA_VERBOSE, "Setting processor mode: %s\n", ARM_ModeStrings[mode]));
     uint32_t cpsr = this->cpsr();
-    cpsr &= ~ARM_ModeMasks[ARM_STATUS_MASK_MODE_ALL];
+    cpsr &= ~ARM_ModeMasks[ALL];
     cpsr &= ARM_ModeMasks[mode];
     return this->cpsr(cpsr);
 }
@@ -111,7 +111,7 @@ int
 ARM::Mode(ARM_Mode *mode)
 {
     uint32_t cpsr = this->cpsr();
-    cpsr &= ARM_ModeMasks[ARM_STATUS_MASK_MODE_ALL];
+    cpsr &= ARM_ModeMasks[ALL];
     switch (cpsr) {
         case ARM_STATUS_MASK_MODE_USER: *mode = USER; break;
         case ARM_STATUS_MASK_MODE_FIQ: *mode = FIQ; break;
@@ -278,17 +278,19 @@ ARM::GetShadowRegister(uint32_t reg[], ARM_Mode *mode)
 int
 ARM::Fetch()
 {
-
+    
 }
 
 int
 ARM::Decode()
 {
+
 }
 
 int
 ARM::Execute()
 {
+
 }
 
 /* Simulate input signals as setters */
