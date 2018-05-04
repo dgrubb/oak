@@ -103,6 +103,7 @@ typedef struct {
     uint32_t cpsr;
     bool fiq;
     bool irq;
+    bool rw;
     uint32_t address;
     ARM_Pipeline pipeline;
 } ARM_State;
@@ -139,9 +140,7 @@ public:
     int Interrupt(bool assert);
     int FastInterrupt(bool assert);
 
-    int AddressBus(uint32_t address);
     int AddressBus(uint32_t *address);
-
 
     uint32_t r0(); int r0(uint32_t value);
     uint32_t r1(); int r1(uint32_t value);

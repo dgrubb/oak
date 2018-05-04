@@ -276,18 +276,6 @@ ARM::GetShadowRegister(uint32_t reg[], ARM_Mode *mode)
 }
 
 int
-ARM::PH1_Tick()
-{
-
-}
-
-int
-ARM::PH2_Tick()
-{
-
-}
-
-int
 ARM::Fetch()
 {
 
@@ -303,6 +291,32 @@ ARM::Execute()
 {
 }
 
+/* Simulate input signals as setters */
+int
+ARM::PH1_Tick()
+{
+
+}
+
+int
+ARM::PH2_Tick()
+{
+
+}
+
+/* Simulate output signals as getters only */
+int
+ARM::AddressBus(uint32_t *address)
+{
+    *address = this->m_state.address;
+}
+
+int
+ARM::ReadWrite(bool *read_write)
+{
+    *read_write = this->m_state.rw;
+}
+
 int
 ARM::Interrupt(bool assert)
 {
@@ -313,18 +327,6 @@ int
 ARM::FastInterrupt(bool assert)
 {
     this->m_state.fiq = assert;
-}
-
-int
-ARM::AddressBus(uint32_t *address)
-{
-    *address = this->m_state.address;
-}
-
-int
-ARM::AddressBus(uint32_t address)
-{
-    this->m_state.address = address;
 }
 
 /* Quick reference getters */
