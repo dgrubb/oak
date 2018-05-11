@@ -8,6 +8,7 @@
 #define _ARM_H
 
 #include <cstdint> // Fixed-width integer types
+#include <map>
 
 #define ARM_STATUS_MASK_NEGATIVE    0x80000000
 #define ARM_STATUS_MASK_ZERO        0x40000000
@@ -67,6 +68,26 @@ enum ARM_StatusFlag {
     FIQ_DISABLE
 };
 
+enum ARM_DataProcessingOpCode {
+    AND = 0,
+    EOR,
+    SUB,
+    RSB,
+    ADD,
+    ADC,
+    SBC,
+    RSC,
+    TST,
+    TEQ,
+    CMP,
+    CMN,
+    ORR,
+    MOV,
+    BIC,
+    MVN,
+    ALL_DATA_PROCESSING
+};
+
 const uint32_t ARM_StatusFlagMasks[] = {
     ARM_STATUS_MASK_NEGATIVE,
     ARM_STATUS_MASK_ZERO,
@@ -111,6 +132,7 @@ typedef struct {
 
 typedef uint32_t (*dst_reg)();
 typedef int (*src_reg)(uint32_t);
+typedef int (*opcode)(dst_reg, src_reg, uint32_t);
 
 class ARM {
 
@@ -172,38 +194,40 @@ public:
 
     // Data processing operations
     int OpAND(dst_reg dst, src_reg src, uint32_t op2);
-    int OpEOR();
-    int OpSUB();
-    int OpRSB();
-    int OpADD();
-    int OpADC();
-    int OpSBC();
-    int OpRSC();
-    int OpTST();
-    int OpTEQ();
-    int OpCMP();
-    int OpCMN();
-    int OpORR();
-    int OpMOV();
-    int OpBIC();
-    int OpMVN();
+    int OpEOR(dst_reg dst, src_reg src, uint32_t op2);
+    int OpSUB(dst_reg dst, src_reg src, uint32_t op2);
+    int OpRSB(dst_reg dst, src_reg src, uint32_t op2);
+    int OpADD(dst_reg dst, src_reg src, uint32_t op2);
+    int OpADC(dst_reg dst, src_reg src, uint32_t op2);
+    int OpSBC(dst_reg dst, src_reg src, uint32_t op2);
+    int OpRSC(dst_reg dst, src_reg src, uint32_t op2);
+    int OpTST(dst_reg dst, src_reg src, uint32_t op2);
+    int OpTEQ(dst_reg dst, src_reg src, uint32_t op2);
+    int OpCMP(dst_reg dst, src_reg src, uint32_t op2);
+    int OpCMN(dst_reg dst, src_reg src, uint32_t op2);
+    int OpORR(dst_reg dst, src_reg src, uint32_t op2);
+    int OpMOV(dst_reg dst, src_reg src, uint32_t op2);
+    int OpBIC(dst_reg dst, src_reg src, uint32_t op2);
+    int OpMVN(dst_reg dst, src_reg src, uint32_t op2);
     // Branch and link instructions
-    int OpB();
-    int OpBL();
+    int OpB(dst_reg dst, src_reg src, uint32_t op2);
+    int OpBL(dst_reg dst, src_reg src, uint32_t op2);
     // Multiply and multiply-accumulate
-    int OpMUL();
-    int OpMLA();
+    int OpMUL(dst_reg dst, src_reg src, uint32_t op2);
+    int OpMLA(dst_reg dst, src_reg src, uint32_t op2);
     // Single data transfer
-    int OpLDR();
-    int OpSTR();
+    int OpLDR(dst_reg dst, src_reg src, uint32_t op2);
+    int OpSTR(dst_reg dst, src_reg src, uint32_t op2);
     // Block data transfer
-    int OpLDM();
-    int OpSTM();
+    int OpLDM(dst_reg dst, src_reg src, uint32_t op2);
+    int OpSTM(dst_reg dst, src_reg src, uint32_t op2);
+
 
 private:
 
     // Data
     ARM_State m_state;
+    opcode *m_ISA_data_processing[ALL_DATA_PROCESSING];
 
     // Methods
     int GetShadowRegister(uint32_t reg[], ARM_Mode *mode);
