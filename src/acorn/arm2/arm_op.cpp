@@ -16,121 +16,121 @@ ARM::OpAND(dst_reg dst, src_reg src, uint32_t op2)
 }
 
 int
-ARM::OpEOR()
+ARM::OpEOR(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 int
-ARM::OpSUB()
+ARM::OpSUB(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 int
-ARM::OpRSB()
+ARM::OpRSB(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 int
-ARM::OpADD()
+ARM::OpADD(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 int
-ARM::OpADC()
+ARM::OpADC(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 int
-ARM::OpSBC()
+ARM::OpSBC(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 int
-ARM::OpRSC()
+ARM::OpRSC(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 int
-ARM::OpTST()
+ARM::OpTST(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 int
-ARM::OpTEQ()
+ARM::OpTEQ(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 int
-ARM::OpCMP()
+ARM::OpCMP(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 int
-ARM::OpCMN()
+ARM::OpCMN(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 int
-ARM::OpORR()
+ARM::OpORR(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 int
-ARM::OpMOV()
+ARM::OpMOV(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 int
-ARM::OpBIC()
+ARM::OpBIC(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 int
-ARM::OpMVN()
+ARM::OpMVN(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 /* Branch and branch link */
 int
-ARM::OpB()
+ARM::OpB(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 int
-ARM::OpBL()
+ARM::OpBL(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 // Multiple and multiply-accumulate
 int
-ARM::OpMUL()
+ARM::OpMUL(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 int
-ARM::OpMLA()
+ARM::OpMLA(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 // Single data transfer
 int
-ARM::OpLDR()
+ARM::OpLDR(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 int
-ARM::OpSTR()
+ARM::OpSTR(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 // Block data transfer
 int
-ARM::OpLDM()
+ARM::OpLDM(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 
 int
-ARM::OpSTM()
+ARM::OpSTM(dst_reg dst, src_reg src, uint32_t op2)
 {
 }
 

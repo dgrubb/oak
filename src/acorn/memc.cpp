@@ -15,6 +15,7 @@ MEMC::Init()
 
 MEMC::MEMC()
 {
+    this->Init();
 }
 
 MEMC::~MEMC()
