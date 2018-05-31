@@ -19,6 +19,7 @@ A3000::Reset()
 int
 A3000::Init(int cpu_frequency, int ram_size)
 {
+    int i;
     DBG_PRINT((DBG_INFO, "Starting A3000 emulation with %d MHz CPU and %d Mbytes RAM\n",
                 cpu_frequency/1000000, ram_size/1000000));
     this->m_cpu_frequency = cpu_frequency;
@@ -27,11 +28,14 @@ A3000::Init(int cpu_frequency, int ram_size)
     this->m_ioc = new IOC();
     this->m_memc = new MEMC();
     this->m_vidc = new VIDC();
+    for (i=this->m_ram_size; i>0; i--) {
+        m_ram.push_back(0);
+    }
 }
 
 A3000::A3000(int cpu_frequency, int ram_size)
 {
-    Init(cpu_frequency, ram_size);
+    this->Init(cpu_frequency, ram_size);
 }
 
 A3000::A3000()

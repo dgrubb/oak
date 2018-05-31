@@ -9,12 +9,15 @@
 
 /* Library includes */
 #include <cstddef> // NULL
+#include <vector>
 
 /* Project includes */
 #include "arm.h"
 #include "ioc.h"
 #include "memc.h"
 #include "vidc.h"
+
+using namespace std;
 
 #define A3000_SCREEN_WIDTH  800     // pixels
 #define A3000_SCREEN_HEIGHT 600     // pixels
@@ -43,6 +46,8 @@ private:
     VIDC *m_vidc = NULL;
     int m_cpu_frequency;
     int m_ram_size;
+    vector<uint8_t> m_ram;
+    vector<uint8_t> m_rom;
 };
 
 #endif // _A3000_H
