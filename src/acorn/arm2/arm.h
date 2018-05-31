@@ -126,7 +126,9 @@ typedef struct {
     bool fiq;
     bool irq;
     bool rw;
+    // Buses
     uint32_t address;
+    uint32_t data;
     ARM_Pipeline pipeline;
 } ARM_State;
 
@@ -162,13 +164,15 @@ public:
     int UndefinedInstruction();
     int Exception();
 
-    // Input signals
+    // Input/output signals
     int Reset();
     int Abort();
     int Interrupt(bool assert);
     int FastInterrupt(bool assert);
     int ReadWrite(bool *read_write);
     int AddressBus(uint32_t *address);
+    int DataBus(uint32_t *data);
+    int DataBus(uint32_t data);
     int PH1_Tick();
     int PH2_Tick();
 

@@ -306,11 +306,23 @@ ARM::PH2_Tick()
 
 }
 
+int
+ARM::DataBus(uint32_t data)
+{
+    this->m_state.data = data;
+}
+
 /* Simulate output signals as getters only */
 int
 ARM::AddressBus(uint32_t *address)
 {
     *address = this->m_state.address;
+}
+
+int
+ARM::DataBus(uint32_t *data)
+{
+    *data = this->m_state.data;
 }
 
 int
@@ -371,6 +383,8 @@ int
 ARM::Reset()
 {
     this->m_state = ARM_State();
+    this->DataBus((uint32_t)0);
+    this->AddressBus((uint32_t)0);
 }
 
 ARM::ARM()
