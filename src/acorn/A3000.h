@@ -9,6 +9,7 @@
 
 /* Library includes */
 #include <cstddef> // NULL
+#include <string>
 #include <vector>
 
 /* Project includes */
@@ -29,12 +30,14 @@ class A3000 {
 public:
 
     // Constructors and destructors
-    A3000(int cpu_frequency, int ram_size);
+    A3000(int cpu_frequency, int ram_size, string rom_path);
     A3000();
     ~A3000();
 
     // Methods
-    int Init(int cpu_frequency, int ram_size);
+    int Init(int cpu_frequency, int ram_size, string rom_path);
+    int InitError();
+    int LoadROM(string rom_path);
     int Reset();
 
 private:
@@ -44,6 +47,7 @@ private:
     IOC *m_ioc = NULL;
     MEMC *m_memc = NULL;
     VIDC *m_vidc = NULL;
+    bool m_init_error = false;
     int m_cpu_frequency;
     int m_ram_size;
     vector<uint8_t> m_ram;

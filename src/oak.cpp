@@ -36,7 +36,7 @@ main (int argc, char* argv[])
 {
     Settings settings;
     Display *display;
-    string config_file;
+    string config_file, rom_path;
     int cpu_frequency, ram_size;
 
     if (-1 == parse_arguments(argc, argv)) {
@@ -67,7 +67,13 @@ main (int argc, char* argv[])
 
     State::Interfaces()->GetCPUFrequency(&cpu_frequency);
     State::Interfaces()->GetRAMSize(&ram_size);
-    A3000 archimedes(cpu_frequency, ram_size);
+    State::Interfaces()->GetROMFile(&rom_path);
+    A3000 archimedes(cpu_frequency, ram_size, rom_path);
+
+    if (archimedes.InitError()) {
+        DBG_PRINT((DBG_ERROR, "Unable to initialise emulation\n"));
+        running = false;
+    }
 
     while (running) {
         // Main program loop

@@ -15,7 +15,7 @@
 "\tRAM size      [ %d bytes ]\n" \
 "\tCPU frequency [ %d Hz ]\n" \
 "\tLogging level [ %d ]\n"
-#define SETTINGS_DEFAULT_ROM "./riscs-3.71.rom"
+#define SETTINGS_DEFAULT_ROM "./risocs-3.71.rom"
 
 using namespace std;
 
