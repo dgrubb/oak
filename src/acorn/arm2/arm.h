@@ -147,6 +147,7 @@ public:
     // Methods
     int Init();
     int ClearAllRegisters();
+    int PrintStatus();
 
     // Accessors for internal state
     int Register(uint32_t reg, uint32_t value);
