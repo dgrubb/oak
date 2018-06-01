@@ -146,6 +146,7 @@ public:
 
     // Methods
     int Init();
+    int ClearAllRegisters();
 
     // Accessors for internal state
     int Register(uint32_t reg, uint32_t value);
@@ -171,6 +172,7 @@ public:
     int FastInterrupt(bool assert);
     int ReadWrite(bool *read_write);
     int AddressBus(uint32_t *address);
+    int AddressBus(uint32_t address);
     int DataBus(uint32_t *data);
     int DataBus(uint32_t data);
     int PH1_Tick();

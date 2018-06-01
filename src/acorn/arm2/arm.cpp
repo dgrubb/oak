@@ -55,13 +55,48 @@ const char *ARM_StatusFlagStrings[] = {
 int
 ARM::Init()
 {
+    this->ClearAllRegisters();
     this->Reset();
+}
+
+int
+ARM::ClearAllRegisters()
+{
+    DBG_PRINT((DBG_ULTRA_VERBOSE, "Clearing all registers\n"));
+    this->m_state.r0 = 0;
+    this->m_state.r1 = 0;
+    this->m_state.r2 = 0;
+    this->m_state.r3 = 0;
+    this->m_state.r4 = 0;
+    this->m_state.r5 = 0;
+    this->m_state.r6 = 0;
+    this->m_state.r7 = 0;
+    this->m_state.r8[USER]  = 0;
+    this->m_state.r9[USER]  = 0;
+    this->m_state.r10[USER] = 0;
+    this->m_state.r11[USER] = 0;
+    this->m_state.r12[USER] = 0;
+    this->m_state.r13[USER] = 0;
+    this->m_state.r14[USER] = 0;
+    this->m_state.r8[FIQ]   = 0;
+    this->m_state.r9[FIQ]   = 0;
+    this->m_state.r10[FIQ]  = 0;
+    this->m_state.r11[FIQ]  = 0;
+    this->m_state.r12[FIQ]  = 0;
+    this->m_state.r13[FIQ]  = 0;
+    this->m_state.r14[FIQ]  = 0;
+    this->m_state.r13[SVC]  = 0;
+    this->m_state.r14[SVC]  = 0;
+    this->m_state.r13[IRQ]  = 0;
+    this->m_state.r14[IRQ]  = 0;
+    this->m_state.cpsr      = 0;
+    return 0;
 }
 
 int
 ARM::StatusFlag(ARM_StatusFlag flag, bool value)
 {
-    DBG_PRINT((DBG_ULTRA_VERBOSE, "% status flag: %s\n", (value ? "Setting" : "Clearing"), ARM_StatusFlagStrings[flag]));
+    DBG_PRINT((DBG_ULTRA_VERBOSE, "%s status flag: %s\n", (value ? "Setting" : "Clearing"), ARM_StatusFlagStrings[flag]));
     uint32_t cpsr = this->cpsr();
     if (value) {
         cpsr |= ARM_StatusFlagMasks[flag];
@@ -139,7 +174,7 @@ ARM::Register(uint32_t reg, uint32_t value)
     // call must be made to GetShadowRegister to set the correct register array
     // location for the current mode.
     ARM_Mode mode_select = this->m_state.mode;
-    DBG_PRINT((DBG_ULTRA_VERBOSE, "Setting register [ %s ]: %d\n", ARM_RegisterStrings[reg], value));
+    DBG_PRINT((DBG_ULTRA_VERBOSE, "Setting register [ %s ]: 0x%X\n", ARM_RegisterStrings[reg], value));
     switch (reg) {
         case R0:
             this->m_state.r0 = value;
@@ -192,6 +227,9 @@ ARM::Register(uint32_t reg, uint32_t value)
         case R14:
             this->GetShadowRegister(this->m_state.r14, &mode_select);
             this->m_state.r14[mode_select] = value;
+            break;
+        case CPSR:
+            this->m_state.cpsr = value;
             break;
         default:
             DBG_PRINT((DBG_ERROR, "Unknown register: %d", reg));
@@ -258,11 +296,14 @@ ARM::Register(uint32_t reg, uint32_t *value)
             this->GetShadowRegister(this->m_state.r14, &mode_select);
             *value = this->m_state.r8[mode_select];
             break;
+        case CPSR:
+            *value = this->m_state.cpsr;
+            break;
         default:
             DBG_PRINT((DBG_ERROR, "Unknown register: %d", reg));
             return -1;
     }
-    DBG_PRINT((DBG_ULTRA_VERBOSE, "Getting register [ %s ]: %d\n", ARM_RegisterStrings[reg], value));
+    DBG_PRINT((DBG_ULTRA_VERBOSE, "Getting register [ %s ]: 0x%X\n", ARM_RegisterStrings[reg], *value));
     return 0;
 }
 
@@ -312,7 +353,12 @@ ARM::DataBus(uint32_t data)
     this->m_state.data = data;
 }
 
-/* Simulate output signals as getters only */
+int
+ARM::AddressBus(uint32_t address)
+{
+    this->m_state.address = address;
+}
+
 int
 ARM::AddressBus(uint32_t *address)
 {
@@ -382,9 +428,13 @@ int ARM::cpsr(uint32_t value) { return this->Register(CPSR, value); }
 int
 ARM::Reset()
 {
+    // Reset behaviour defined on page 12 of ARM datasheet
     this->m_state = ARM_State();
     this->DataBus((uint32_t)0);
     this->AddressBus((uint32_t)0);
+    this->Mode(SVC);
+    this->StatusFlag(IRQ_DISABLE, true);
+    this->StatusFlag(FIQ_DISABLE, true);
 }
 
 ARM::ARM()
