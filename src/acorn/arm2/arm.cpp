@@ -443,6 +443,7 @@ ARM::PrintStatus()
 {
     bool negative, zero, carry, overflow, irq_disable, fiq_disable;
     ARM_Mode mode;
+    uint32_t pc;
     this->StatusFlag(NEGATIVE, &negative);
     this->StatusFlag(ZERO, &zero);
     this->StatusFlag(CARRY, &carry);
@@ -450,6 +451,7 @@ ARM::PrintStatus()
     this->StatusFlag(IRQ_DISABLE, &irq_disable);
     this->StatusFlag(FIQ_DISABLE, &fiq_disable);
     this->Mode(&mode);
+    this->PC(&pc);
     DBG_PRINT((DBG_INFO, "| Negative | Zero | Carry | Overflow | IRQ Disable | FIQ Disable | Program Counter |  Mode  |\n"));
     DBG_PRINT((DBG_INFO, "|     %s    |   %s  |   %s   |    %s     |      %s      |      %s      |       0x%X       |  %s  |\n",
                (negative ? "1" : "0"),
@@ -458,7 +460,7 @@ ARM::PrintStatus()
                (overflow ? "1" : "0"),
                (irq_disable ? "1" : "0"),
                (fiq_disable ? "1" : "0"),
-               0,
+               pc,
                ARM_ModeStrings[mode]));
     return 0;
 }
