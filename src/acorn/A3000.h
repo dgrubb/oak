@@ -25,6 +25,8 @@ using namespace std;
 #define A3000_CPU_FREQUENCY 8000000 // Hz
 #define A3000_RAM_SIZE      2048    // bytes
 
+#define NS_PER_CYCLE        1000000000
+
 class A3000 {
 
 public:
@@ -53,6 +55,7 @@ private:
     bool m_init_error = false;
     bool m_master_clock = false;
     int m_cpu_frequency;
+    int m_master_interval_ns;
     int m_ram_size;
     int m_clock_timer_index;
     vector<uint8_t> m_ram;

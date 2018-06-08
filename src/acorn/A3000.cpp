@@ -36,6 +36,8 @@ A3000::Init(int cpu_frequency, int ram_size, string rom_path)
     DBG_PRINT((DBG_INFO, "Starting A3000 emulation with %d MHz CPU and %d Mbytes RAM\n",
                 cpu_frequency/1000000, ram_size/1000000));
     this->m_cpu_frequency = cpu_frequency;
+    //this->m_master_interval_ns = (int)((float)(1/this->m_cpu_frequency))*NS_PER_CYCLE;
+    this->m_master_interval_ns = 41;
     this->m_ram_size = ram_size;
     this->m_cpu = new ARM();
     this->m_ioc = new IOC();
@@ -45,6 +47,13 @@ A3000::Init(int cpu_frequency, int ram_size, string rom_path)
     if (this->LoadROM(rom_path)) {
         this->m_init_error = true;
         return -1;
+    }
+    // Setup a 24MHz master system clock
+    Timers *timers;
+    if (-1 != State::Interfaces()->GetTimersPtr(timers)) {
+        this->m_clock_timer_index = timers->CreateTimer(
+            this->m_master_interval_ns, this->m_master_interval_ns, MasterClockCallback, (void *)this
+        );
     }
     return 0;
 }
@@ -78,14 +87,6 @@ A3000::LoadROM(string rom_path)
     // Now load it directly into a vector. Slower performance, but cross-platform?
     rom_file.seekg(0, ios::beg);
     this->m_rom.insert(this->m_rom.begin(), istream_iterator<uint8_t>(rom_file), istream_iterator<uint8_t>());
-
-    // Setup a 24MHz master system clock
-    Timers *timers;
-    if (-1 != State::Interfaces()->GetTimersPtr(timers)) {
-        this->m_clock_timer_index = timers->CreateTimer(
-            this->m_expire_ns, this->m_interval_ns, MasterClockCallback, (void *)this
-        );
-    }
     return 0;
 }
 
