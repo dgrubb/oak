@@ -10,9 +10,19 @@
 
 /* Project includes */
 #include "A3000.h"
+#include "state.h"
+#include "timers.h"
 #include "debug.h"
 
 using namespace std;
+
+static void MasterClockCallback(void* a3000_ptr)
+{
+    A3000 *a3000 = (A3000 *)a3000_ptr;
+    if (a3000) {
+        a3000->MasterClock(true);
+    }
+}
 
 int
 A3000::Reset()
@@ -69,7 +79,34 @@ A3000::LoadROM(string rom_path)
     rom_file.seekg(0, ios::beg);
     this->m_rom.insert(this->m_rom.begin(), istream_iterator<uint8_t>(rom_file), istream_iterator<uint8_t>());
 
+    // Setup a 24MHz master system clock
+    Timers *timers;
+    if (-1 != State::Interfaces()->GetTimersPtr(timers)) {
+        this->m_clock_timer_index = timers->CreateTimer(
+            this->m_expire_ns, this->m_interval_ns, MasterClockCallback, (void *)this
+        );
+    }
     return 0;
+}
+
+int
+A3000::MasterClock(bool value)
+{
+    this->m_master_clock = value;
+}
+
+int
+A3000::MasterClock(bool *value)
+{
+    *value = this->m_master_clock;
+}
+
+int
+A3000::ClockTick()
+{
+    this->m_master_clock = false;
+    // Set next clock tick
+    // Update state here
 }
 
 A3000::A3000(int cpu_frequency, int ram_size, string rom_path)

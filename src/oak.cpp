@@ -37,6 +37,7 @@ main (int argc, char* argv[])
     Settings settings;
     Display *display;
     string config_file, rom_path;
+    bool archimedes_clock;
     int cpu_frequency, ram_size;
 
     if (-1 == parse_arguments(argc, argv)) {
@@ -75,10 +76,16 @@ main (int argc, char* argv[])
         running = false;
     }
 
+    // Main program loop
     while (running) {
-        // Main program loop
+        // Check for external events such as kuser key presses and buffer them
         if ((NULL == display) || (-1 == display->ProcessEvents())) {
             running = false;
+        }
+        // Wait for the Archimedes clock to catch up and update its state
+        archimedes.MasterClock(&archimedes_clock);
+        if (archimedes_clock) {
+            archimedes.ClockTick();
         }
     }
 
