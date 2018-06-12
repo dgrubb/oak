@@ -86,6 +86,7 @@ main (int argc, char* argv[])
         archimedes.MasterClock(&archimedes_clock);
         if (archimedes_clock) {
             archimedes.ClockTick();
+            archimedes_clock = false;
         }
     }
 
