@@ -23,6 +23,8 @@ static void info_signal_handler(int sig, siginfo_t *si, void *uc)
                 si->si_value.sival_int));
     if (-1 != State::Interfaces()->GetTimersPtr(timers)) {
         timers->ExecuteCallback(si->si_value.sival_int);
+    } else {
+        DBG_PRINT((DBG_ERROR, "Error executing signal handler, no timers instance\n"));
     }
 }
 
@@ -45,7 +47,7 @@ Timers::CreateTimer(int expire_ns, int interval_ns, void (*callback)(void*), voi
     sig_action.sa_sigaction = info_signal_handler;
     if (-1 == sigaction(sig_num, &sig_action, NULL)) {
         DBG_PRINT((DBG_ERROR, "Error setting up timer signal [ %s ]\n", strerror(errno)));
-        return 0;
+        return -1;
     }
 
     alarm.sigev_notify = SIGEV_SIGNAL;
@@ -55,7 +57,7 @@ Timers::CreateTimer(int expire_ns, int interval_ns, void (*callback)(void*), voi
     if (-1 == timer_create(CLOCK_MONOTONIC, &alarm, &timer)) {
         DBG_PRINT((DBG_ERROR, "Error creating timer [ %s ]\n",
             strerror(errno)));
-        return 0;
+        return -1;
     }
 
     timer_settings.it_interval.tv_sec = 0;
@@ -65,7 +67,7 @@ Timers::CreateTimer(int expire_ns, int interval_ns, void (*callback)(void*), voi
 
     if (-1 == timer_settime(timer, 0, &timer_settings, NULL)) {
         DBG_PRINT((DBG_ERROR, "Error set timer [ %s ]\n", strerror(errno)));
-        return 0;
+        return -1;
     }
 
     TimerCallback callback_container = {timer, callback, data};
@@ -92,11 +94,13 @@ int
 Timers::ExecuteCallback(int timer_index)
 {
     TimerCallback timer_callback;
-    if (-1 != GetTimerCallbackEntry(timer_index, timer_callback)) {
+    if (-1 == GetTimerCallbackEntry(timer_index, timer_callback)) {
+        DBG_PRINT((DBG_ERROR, "Unable to find callback entry\n"));
         return -1;
     }
 
     if (NULL == timer_callback.func) {
+        DBG_PRINT((DBG_ERROR, "Callback entry has no callback function\n"));
         return -1;
     }
 
