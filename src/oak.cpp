@@ -9,6 +9,7 @@
 #include <unistd.h> // opterr, sleep()
 #include <signal.h>
 #include <cstring>
+#include <ctime>
 #include <iostream>
 #include <string>
 
@@ -37,8 +38,12 @@ main (int argc, char* argv[])
     Settings settings;
     Display *display;
     string config_file, rom_path;
-    bool archimedes_clock;
     int cpu_frequency, ram_size;
+    // TODO: Rather than hardcode this, have it deduced from the CPU
+    // frequency setting
+    struct timespec time, time2;
+    time.tv_sec = 0;
+    time.tv_nsec = 43L;
 
     if (-1 == parse_arguments(argc, argv)) {
         printf("Failed to parse arguments\n");
@@ -78,16 +83,12 @@ main (int argc, char* argv[])
 
     // Main program loop
     while (running) {
+        nanosleep(&time, &time2);
         // Check for external events such as kuser key presses and buffer them
         if ((NULL == display) || (-1 == display->ProcessEvents())) {
             running = false;
         }
-        // Wait for the Archimedes clock to catch up and update its state
-        archimedes.MasterClock(&archimedes_clock);
-        if (archimedes_clock) {
-            archimedes.ClockTick();
-            archimedes_clock = false;
-        }
+        archimedes.ClockTick();
     }
 
     deinit_interfaces();

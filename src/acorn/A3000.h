@@ -40,8 +40,6 @@ public:
     int Init(int cpu_frequency, int ram_size, string rom_path);
     int InitError();
     int LoadROM(string rom_path);
-    int MasterClock(bool value);
-    int MasterClock(bool *value);
     int ClockTick();
     int Reset();
 
@@ -55,7 +53,6 @@ private:
     bool m_init_error = false;
     bool m_master_clock = false;
     int m_cpu_frequency;
-    int m_master_interval_ns;
     int m_ram_size;
     int m_clock_timer_index;
     vector<uint8_t> m_ram;

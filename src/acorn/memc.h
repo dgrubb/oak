@@ -35,11 +35,14 @@ public:
 
     // Methods
     int Init();
+    int Write(uint32_t address, uint32_t value);
+    int Read(uint32_t address, uint32_t *value);
 
 private:
 
     // Data
     MEMC_Mode m_mode;
+    bool m_configured;
 
     // Methods
 };

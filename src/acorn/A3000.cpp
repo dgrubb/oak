@@ -16,15 +16,6 @@
 
 using namespace std;
 
-static void MasterClockCallback(void* a3000_ptr)
-{
-    DBG_PRINT((DBG_INFO, "MASTER CLOCK CALLBACK FIRED!\n"));
-    A3000 *a3000 = (A3000 *)a3000_ptr;
-    if (a3000) {
-        a3000->MasterClock(true);
-    }
-}
-
 int
 A3000::Reset()
 {
@@ -37,8 +28,6 @@ A3000::Init(int cpu_frequency, int ram_size, string rom_path)
     DBG_PRINT((DBG_INFO, "Starting A3000 emulation with %d MHz CPU and %d Mbytes RAM\n",
                 cpu_frequency/1000000, ram_size/1000000));
     this->m_cpu_frequency = cpu_frequency;
-    //this->m_master_interval_ns = (int)((float)(1/this->m_cpu_frequency))*NS_PER_CYCLE;
-    this->m_master_interval_ns = 42;
     this->m_ram_size = ram_size;
     this->m_cpu = new ARM();
     this->m_ioc = new IOC();
@@ -48,17 +37,6 @@ A3000::Init(int cpu_frequency, int ram_size, string rom_path)
     if (this->LoadROM(rom_path)) {
         this->m_init_error = true;
         return -1;
-    }
-    // Setup a 24MHz master system clock
-    Timers *timers;
-    if (-1 != State::Interfaces()->GetTimersPtr(timers)) {
-        this->m_clock_timer_index = timers->CreateTimer(
-            this->m_master_interval_ns, this->m_master_interval_ns, MasterClockCallback, (void *)this
-        );
-        if (-1 == this->m_clock_timer_index) {
-            DBG_PRINT((DBG_ERROR, "Error starting A3000 master clock\n"));
-            return -1;
-        };
     }
     return 0;
 }
@@ -96,21 +74,8 @@ A3000::LoadROM(string rom_path)
 }
 
 int
-A3000::MasterClock(bool value)
-{
-    this->m_master_clock = value;
-}
-
-int
-A3000::MasterClock(bool *value)
-{
-    *value = this->m_master_clock;
-}
-
-int
 A3000::ClockTick()
 {
-    this->m_master_clock = false;
     // Set next clock tick
     // Update state here
 }
