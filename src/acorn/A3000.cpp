@@ -42,6 +42,42 @@ A3000::Init(int cpu_frequency, int ram_size, string rom_path)
 }
 
 int
+A3000::ReadRAM(uint32_t address, uint32_t *value)
+{
+    try {
+        *value = this->m_ram.at(address);
+    } catch (const out_of_range &e) {
+        DBG_PRINT((DBG_ERROR, "Out of bounds RAM access requested: 0x%X, %s\n", address, e.what()));
+        return -1;
+    }
+    return 0;
+}
+
+int
+A3000::WriteRAM(uint32_t address, uint32_t value)
+{
+    try {
+        this->m_ram.at(address) = value;
+    } catch (const out_of_range &e) {
+        DBG_PRINT((DBG_ERROR, "Out of bounds RAM access requested: 0x%X, %s\n", address, e.what()));
+        return -1;
+    }
+    return 0;
+}
+
+int
+A3000::ReadROM(uint32_t address, uint32_t *value)
+{
+    try {
+        *value = this->m_rom.at(address);
+    } catch (const out_of_range &e) {
+        DBG_PRINT((DBG_ERROR, "Out of bounds ROM access requested: 0x%X, %s\n", address, e.what()));
+        return -1;
+    }
+    return 0;
+}
+
+int
 A3000::InitError()
 {
     if (this->m_init_error) {

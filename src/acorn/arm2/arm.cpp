@@ -432,6 +432,7 @@ ARM::Reset()
     this->m_state = ARM_State();
     this->DataBus((uint32_t)0);
     this->AddressBus((uint32_t)0);
+    this->PC((uint32_t)0);
     this->Mode(SVC);
     this->StatusFlag(IRQ_DISABLE, true);
     this->StatusFlag(FIQ_DISABLE, true);

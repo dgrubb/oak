@@ -41,6 +41,9 @@ public:
     int InitError();
     int LoadROM(string rom_path);
     int ClockTick();
+    int ReadRAM(uint32_t address, uint32_t *value);
+    int WriteRAM(uint32_t address, uint32_t value);
+    int ReadROM(uint32_t address, uint32_t *value);
     int Reset();
 
 private:

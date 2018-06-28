@@ -4,6 +4,9 @@
  * Date:26/04/2018
  */
 
+/* Library includes */
+#include <cstdint> // Fixed-width integer types
+
 /* Project includes */
 #include "memc.h"
 #include "debug.h"
