@@ -41,9 +41,9 @@ public:
     int InitError();
     int LoadROM(string rom_path);
     int ClockTick();
-    int ReadRAM(uint32_t address, uint32_t *value);
-    int WriteRAM(uint32_t address, uint32_t value);
-    int ReadROM(uint32_t address, uint32_t *value);
+    int ReadRAM(uint32_t address, uint8_t *value);
+    int WriteRAM(uint32_t address, uint8_t value);
+    int ReadROM(uint32_t address, uint8_t *value);
     int Reset();
 
 private:
@@ -58,8 +58,8 @@ private:
     int m_cpu_frequency;
     int m_ram_size;
     int m_clock_timer_index;
-    vector<uint8_t> m_ram;
-    vector<uint8_t> m_rom;
+    vector<uint32_t> m_ram;
+    vector<uint32_t> m_rom;
 };
 
 #endif // _A3000_H

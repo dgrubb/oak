@@ -80,11 +80,12 @@ main (int argc, char* argv[])
         DBG_PRINT((DBG_ERROR, "Unable to initialise emulation\n"));
         running = false;
     }
+    State::Interfaces()->SetA3000Ptr(&archimedes);
 
     // Main program loop
     while (running) {
         nanosleep(&time, &time2);
-        // Check for external events such as kuser key presses and buffer them
+        // Check for external events such as user key presses and buffer them
         if ((NULL == display) || (-1 == display->ProcessEvents())) {
             running = false;
         }

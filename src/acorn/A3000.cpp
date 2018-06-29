@@ -112,8 +112,11 @@ A3000::LoadROM(string rom_path)
 int
 A3000::ClockTick()
 {
+    uint32_t data;
     // Set next clock tick
     // Update state here
+    // TODO remove after test
+    this->m_memc->Read(0, &data);
 }
 
 A3000::A3000(int cpu_frequency, int ram_size, string rom_path)

@@ -23,6 +23,7 @@ typedef struct {
     string  config_file;
     Timers  *pTimers;
     Display *pDisplay;
+    A3000   *pA3000;
     int     cpu_frequency;
     int     ram_size;
     string  rom_file;
@@ -32,6 +33,7 @@ InterfacesTable DefaultTable = {
     SETTINGS_DEFAULT_FILE,  // Configuration file path
     NULL,                   // Timers
     NULL,                   // Display
+    NULL,                   // A3000
     A3000_CPU_FREQUENCY,    // CPU frequency
     A3000_RAM_SIZE          // RAM size
 };
@@ -142,6 +144,22 @@ State::GetTimersPtr(Timers * &timers)
 {
     Lock locker(&lock);
     timers = table.pTimers;
+    return 0;
+}
+
+int
+State::SetA3000Ptr(A3000 *a3000)
+{
+    Lock locker(&lock);
+    table.pA3000 = a3000;
+    return 0;
+}
+
+int
+State::GetA3000Ptr(A3000 * &a3000)
+{
+    Lock locker(&lock);
+    a3000 = table.pA3000;
     return 0;
 }
 

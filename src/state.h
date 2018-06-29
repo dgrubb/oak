@@ -7,6 +7,7 @@
 #ifndef _STATE_H
 #define _STATE_H
 
+#include "acorn/A3000.h"
 #include "display.h"
 #include "settings.h"
 #include "timers.h"
@@ -34,6 +35,8 @@ public:
     int GetROMFile(string *rom_file);
     int SetTimersPtr(Timers *timers);
     int GetTimersPtr(Timers * &timers);
+    int SetA3000Ptr(A3000 *a3000);
+    int GetA3000Ptr(A3000 * &a3000);
 
 private:
 
