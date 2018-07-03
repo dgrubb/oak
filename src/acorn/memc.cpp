@@ -18,6 +18,10 @@ MEMC::Init()
     this->m_configured = false;
 }
 
+//  TODO: the ARM can address in byte or word mode, with a mix of either MEMC or
+//  the processor itself handling translation and alignment. Details are in the 
+//  ARM and MEMC datasheets which will be handled at this place in code. For the
+//  interim this shall be very hacky.
 int
 MEMC::Read(uint32_t address, uint32_t *value)
 {

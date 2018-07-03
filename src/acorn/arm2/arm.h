@@ -24,6 +24,7 @@
 #define ARM_STATUS_MASK_MODE_ALL    0xF
 
 #define ARM_STATUS_MASK_PC          0x3FFFFFC
+#define ARM_WORD_BYTES_LENGTH       4
 
 using namespace std;
 
