@@ -319,7 +319,7 @@ ARM::GetShadowRegister(uint32_t reg[], ARM_Mode *mode)
 int
 ARM::Fetch()
 {
-    
+
 }
 
 int
@@ -331,20 +331,25 @@ ARM::Decode()
 int
 ARM::Execute()
 {
-    
+
 }
 
-/* Simulate input signals as setters */
 int
 ARM::PH1_Tick()
 {
-
+    uint32_t pc;
+    this->ClockPhase(false);
+    // PC increments by four bytes to ensure word boundary alignment with
+    // program instructions
+    this->PC(&pc);
+    pc += 4;
+    this->PC(pc);
 }
 
 int
 ARM::PH2_Tick()
 {
-
+    this->ClockPhase(true);
 }
 
 int
@@ -387,6 +392,18 @@ int
 ARM::FastInterrupt(bool assert)
 {
     this->m_state.fiq = assert;
+}
+
+int
+ARM::ClockPhase(bool value)
+{
+    this->m_state.clock_phase = value;
+}
+
+int
+ARM::ClockPhase(bool *value)
+{
+    *value = this->m_state.clock_phase;
 }
 
 /* Quick reference getters */

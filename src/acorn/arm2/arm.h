@@ -127,6 +127,10 @@ typedef struct {
     bool fiq;
     bool irq;
     bool rw;
+    // Clock phase: 
+    // true - PH2
+    // false - PH2
+    bool clock_phase;
     // Buses
     uint32_t address;
     uint32_t data;
@@ -159,6 +163,8 @@ public:
     int Mode(ARM_Mode *mode);
     int PC(uint32_t value);
     int PC(uint32_t *value);
+    int ClockPhase(bool value);
+    int ClockPhase(bool *value);
 
     // State updates
     int Fetch();

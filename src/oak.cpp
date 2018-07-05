@@ -89,7 +89,7 @@ main (int argc, char* argv[])
         if ((NULL == display) || (-1 == display->ProcessEvents())) {
             running = false;
         }
-        archimedes.ClockTick();
+        archimedes.HalfClockTick();
     }
 
     deinit_interfaces();
