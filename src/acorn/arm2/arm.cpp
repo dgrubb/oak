@@ -119,7 +119,7 @@ ARM::PC(uint32_t value)
 {
     uint32_t cpsr = this->cpsr();
     cpsr &= ~ARM_STATUS_MASK_PC;
-    cpsr &= (value << 2);
+    cpsr |= (value << 2);
     return this->cpsr(cpsr);
 }
 
@@ -335,21 +335,14 @@ ARM::Execute()
 }
 
 int
-ARM::PH1_Tick()
+ARM::ClockTick()
 {
     uint32_t pc;
-    this->ClockPhase(false);
     // PC increments by four bytes to ensure word boundary alignment with
     // program instructions
     this->PC(&pc);
     pc += 4;
     this->PC(pc);
-}
-
-int
-ARM::PH2_Tick()
-{
-    this->ClockPhase(true);
 }
 
 int
@@ -392,18 +385,6 @@ int
 ARM::FastInterrupt(bool assert)
 {
     this->m_state.fiq = assert;
-}
-
-int
-ARM::ClockPhase(bool value)
-{
-    this->m_state.clock_phase = value;
-}
-
-int
-ARM::ClockPhase(bool *value)
-{
-    *value = this->m_state.clock_phase;
 }
 
 /* Quick reference getters */

@@ -40,7 +40,7 @@ public:
     int Init(int cpu_frequency, int ram_size, string rom_path);
     int InitError();
     int LoadROM(string rom_path);
-    int HalfClockTick();
+    int ClockTick();
     int ReadRAM(uint32_t address, uint32_t *value);
     int WriteRAM(uint32_t address, uint32_t value);
     int ReadROM(uint32_t address, uint32_t *value);

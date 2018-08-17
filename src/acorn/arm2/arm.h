@@ -163,8 +163,6 @@ public:
     int Mode(ARM_Mode *mode);
     int PC(uint32_t value);
     int PC(uint32_t *value);
-    int ClockPhase(bool value);
-    int ClockPhase(bool *value);
 
     // State updates
     int Fetch();
@@ -183,8 +181,7 @@ public:
     int AddressBus(uint32_t address);
     int DataBus(uint32_t *data);
     int DataBus(uint32_t data);
-    int PH1_Tick();
-    int PH2_Tick();
+    int ClockTick();
 
     // Quick references for interfaces
     uint32_t r0(); int r0(uint32_t value);

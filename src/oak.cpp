@@ -43,7 +43,7 @@ main (int argc, char* argv[])
     // frequency setting
     struct timespec time, time2;
     time.tv_sec = 0;
-    time.tv_nsec = 43L;
+    time.tv_nsec = 86L;
 
     if (-1 == parse_arguments(argc, argv)) {
         printf("Failed to parse arguments\n");
@@ -89,7 +89,7 @@ main (int argc, char* argv[])
         if ((NULL == display) || (-1 == display->ProcessEvents())) {
             running = false;
         }
-        archimedes.HalfClockTick();
+        archimedes.ClockTick();
     }
 
     deinit_interfaces();

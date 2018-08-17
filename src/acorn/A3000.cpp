@@ -113,21 +113,17 @@ A3000::LoadROM(string rom_path)
 }
 
 int
-A3000::HalfClockTick()
+A3000::ClockTick()
 {
-    static bool phase = false;
     // TODO: test stuff, remove soon please
     uint32_t data;
     // Set next clock tick
     // Update state here
     // TODO remove after test
-    this->m_memc->Read(0, &data);
-    if (phase) {
-        this->m_cpu->PH2_Tick();
-    } else {
-        this->m_cpu->PH1_Tick();
-    }
-    phase = !phase;
+    uint32_t pc;
+    this->m_cpu->PC(&pc);
+    this->m_memc->Read(pc, &data);
+    this->m_cpu->ClockTick();
 }
 
 A3000::A3000(int cpu_frequency, int ram_size, string rom_path)
