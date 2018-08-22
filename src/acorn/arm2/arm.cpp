@@ -319,25 +319,36 @@ ARM::GetShadowRegister(uint32_t reg[], ARM_Mode *mode)
 int
 ARM::Fetch()
 {
-
+    uint32_t data;
+    this->DataBus(&data);
+    this->m_state.pipeline.fetch = data;
 }
 
 int
 ARM::Decode()
 {
-
+    this->m_state.pipeline.decode = this->m_state.pipeline.fetch;
 }
 
 int
 ARM::Execute()
 {
-
+    this->m_state.pipeline.execute = this->m_state.pipeline.decode;
 }
 
 int
 ARM::ClockTick()
 {
     uint32_t pc;
+    // This order is a little counter-intuitive as every CS course teaches the
+    // "fetch->decode->execute" cycle. This remains true but, in a real processor,
+    // all three stages of the pipeline are executed synchronously so it doesn't
+    // actually matter in which order we execute these within each cycle. However,
+    // doing it in this order makes it easier to program moving one instruction
+    // through the pipeline.
+    this->Execute();
+    this->Decode();
+    this->Fetch();
     // PC increments by four bytes to ensure word boundary alignment with
     // program instructions
     this->PC(&pc);

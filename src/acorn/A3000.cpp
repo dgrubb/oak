@@ -127,6 +127,9 @@ A3000::ClockTick()
     uint32_t pc;
     this->m_cpu->PC(&pc);
     this->m_memc->Read(pc, &data);
+    // After updating databus, distribute it to various components
+    this->m_cpu->DataBus(data);
+    // Allow the CPU to operate a cycle with updated state
     this->m_cpu->ClockTick();
 }
 
