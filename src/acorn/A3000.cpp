@@ -71,15 +71,16 @@ int
 A3000::ReadROM(uint32_t address, uint32_t *value)
 {
     int i;
-    try {
-        *value = 0;
-        for (i=0; i<ARM_WORD_BYTES_LENGTH; i++) {
+    *value = 0;
+
+    for (i=0; i<ARM_WORD_BYTES_LENGTH; i++) {
+        try {
             *value |= (this->m_rom.at(address+i) << i*8 /*bits*/);
+        } catch (const out_of_range &e) {
+            break;
         }
-    } catch (const out_of_range &e) {
-        DBG_PRINT((DBG_ERROR, "Out of bounds ROM access requested: 0x%X, %s\n", address, e.what()));
-        return -1;
     }
+
     return 0;
 }
 
