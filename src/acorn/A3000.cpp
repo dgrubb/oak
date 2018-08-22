@@ -5,8 +5,10 @@
  */
 
 /* Library includes */
+#include <algorithm>
 #include <fstream>
 #include <iterator>
+#include <stdio.h>
 
 /* Project includes */
 #include "A3000.h"
@@ -70,8 +72,9 @@ A3000::ReadROM(uint32_t address, uint32_t *value)
 {
     int i;
     try {
+        *value = 0;
         for (i=0; i<ARM_WORD_BYTES_LENGTH; i++) {
-            *value |= (this->m_rom.at(address+i) << i);
+            *value |= (this->m_rom.at(address+i) << i*8 /*bits*/);
         }
     } catch (const out_of_range &e) {
         DBG_PRINT((DBG_ERROR, "Out of bounds ROM access requested: 0x%X, %s\n", address, e.what()));
@@ -103,9 +106,9 @@ A3000::LoadROM(string rom_path)
     rom_file.seekg(0, ios::end);
     rom_size = rom_file.tellg();
     this->m_rom.reserve(rom_size);
+    fill(this->m_rom.begin(), this->m_rom.end(), 0);
     DBG_PRINT((DBG_INFO, "Loading ROM file [ %s ], size [ %d bytes ]\n",
                 rom_path.c_str(), rom_size));
-
     // Now load it directly into a vector. Slower performance, but cross-platform?
     rom_file.seekg(0, ios::beg);
     this->m_rom.insert(this->m_rom.begin(), istream_iterator<uint8_t>(rom_file), istream_iterator<uint8_t>());
