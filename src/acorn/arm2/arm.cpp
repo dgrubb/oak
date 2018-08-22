@@ -341,8 +341,7 @@ ARM::ClockTick()
     // PC increments by four bytes to ensure word boundary alignment with
     // program instructions
     this->PC(&pc);
-    pc += 4;
-    this->PC(pc);
+    this->PC(pc += ARM_WORD_BYTES_LENGTH);
 }
 
 int
