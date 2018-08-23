@@ -110,7 +110,6 @@ A3000::LoadROM(string rom_path)
     fill(this->m_rom.begin(), this->m_rom.end(), 0);
     DBG_PRINT((DBG_INFO, "Loading ROM file [ %s ], size [ %d bytes ]\n",
                 rom_path.c_str(), rom_size));
-    // Now load it directly into a vector. Slower performance, but cross-platform?
     rom_file.seekg(0, ios::beg);
     this->m_rom.insert(this->m_rom.begin(), istream_iterator<uint8_t>(rom_file), istream_iterator<uint8_t>());
     return 0;
@@ -119,11 +118,8 @@ A3000::LoadROM(string rom_path)
 int
 A3000::ClockTick()
 {
-    // TODO: test stuff, remove soon please
     uint32_t data;
-    // Set next clock tick
     // Update state here
-    // TODO remove after test
     uint32_t pc;
     this->m_cpu->PC(&pc);
     this->m_memc->Read(pc, &data);
