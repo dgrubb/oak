@@ -316,6 +316,88 @@ ARM::GetShadowRegister(uint32_t reg[], ARM_Mode *mode)
     return 0;
 }
 
+bool
+ARM::TestStatusFlag(ARM_StatusFlag flag)
+{
+    int flag_value = 0;
+    this->StatusFlag(flag, flag_value);
+    return (flag_value ? true : false);
+}
+
+bool
+ARM::TestConditions(uint32_t condition_flags)
+{
+    bool execute = false;
+    switch (condition_flags) {
+        case ARM_CONDITION_EQ:
+            execute = this->TestStatusFlag(ZERO);
+            break;
+        case ARM_CONDITION_NE:
+            execute = !this->TestStatusFlag(ZERO);
+            break;
+        case ARM_CONDITION_CS:
+            execute = this->TestStatusFlag(CARRY);
+            break;
+        case ARM_CONDITION_CC:
+            execute = !this->TestStatusFlag(CARRY);
+            break;
+        case ARM_CONDITION_MI:
+            execute = this->TestStatusFlag(NEGATIVE);
+            break;
+        case ARM_CONDITION_PL:
+            execute = !this->TestStatusFlag(NEGATIVE);
+            break;
+        case ARM_CONDITION_VS:
+            execute = this->TestStatusFlag(OVERFLOW);
+            break;
+        case ARM_CONDITION_VC:
+            execute = !this->TestStatusFlag(OVERFLOW);
+            break;
+        case ARM_CONDITION_HI:
+            execute = (this->TestStatusFlag(CARRY) && !this->TestStatusFlag(ZERO));
+            break;
+        case ARM_CONDITION_LS:
+            execute = (!this->TestStatusFlag(CARRY) || this->TestStatusFlag(ZERO))
+            break;
+        case ARM_CONDITION_GE:
+            execute = (
+                (this->TestStatusFlag(NEGATIVE) && this->TestStatusFlag(OVERFLOW)) ||
+                (!this->TestStatusFlag(NEGATIVE) && !this->TestStatusFlag(OVERFLOW))
+            );
+            break;
+        case ARM_CONDITION_LT:
+            execute = (
+                (this->TestStatusFlag(NEGATIVE) && !this->TestStatusFlag(OVERFLOW)) ||
+                (!this->TestStatusFlag(NEGATIVE) && this->TestStatusFlag(OVERFLOW))
+            );
+            break;
+        case ARM_CONDITION_GT:
+            execute = (
+                (!this->TestStatusFlag(ZERO) && (this->TestStatusFlag(NEGATIVE) || this->TestStatusFlag(OVERFLOW))) ||
+                (!this->TestStatusFlag(NEGATIVE) && !this->TestStatusFlag(OVERFLOW))
+            );
+            break;
+        case ARM_CONDITION_LE:
+#define ARM_CONDITION_LE            0b1101  // Z set, or N set and V clear, or N clear and V set (less than or equal)
+            execute = (
+                (this->TestStatusFlag(ZERO)) ||
+                (this->TestStatusFlag(NEGATIVE) && !this->TestStatusFlag(OVERFLOW)) ||
+                (!this->TestStatusFlag(NEGATIVE) && this->TestStatusFlag(OVERFLOW))
+            );
+            break;
+        case ARM_CONDITION_AL:
+            execute = true;
+            break;
+        case ARM_CONDITION_NV:
+            execute = false;
+            break;
+        default:
+            DBG_PRINT((DBG_ERROR, "Unhandled condition flags: 0x%X\n", condition_flags));
+            execute = false;
+    }
+    return execute;
+}
+
 int
 ARM::Fetch()
 {
@@ -335,8 +417,11 @@ ARM::Execute()
 {
     this->m_state.pipeline.execute = this->m_state.pipeline.decode;
 
-    /* TODO: parse instruction and condition codes out
-     */
+    // Parse out condition flags and test whethe this instruction should be executed
+    uint32_t condition_flags = (this->m_state.pipeline.execute & ARM_CONDITION_MASK) >> 28;
+    if (!this->TestConditions(condition_flags)) {
+        return 0;
+    }
     
 
     /* TODO: figure out what the destination and source locations are and

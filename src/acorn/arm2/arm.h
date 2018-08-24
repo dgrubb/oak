@@ -42,6 +42,7 @@
 #define ARM_CONDITION_LE            0b1101  // Z set, or N set and V clear, or N clear and V set (less than or equal)
 #define ARM_CONDITION_AL            0b1110  // Always
 #define ARM_CONDITION_NV            0b1111  // Never
+#define ARM_CONDITION_MASK          0xF0000000
 
 using namespace std;
 
@@ -170,6 +171,8 @@ public:
     int Init();
     int ClearAllRegisters();
     int PrintStatus();
+    bool TestConditions(uint32_t condition_flags);
+    bool TestStatusFlag(ARM_StatusFlag flag);
 
     // Accessors for internal state
     int Register(uint32_t reg, uint32_t value);

@@ -15,7 +15,7 @@ CPPFLAGS = -O3 \
 		   -Werror \
 		   -pedantic \
 		   -fPIC \
-		   -std=c++11 \
+		   -std=c++14 \
 		   -Wno-vla \
 		   -Wno-return-type \
 		   -Wno-unused-parameter \
