@@ -357,7 +357,7 @@ ARM::TestConditions(uint32_t condition_flags)
             execute = (this->TestStatusFlag(CARRY) && !this->TestStatusFlag(ZERO));
             break;
         case ARM_CONDITION_LS:
-            execute = (!this->TestStatusFlag(CARRY) || this->TestStatusFlag(ZERO))
+            execute = (!this->TestStatusFlag(CARRY) || this->TestStatusFlag(ZERO));
             break;
         case ARM_CONDITION_GE:
             execute = (
@@ -421,11 +421,11 @@ ARM::Execute()
     if (!this->TestConditions(condition_flags)) {
         return 0;
     }
-    
 
     /* TODO: figure out what the destination and source locations are and
      * generate correct pointers
      */
+
 
     /* TODO: execute!
      */
