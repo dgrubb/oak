@@ -378,7 +378,6 @@ ARM::TestConditions(uint32_t condition_flags)
             );
             break;
         case ARM_CONDITION_LE:
-#define ARM_CONDITION_LE            0b1101  // Z set, or N set and V clear, or N clear and V set (less than or equal)
             execute = (
                 (this->TestStatusFlag(ZERO)) ||
                 (this->TestStatusFlag(NEGATIVE) && !this->TestStatusFlag(OVERFLOW)) ||
