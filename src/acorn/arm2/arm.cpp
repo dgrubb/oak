@@ -334,6 +334,25 @@ int
 ARM::Execute()
 {
     this->m_state.pipeline.execute = this->m_state.pipeline.decode;
+
+    /* TODO: parse instruction and condition codes out
+     */
+    
+
+    /* TODO: figure out what the destination and source locations are and
+     * generate correct pointers
+     */
+
+    /* TODO: execute!
+     */
+}
+
+int
+ARM::FlushPipeline()
+{
+    this->m_state.pipeline.fetch = 0;
+    this->m_state.pipeline.decode = 0;
+    this->m_state.pipeline.execute = 0;
 }
 
 int

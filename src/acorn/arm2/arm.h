@@ -26,6 +26,23 @@
 #define ARM_STATUS_MASK_PC          0x3FFFFFC
 #define ARM_WORD_BYTES_LENGTH       4
 
+#define ARM_CONDITION_EQ            0b0000  // EQ - Z set (equal)
+#define ARM_CONDITION_NE            0b0001  // NE - Z clear (not equal)
+#define ARM_CONDITION_CS            0b0010  // CS - C set (unsigned higher or lower)
+#define ARM_CONDITION_CC            0b0011  // CC - C clear (unsigned lower)
+#define ARM_CONDITION_MI            0b0100  // N set (negative)
+#define ARM_CONDITION_PL            0b0101  // N clear (positive or zero)
+#define ARM_CONDITION_VS            0b0110  // V set (overflow)
+#define ARM_CONDITION_VC            0b0111  // V clear (no overflow)
+#define ARM_CONDITION_HI            0b1000  // C set and Z clear (unsigned higher)
+#define ARM_CONDITION_LS            0b1001  // C clear or Z set (unsigned lower or same)
+#define ARM_CONDITION_GE            0b1010  // N set and V set, or N clear and V clear (greater or equal)
+#define ARM_CONDITION_LT            0b1011  // N set and V clear, or N clear and V set (less than)
+#define ARM_CONDITION_GT            0b1100  // Z clear and either N set or V set, or N clear and V clear (greater than)
+#define ARM_CONDITION_LE            0b1101  // Z set, or N set and V clear, or N clear and V set (less than or equal)
+#define ARM_CONDITION_AL            0b1110  // Always
+#define ARM_CONDITION_NV            0b1111  // Never
+
 using namespace std;
 
 // N.B: These need to be kept in the current order to correctly
@@ -170,6 +187,7 @@ public:
     int Execute();
     int UndefinedInstruction();
     int Exception();
+    int FlushPipeline();
 
     // Input/output signals
     int Reset();
