@@ -398,6 +398,15 @@ ARM::TestConditions(uint32_t condition_flags)
 }
 
 int
+TestOp(uint32_t instruction)
+{
+    uint32_t op = (ARM_OP_MASK & instruction) >> 24;
+    switch (op) {
+    
+    }
+}
+
+int
 ARM::Fetch()
 {
     uint32_t data;

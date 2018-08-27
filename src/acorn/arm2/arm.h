@@ -44,6 +44,11 @@
 #define ARM_CONDITION_NV            0b1111  // Never
 #define ARM_CONDITION_MASK          0xF0000000
 
+#define ARM_OP_MASK                 0x0E0000000
+#define ARM_OP_DATA_PROCESSING      0x0
+#define ARM_OP_MOVE_COMPARE         0x1
+
+
 using namespace std;
 
 // N.B: These need to be kept in the current order to correctly
@@ -235,6 +240,7 @@ public:
     int OpRSC(dst_reg dst, src_reg src, uint32_t op2);
     int OpTST(dst_reg dst, src_reg src, uint32_t op2);
     int OpTEQ(dst_reg dst, src_reg src, uint32_t op2);
+    // Move-compare operations
     int OpCMP(dst_reg dst, src_reg src, uint32_t op2);
     int OpCMN(dst_reg dst, src_reg src, uint32_t op2);
     int OpORR(dst_reg dst, src_reg src, uint32_t op2);
