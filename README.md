@@ -1,6 +1,6 @@
 # Oak
 
-![Archimedes logo](./docs/oak_logo.png)
+![Oak logo](./docs/oak_logo.png)
 
 ## What?
 
@@ -49,6 +49,8 @@ $ ./oak -d 4 -r <ROM FILE>
 		6 - Ultra verbose
 		99- Never
 ```
+
+![Oak launcher](./docs/oak-launcher.png)
 
 ## Configuration file
 
