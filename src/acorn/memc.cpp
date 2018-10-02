@@ -37,7 +37,6 @@ MEMC::Read(uint32_t address, uint32_t *value)
     // section 5.4.
     if (!this->m_configured) {
         a3000->ReadROM(address, value);
-        DBG_PRINT((DBG_INFO, "ROM test: address 0x%X, data 0x%X\n", address, *value));
     }
 }
 

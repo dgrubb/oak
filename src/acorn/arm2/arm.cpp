@@ -402,7 +402,7 @@ TestOp(uint32_t instruction)
 {
     uint32_t op = (ARM_OP_MASK & instruction) >> 24;
     switch (op) {
-    
+        
     }
 }
 

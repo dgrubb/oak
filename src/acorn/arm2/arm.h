@@ -44,10 +44,14 @@
 #define ARM_CONDITION_NV            0b1111  // Never
 #define ARM_CONDITION_MASK          0xF0000000
 
-#define ARM_OP_MASK                 0x0E0000000
-#define ARM_OP_DATA_PROCESSING      0x0
-#define ARM_OP_MOVE_COMPARE         0x1
-
+#define ARM_OP_MASK                     0x0E0000000
+#define ARM_OP_DATA_PROCESSING_IMM      0x0
+#define ARM_OP_MOVE_COMPARE_REG         0x1
+#define ARM_OP_DATA_PROCESSING_REG      0x2
+#define ARM_OP_MOVE_COMPARE_IMM         0x3
+#define ARM_OP_LOAD_STORE_POST_INC_IMM  0x4
+#define ARM_OP_LOAD_STORE_PRE_INC_IMM   0x5
+#define ARM_OP_LOAD_STORE_POST_DEC_REG  0x6
 
 using namespace std;
 
