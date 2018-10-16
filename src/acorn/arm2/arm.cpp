@@ -434,6 +434,7 @@ ARM::Execute()
     /* TODO: figure out what the destination and source locations are and
      * generate correct pointers
      */
+    
 
 
     /* TODO: execute!
@@ -465,6 +466,7 @@ ARM::ClockTick()
     // program instructions
     this->PC(&pc);
     this->PC(pc += ARM_WORD_BYTES_LENGTH);
+    this->AddressBus(pc);
 }
 
 int
