@@ -47,6 +47,16 @@
 #define ARM_OP_MASK                     0x0E0000000
 #define ARM_OP_WITH_CODE_MASK           0x0FE000000
 
+#define ARM_OP_TYPE_DATA_PROCESSING_REG     0x0
+#define ARM_OP_TYPE_MOVE_REG                0x1
+#define ARM_OP_TYPE_DATA_PROCESSING_IMM     0x2
+#define ARM_OP_TYPE_MOVE_IMM                0x3
+#define ARM_OP_TYPE_LOAD_STORE_POST_IMM     0x4
+#define ARM_OP_TYPE_LOAD_STORE_PRE_IMM      0x5
+#define ARM_OP_TYPE_LOAD_STORE_POST_REG     0x6
+#define ARM_OP_TYPE_LOAD_STORE_PRE_REG      0x7
+#define ARM_OP_TYPE_MULTI_LOAD_STORE_POST   0x8
+
 using namespace std;
 
 // N.B: These need to be kept in the current order to correctly
@@ -176,6 +186,7 @@ public:
     int PrintStatus();
     bool TestConditions(uint32_t condition_flags);
     bool TestStatusFlag(ARM_StatusFlag flag);
+    int ParseOp(uint32_t instruction);
 
     // Accessors for internal state
     int Register(uint32_t reg, uint32_t value);

@@ -398,11 +398,43 @@ ARM::TestConditions(uint32_t condition_flags)
 }
 
 int
-TestOp(uint32_t instruction)
+ParseOp(uint32_t instruction)
 {
-    uint32_t op = (ARM_OP_MASK & instruction) >> 24;
+    uint32_t op = (ARM_OP_MASK & instruction) >> 23;
     switch (op) {
-        
+        case 0x0:
+            break;
+        case 0x1:
+            break;
+        case 0x2:
+            break;
+        case 0x3:
+            break;
+        case 0x4:
+            break;
+        case 0x5:
+            break;
+        case 0x6:
+            break;
+        case 0x7:
+            break;
+        case 0x8:
+            break;
+        case 0x9:
+            break;
+        case 0xa:
+            break;
+        case 0xb:
+            break;
+        case 0xc:
+            break;
+        case 0xd:
+            break;
+        case 0xe:
+            break;
+        default:
+            DBG_PRINT((DBG_ERROR, "Unrecognised OP: 0x%X\n", op));
+            // TODO: trap?
     }
 }
 
@@ -426,7 +458,7 @@ ARM::Execute()
     this->m_state.pipeline.execute = this->m_state.pipeline.decode;
 
     // Parse out condition flags and test whethe this instruction should be executed
-    uint32_t condition_flags = (this->m_state.pipeline.execute & ARM_CONDITION_MASK) >> 28;
+    uint32_t condition_flags = (this->m_state.pipeline.execute & ARM_CONDITION_MASK) >> 27;
     if (!this->TestConditions(condition_flags)) {
         return 0;
     }
