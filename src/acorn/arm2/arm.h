@@ -56,6 +56,13 @@
 #define ARM_OP_TYPE_LOAD_STORE_POST_REG     0x6
 #define ARM_OP_TYPE_LOAD_STORE_PRE_REG      0x7
 #define ARM_OP_TYPE_MULTI_LOAD_STORE_POST   0x8
+#define ARM_OP_TYPE_MULTI_LOAD_STORE_PRE    0x9
+#define ARM_OP_TYPE_BRANCH                  0xA
+#define ARM_OP_TYPE_BRANCH_LINK             0xB
+#define ARM_OP_TYPE_COPRO_LOAD_STORE_POST   0xC
+#define ARM_OP_TYPE_COPRO_LOAD_STORE_PRE    0xD
+#define ARM_OP_TYPE_COPRO_DATA_PROCESSING   0xE
+#define ARM_OP_TYPE_SWI                     0xF
 
 using namespace std;
 

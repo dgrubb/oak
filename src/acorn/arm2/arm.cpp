@@ -402,35 +402,35 @@ ParseOp(uint32_t instruction)
 {
     uint32_t op = (ARM_OP_MASK & instruction) >> 23;
     switch (op) {
-        case 0x0:
+        case ARM_OP_TYPE_DATA_PROCESSING_REG:
             break;
-        case 0x1:
+        case ARM_OP_TYPE_MOVE_REG:
             break;
-        case 0x2:
+        case ARM_OP_TYPE_DATA_PROCESSING_IMM:
             break;
-        case 0x3:
+        case ARM_OP_TYPE_MOVE_IMM:
             break;
-        case 0x4:
+        case ARM_OP_TYPE_LOAD_STORE_POST_IMM:
             break;
-        case 0x5:
+        case ARM_OP_TYPE_LOAD_STORE_PRE_IMM:
             break;
-        case 0x6:
+        case ARM_OP_TYPE_LOAD_STORE_POST_REG:
             break;
-        case 0x7:
+        case ARM_OP_TYPE_LOAD_STORE_PRE_REG:
             break;
-        case 0x8:
+        case ARM_OP_TYPE_MULTI_LOAD_STORE_POST:
             break;
-        case 0x9:
+        case ARM_OP_TYPE_MULTI_LOAD_STORE_PRE:
             break;
-        case 0xa:
+        case ARM_OP_TYPE_BRANCH:
             break;
-        case 0xb:
+        case ARM_OP_TYPE_BRANCH_LINK:
             break;
-        case 0xc:
+        case ARM_OP_TYPE_COPRO_LOAD_STORE_POST:
             break;
-        case 0xd:
+        case ARM_OP_TYPE_COPRO_LOAD_STORE_PRE:
             break;
-        case 0xe:
+        case ARM_OP_TYPE_SWI:
             break;
         default:
             DBG_PRINT((DBG_ERROR, "Unrecognised OP: 0x%X\n", op));
