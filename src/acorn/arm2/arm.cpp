@@ -397,16 +397,18 @@ ARM::TestConditions(uint32_t condition_flags)
     return execute;
 }
 
-ARM_Op
-ParseOp(uint32_t instruction)
+ARM_Op*
+ARM::ParseOp(uint32_t instruction)
 {
+    ARM_Op_Instruction instr = ARM_OP_INSTRUCTION_UNDEFINED;
     uint32_t op = (ARM_OP_MASK & instruction) >> 23;
     switch (op) {
         case ARM_OP_TYPE_DATA_PROCESSING_REG:
+            // Intentional fall-through
+        case ARM_OP_TYPE_DATA_PROCESSING_IMM:
+            instr = ARM_OP_INSTRUCTION_DATA_PROCESSING;
             break;
         case ARM_OP_TYPE_MOVE_REG:
-            break;
-        case ARM_OP_TYPE_DATA_PROCESSING_IMM:
             break;
         case ARM_OP_TYPE_MOVE_IMM:
             break;
@@ -423,8 +425,9 @@ ParseOp(uint32_t instruction)
         case ARM_OP_TYPE_MULTI_LOAD_STORE_PRE:
             break;
         case ARM_OP_TYPE_BRANCH:
-            break;
+            // Intentional fall-through
         case ARM_OP_TYPE_BRANCH_LINK:
+            instr = ARM_OP_INSTRUCTION_BRANCH;
             break;
         case ARM_OP_TYPE_COPRO_LOAD_STORE_POST:
             break;
@@ -436,6 +439,7 @@ ParseOp(uint32_t instruction)
             DBG_PRINT((DBG_ERROR, "Unrecognised OP: 0x%X\n", op));
             // TODO: trap?
     }
+    return new ARM_Op(this, instr, instruction);
 }
 
 int
@@ -635,9 +639,11 @@ ARM_Op::execute()
 
 }
 
-ARM_Op::ARM_Op(ARM_Op_Instruction instruction)
+ARM_Op::ARM_Op(ARM* arm, ARM_Op_Instruction instruction, uint32_t instruction_word)
 {
-    this->instruction = instruction;
+    this->m_arm = arm;
+    this->m_instruction_word = instruction_word;
+    this->m_instruction = instruction;
 }
 
 ARM_Op::~ARM_Op()

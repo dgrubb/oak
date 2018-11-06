@@ -194,27 +194,7 @@ typedef uint32_t (*dst_reg)();
 typedef int (*src_reg)(uint32_t);
 typedef int (*opcode)(dst_reg, src_reg, uint32_t);
 
-class ARM_Op {
-
-public:
-
-    // Constructors and destructors
-    ARM_Op(ARM_Op_Instruction instruction);
-    ~ARM_Op();
-
-    // Methods
-    int execute();
-
-private:
-
-    // Data
-    ARM_Op_Type type;
-    ARM_Op_Instruction instruction;
-    dst_reg destination;
-    src_reg source;
-    bool immediate;
-    bool set_conditions;
-};
+class ARM_Op;
 
 class ARM {
 
@@ -230,7 +210,7 @@ public:
     int PrintStatus();
     bool TestConditions(uint32_t condition_flags);
     bool TestStatusFlag(ARM_StatusFlag flag);
-    ARM_Op ParseOp(uint32_t instruction);
+    ARM_Op* ParseOp(uint32_t instruction);
 
     // Accessors for internal state
     int Register(uint32_t reg, uint32_t value);
@@ -322,6 +302,30 @@ private:
 
     // Methods
     int GetShadowRegister(uint32_t reg[], ARM_Mode *mode);
+};
+
+class ARM_Op {
+
+public:
+
+    // Constructors and destructors
+    ARM_Op(ARM* arm, ARM_Op_Instruction instruction, uint32_t insertion_word);
+    ~ARM_Op();
+
+    // Methods
+    int execute();
+
+private:
+
+    // Data
+    ARM* m_arm;
+    ARM_Op_Type m_type;
+    ARM_Op_Instruction m_instruction;
+    uint32_t m_instruction_word;
+    dst_reg m_destination;
+    src_reg m_source;
+    bool m_immediate;
+    bool m_set_conditions;
 };
 
 #endif // _ARM_H
