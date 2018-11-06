@@ -397,7 +397,7 @@ ARM::TestConditions(uint32_t condition_flags)
     return execute;
 }
 
-int
+ARM_Op
 ParseOp(uint32_t instruction)
 {
     uint32_t op = (ARM_OP_MASK & instruction) >> 23;
@@ -626,5 +626,20 @@ ARM::ARM()
 }
 
 ARM::~ARM()
+{
+}
+
+int
+ARM_Op::execute()
+{
+
+}
+
+ARM_Op::ARM_Op(ARM_Op_Instruction instruction)
+{
+    this->instruction = instruction;
+}
+
+ARM_Op::~ARM_Op()
 {
 }

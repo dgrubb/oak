@@ -47,24 +47,39 @@
 #define ARM_OP_MASK                     0x0E0000000
 #define ARM_OP_WITH_CODE_MASK           0x0FE000000
 
-#define ARM_OP_TYPE_DATA_PROCESSING_REG     0x0
-#define ARM_OP_TYPE_MOVE_REG                0x1
-#define ARM_OP_TYPE_DATA_PROCESSING_IMM     0x2
-#define ARM_OP_TYPE_MOVE_IMM                0x3
-#define ARM_OP_TYPE_LOAD_STORE_POST_IMM     0x4
-#define ARM_OP_TYPE_LOAD_STORE_PRE_IMM      0x5
-#define ARM_OP_TYPE_LOAD_STORE_POST_REG     0x6
-#define ARM_OP_TYPE_LOAD_STORE_PRE_REG      0x7
-#define ARM_OP_TYPE_MULTI_LOAD_STORE_POST   0x8
-#define ARM_OP_TYPE_MULTI_LOAD_STORE_PRE    0x9
-#define ARM_OP_TYPE_BRANCH                  0xA
-#define ARM_OP_TYPE_BRANCH_LINK             0xB
-#define ARM_OP_TYPE_COPRO_LOAD_STORE_POST   0xC
-#define ARM_OP_TYPE_COPRO_LOAD_STORE_PRE    0xD
-#define ARM_OP_TYPE_COPRO_DATA_PROCESSING   0xE
-#define ARM_OP_TYPE_SWI                     0xF
-
 using namespace std;
+
+enum ARM_Op_Instruction {
+    ARM_OP_INSTRUCTION_DATA_PROCESSING = 0,
+    ARM_OP_INSTRUCTION_BRANCH,
+    ARM_OP_INSTRUCTION_MULTIPLY,
+    ARM_OP_INSTRUCTION_SINGLE_DATA_TRANSFER,
+    ARM_OP_INSTRUCTION_BLOCK_DATA_TRANSFER,
+    ARM_OP_INSTRUCTION_SOFTWARE_INTERRUPT,
+    ARM_OP_INSTRUCTION_COPROCESSOR_DATA_OP,
+    ARM_OP_INSTRUCTION_COPROCESSOR_DATA_TRANSFER,
+    ARM_OP_INSTRUCTION_COPROCESSOR_REGISTER_TRANSFER,
+    ARM_OP_INSTRUCTION_UNDEFINED
+};
+
+enum ARM_Op_Type {
+    ARM_OP_TYPE_DATA_PROCESSING_REG   = 0x0,
+    ARM_OP_TYPE_MOVE_REG              = 0x1,
+    ARM_OP_TYPE_DATA_PROCESSING_IMM   = 0x2,
+    ARM_OP_TYPE_MOVE_IMM              = 0x3,
+    ARM_OP_TYPE_LOAD_STORE_POST_IMM   = 0x4,
+    ARM_OP_TYPE_LOAD_STORE_PRE_IMM    = 0x5,
+    ARM_OP_TYPE_LOAD_STORE_POST_REG   = 0x6,
+    ARM_OP_TYPE_LOAD_STORE_PRE_REG    = 0x7,
+    ARM_OP_TYPE_MULTI_LOAD_STORE_POST = 0x8,
+    ARM_OP_TYPE_MULTI_LOAD_STORE_PRE  = 0x9,
+    ARM_OP_TYPE_BRANCH                = 0xA,
+    ARM_OP_TYPE_BRANCH_LINK           = 0xB,
+    ARM_OP_TYPE_COPRO_LOAD_STORE_POST = 0xC,
+    ARM_OP_TYPE_COPRO_LOAD_STORE_PRE  = 0xD,
+    ARM_OP_TYPE_COPRO_DATA_PROCESSING = 0xE,
+    ARM_OP_TYPE_SWI                   = 0xF
+};
 
 // N.B: These need to be kept in the current order to correctly
 // derive whether the modes have shadow registers, see GetShadowRegister()
@@ -179,6 +194,28 @@ typedef uint32_t (*dst_reg)();
 typedef int (*src_reg)(uint32_t);
 typedef int (*opcode)(dst_reg, src_reg, uint32_t);
 
+class ARM_Op {
+
+public:
+
+    // Constructors and destructors
+    ARM_Op(ARM_Op_Instruction instruction);
+    ~ARM_Op();
+
+    // Methods
+    int execute();
+
+private:
+
+    // Data
+    ARM_Op_Type type;
+    ARM_Op_Instruction instruction;
+    dst_reg destination;
+    src_reg source;
+    bool immediate;
+    bool set_conditions;
+};
+
 class ARM {
 
 public:
@@ -193,7 +230,7 @@ public:
     int PrintStatus();
     bool TestConditions(uint32_t condition_flags);
     bool TestStatusFlag(ARM_StatusFlag flag);
-    int ParseOp(uint32_t instruction);
+    ARM_Op ParseOp(uint32_t instruction);
 
     // Accessors for internal state
     int Register(uint32_t reg, uint32_t value);
