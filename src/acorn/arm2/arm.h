@@ -81,6 +81,25 @@ enum ARM_Op_Type {
     ARM_OP_TYPE_SWI                   = 0xF
 };
 
+enum ARM_Op_Data_Processing {
+    ARM_OP_DATA_PROCESSING_AND = 0x0,
+    ARM_OP_DATA_PROCESSING_EOR,
+    ARM_OP_DATA_PROCESSING_SUB,
+    ARM_OP_DATA_PROCESSING_RSB,
+    ARM_OP_DATA_PROCESSING_ADD,
+    ARM_OP_DATA_PROCESSING_ADC,
+    ARM_OP_DATA_PROCESSING_SBC,
+    ARM_OP_DATA_PROCESSING_RSC,
+    ARM_OP_DATA_PROCESSING_TST,
+    ARM_OP_DATA_PROCESSING_TEQ,
+    ARM_OP_DATA_PROCESSING_CMP,
+    ARM_OP_DATA_PROCESSING_CMN,
+    ARM_OP_DATA_PROCESSING_ORR,
+    ARM_OP_DATA_PROCESSING_MOV,
+    ARM_OP_DATA_PROCESSING_BIC,
+    ARM_OP_DATA_PROCESSING_MVN
+};
+
 // N.B: These need to be kept in the current order to correctly
 // derive whether the modes have shadow registers, see GetShadowRegister()
 enum ARM_Mode {
@@ -313,7 +332,7 @@ public:
     ~ARM_Op();
 
     // Methods
-    int execute();
+    int Execute();
 
 private:
 
@@ -326,6 +345,9 @@ private:
     src_reg m_source;
     bool m_immediate;
     bool m_set_conditions;
+
+    // Private methods, mostly op-code implementation
+    int DataProcessing();
 };
 
 #endif // _ARM_H

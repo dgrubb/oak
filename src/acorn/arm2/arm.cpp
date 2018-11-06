@@ -467,14 +467,17 @@ ARM::Execute()
         return 0;
     }
 
-    /* TODO: figure out what the destination and source locations are and
-     * generate correct pointers
-     */
-    
+    // Construct a temporary object to represent the opcode, which hides all the 
+    // gory details of flags and conditions
+    ARM_Op* op = this->ParseOp(this->m_state.pipeline.execute);
+    if (NULL == op) {
+        DBG_PRINT((DBG_ERROR, "Unrecognised op-code!\n"));
+        return -1;
+    }
 
-
-    /* TODO: execute!
-     */
+    op->Execute();
+    delete op;
+    return 0;
 }
 
 int
@@ -634,9 +637,49 @@ ARM::~ARM()
 }
 
 int
-ARM_Op::execute()
+ARM_Op::Execute()
 {
+    
+}
 
+int
+ARM_Op::DataProcessing()
+{
+    uint8_t op = (this->m_instruction_word & ARM_OP_MASK) >> 20;
+    switch (op) {
+        case ARM_OP_DATA_PROCESSING_AND:
+            break;
+        case ARM_OP_DATA_PROCESSING_EOR:
+            break;
+        case ARM_OP_DATA_PROCESSING_SUB:
+            break;
+        case ARM_OP_DATA_PROCESSING_RSB:
+            break;
+        case ARM_OP_DATA_PROCESSING_ADD:
+            break;
+        case ARM_OP_DATA_PROCESSING_ADC:
+            break;
+        case ARM_OP_DATA_PROCESSING_SBC:
+            break;
+        case ARM_OP_DATA_PROCESSING_RSC:
+            break;
+        case ARM_OP_DATA_PROCESSING_TST:
+            break;
+        case ARM_OP_DATA_PROCESSING_TEQ:
+            break;
+        case ARM_OP_DATA_PROCESSING_CMP:
+            break;
+        case ARM_OP_DATA_PROCESSING_CMN:
+            break;
+        case ARM_OP_DATA_PROCESSING_ORR:
+            break;
+        case ARM_OP_DATA_PROCESSING_MOV:
+            break;
+        case ARM_OP_DATA_PROCESSING_BIC:
+            break;
+        case ARM_OP_DATA_PROCESSING_MVN:
+            break;
+    }
 }
 
 ARM_Op::ARM_Op(ARM* arm, ARM_Op_Instruction instruction, uint32_t instruction_word)
@@ -648,4 +691,5 @@ ARM_Op::ARM_Op(ARM* arm, ARM_Op_Instruction instruction, uint32_t instruction_wo
 
 ARM_Op::~ARM_Op()
 {
+    this->m_arm = NULL;
 }
