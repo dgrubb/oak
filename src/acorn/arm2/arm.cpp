@@ -53,8 +53,45 @@ const char *ARM_StatusFlagStrings[] = {
 };
 
 int
+ARM::InitRegs()
+{
+    destination_regs[0] = &ARM::r0;
+    destination_regs[1] = &ARM::r1;
+    destination_regs[2] = &ARM::r2;
+    destination_regs[3] = &ARM::r3;
+    destination_regs[4] = &ARM::r4;
+    destination_regs[5] = &ARM::r5;
+    destination_regs[6] = &ARM::r6;
+    destination_regs[7] = &ARM::r7;
+    destination_regs[8] = &ARM::r8;
+    destination_regs[9] = &ARM::r9;
+    destination_regs[10] = &ARM::r10;
+    destination_regs[11] = &ARM::r11;
+    destination_regs[12] = &ARM::r12;
+    destination_regs[13] = &ARM::r13;
+    destination_regs[14] = &ARM::r14;
+
+    source_regs[0] = &ARM::r0;
+    source_regs[1] = &ARM::r1;
+    source_regs[2] = &ARM::r2;
+    source_regs[3] = &ARM::r3;
+    source_regs[4] = &ARM::r4;
+    source_regs[5] = &ARM::r5;
+    source_regs[6] = &ARM::r6;
+    source_regs[7] = &ARM::r7;
+    source_regs[8] = &ARM::r8;
+    source_regs[9] = &ARM::r9;
+    source_regs[10] = &ARM::r10;
+    source_regs[11] = &ARM::r11;
+    source_regs[12] = &ARM::r12;
+    source_regs[13] = &ARM::r13;
+    source_regs[14] = &ARM::r14;
+}
+
+int
 ARM::Init()
 {
+    this->InitRegs();
     this->ClearAllRegisters();
     this->Reset();
 }
@@ -397,7 +434,7 @@ ARM::TestConditions(uint32_t condition_flags)
     return execute;
 }
 
-ARM_Op*
+ARM_Op_Instruction
 ARM::ParseOp(uint32_t instruction)
 {
     ARM_Op_Instruction instr = ARM_OP_INSTRUCTION_UNDEFINED;
@@ -439,7 +476,50 @@ ARM::ParseOp(uint32_t instruction)
             DBG_PRINT((DBG_ERROR, "Unrecognised OP: 0x%X\n", op));
             // TODO: trap?
     }
-    return new ARM_Op(this, instr, instruction);
+    return instr;
+}
+
+int
+ARM::DataProcessingOp(uint32_t instruction)
+{
+    uint8_t op = (instruction & ARM_OP_MASK) >> 20;
+    switch (op) {
+        case ARM_OP_DATA_PROCESSING_AND:
+            //this->m_arm->OpAND();
+            //this->m_arm->OpAND(static_cast<uint32_t (ARM::*)(void)>(&this->m_arm->r0), static_cast<int (ARM::*)(uint32_t)>(&this->m_arm->r1), 0);
+            //this->m_arm->OpAND(static_cast<uint32_t (dst_reg)(void)>(&this->m_arm->r0), static_cast<int (ARM::*)(uint32_t)>(&this->m_arm->r1), 0);
+            break;
+        case ARM_OP_DATA_PROCESSING_EOR:
+            break;
+        case ARM_OP_DATA_PROCESSING_SUB:
+            break;
+        case ARM_OP_DATA_PROCESSING_RSB:
+            break;
+        case ARM_OP_DATA_PROCESSING_ADD:
+            break;
+        case ARM_OP_DATA_PROCESSING_ADC:
+            break;
+        case ARM_OP_DATA_PROCESSING_SBC:
+            break;
+        case ARM_OP_DATA_PROCESSING_RSC:
+            break;
+        case ARM_OP_DATA_PROCESSING_TST:
+            break;
+        case ARM_OP_DATA_PROCESSING_TEQ:
+            break;
+        case ARM_OP_DATA_PROCESSING_CMP:
+            break;
+        case ARM_OP_DATA_PROCESSING_CMN:
+            break;
+        case ARM_OP_DATA_PROCESSING_ORR:
+            break;
+        case ARM_OP_DATA_PROCESSING_MOV:
+            break;
+        case ARM_OP_DATA_PROCESSING_BIC:
+            break;
+        case ARM_OP_DATA_PROCESSING_MVN:
+            break;
+    }
 }
 
 int
@@ -467,16 +547,17 @@ ARM::Execute()
         return 0;
     }
 
-    // Construct a temporary object to represent the opcode, which hides all the 
+    // Construct a temporary object to represent the opcode, which hides all the
     // gory details of flags and conditions
-    ARM_Op* op = this->ParseOp(this->m_state.pipeline.execute);
-    if (NULL == op) {
-        DBG_PRINT((DBG_ERROR, "Unrecognised op-code!\n"));
-        return -1;
+    ARM_Op_Instruction op = this->ParseOp(this->m_state.pipeline.execute);
+
+    switch (op) {
+        case ARM_OP_INSTRUCTION_DATA_PROCESSING:
+            this->DataProcessingOp(this->m_state.pipeline.execute);
+            break;
+        default: ;
     }
 
-    op->Execute();
-    delete op;
     return 0;
 }
 
@@ -636,60 +717,4 @@ ARM::~ARM()
 {
 }
 
-int
-ARM_Op::Execute()
-{
-    
-}
 
-int
-ARM_Op::DataProcessing()
-{
-    uint8_t op = (this->m_instruction_word & ARM_OP_MASK) >> 20;
-    switch (op) {
-        case ARM_OP_DATA_PROCESSING_AND:
-            break;
-        case ARM_OP_DATA_PROCESSING_EOR:
-            break;
-        case ARM_OP_DATA_PROCESSING_SUB:
-            break;
-        case ARM_OP_DATA_PROCESSING_RSB:
-            break;
-        case ARM_OP_DATA_PROCESSING_ADD:
-            break;
-        case ARM_OP_DATA_PROCESSING_ADC:
-            break;
-        case ARM_OP_DATA_PROCESSING_SBC:
-            break;
-        case ARM_OP_DATA_PROCESSING_RSC:
-            break;
-        case ARM_OP_DATA_PROCESSING_TST:
-            break;
-        case ARM_OP_DATA_PROCESSING_TEQ:
-            break;
-        case ARM_OP_DATA_PROCESSING_CMP:
-            break;
-        case ARM_OP_DATA_PROCESSING_CMN:
-            break;
-        case ARM_OP_DATA_PROCESSING_ORR:
-            break;
-        case ARM_OP_DATA_PROCESSING_MOV:
-            break;
-        case ARM_OP_DATA_PROCESSING_BIC:
-            break;
-        case ARM_OP_DATA_PROCESSING_MVN:
-            break;
-    }
-}
-
-ARM_Op::ARM_Op(ARM* arm, ARM_Op_Instruction instruction, uint32_t instruction_word)
-{
-    this->m_arm = arm;
-    this->m_instruction_word = instruction_word;
-    this->m_instruction = instruction;
-}
-
-ARM_Op::~ARM_Op()
-{
-    this->m_arm = NULL;
-}

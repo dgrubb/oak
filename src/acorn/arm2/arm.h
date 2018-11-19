@@ -209,11 +209,11 @@ typedef struct {
     ARM_Pipeline pipeline;
 } ARM_State;
 
-typedef uint32_t (*dst_reg)();
-typedef int (*src_reg)(uint32_t);
-typedef int (*opcode)(dst_reg, src_reg, uint32_t);
+class ARM;
 
-class ARM_Op;
+typedef uint32_t (ARM::*src_reg)();
+typedef int (ARM::*dst_reg)(uint32_t);
+typedef int (*opcode)(dst_reg, src_reg, uint32_t);
 
 class ARM {
 
@@ -229,7 +229,7 @@ public:
     int PrintStatus();
     bool TestConditions(uint32_t condition_flags);
     bool TestStatusFlag(ARM_StatusFlag flag);
-    ARM_Op* ParseOp(uint32_t instruction);
+    ARM_Op_Instruction ParseOp(uint32_t instruction);
 
     // Accessors for internal state
     int Register(uint32_t reg, uint32_t value);
@@ -279,6 +279,19 @@ public:
     uint32_t r14(); int r14(uint32_t value);
     uint32_t cpsr(); int cpsr(uint32_t value);
 
+private:
+
+    // Data
+    ARM_State m_state;
+    opcode *m_ISA_data_processing[ALL_DATA_PROCESSING];
+    dst_reg destination_regs[CPSR];
+    src_reg source_regs[CPSR];
+
+    // Methods
+    int InitRegs();
+    int GetShadowRegister(uint32_t reg[], ARM_Mode *mode);
+    int DataProcessingOp(uint32_t instruction);
+
     // Op-codes
 
     // Data processing operations
@@ -311,43 +324,6 @@ public:
     // Block data transfer
     int OpLDM(dst_reg dst, src_reg src, uint32_t op2);
     int OpSTM(dst_reg dst, src_reg src, uint32_t op2);
-
-
-private:
-
-    // Data
-    ARM_State m_state;
-    opcode *m_ISA_data_processing[ALL_DATA_PROCESSING];
-
-    // Methods
-    int GetShadowRegister(uint32_t reg[], ARM_Mode *mode);
-};
-
-class ARM_Op {
-
-public:
-
-    // Constructors and destructors
-    ARM_Op(ARM* arm, ARM_Op_Instruction instruction, uint32_t insertion_word);
-    ~ARM_Op();
-
-    // Methods
-    int Execute();
-
-private:
-
-    // Data
-    ARM* m_arm;
-    ARM_Op_Type m_type;
-    ARM_Op_Instruction m_instruction;
-    uint32_t m_instruction_word;
-    dst_reg m_destination;
-    src_reg m_source;
-    bool m_immediate;
-    bool m_set_conditions;
-
-    // Private methods, mostly op-code implementation
-    int DataProcessing();
 };
 
 #endif // _ARM_H
