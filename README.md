@@ -68,11 +68,11 @@ log_level = 4;               // See Usage, INFO by default. Overriden if user in
 
 # Requirements
 
-The usual tooling for compiling C++ under Linux and the SDL development libraries. Under Debian/Ubuntu: 
+The usual tooling for compiling C under Linux and the SDL development libraries. Under Debian/Ubuntu: 
 
 ```
-$ sudo apt-get install g++ automake build-essential libsdl2-2.0-0 libsdl2-dev 
-libsdl2-image-2.0-0 libsdl2-image-dev libconfig++-dev
+$ sudo apt-get install gcc automake build-essential libsdl2-2.0-0 libsdl2-dev 
+libsdl2-image-2.0-0 libsdl2-image-dev libconfig-dev
 ```
 
 ## Compilation

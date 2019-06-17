@@ -1,7 +1,7 @@
 /*
  * File: oak.h
  * Author: dgrubb
- * Date:24/04/2018
+ * Date: 05/03/2019
  */
 
 #define PROGRAM_NAME "Oak"
@@ -23,8 +23,6 @@
 "\t\t6 - Ultra verbose\n" \
 "\t\t99- Never\n"
 
-void init_interfaces();
-void deinit_interfaces();
 int parse_arguments(int argc, char* argv[]);
 void print_banner();
 void print_usage();

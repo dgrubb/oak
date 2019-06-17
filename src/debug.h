@@ -1,6 +1,8 @@
 #ifndef _DEBUG_H
 #define _DEBUG_H
 
+#include <stdbool.h>
+
 int extern DBG_DebugLevel;
 
 #define DEBUG_MAX_STRING 2048
@@ -28,11 +30,11 @@ int extern DBG_DebugLevel;
 
 #define DBG_PRINT(x) debug_print x
 
-int get_debug_level(int &dbg_level);
+int get_debug_level(int *dbg_level);
 int set_debug_level(int dbg_level);
 int validate_debug_level(int dbg_level);
 void debug_print(bool enable, int dbg_level, const char *file,
         int line, const char *text, ...);
 const char * get_debug_level_string(int dbg_level);
 
-#endif // _DEBUG_H
+#endif /* _DEBUG_H */

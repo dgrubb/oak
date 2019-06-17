@@ -1,49 +1,42 @@
 /*
  * File: state.h
  * Author: dgrubb
- * Date:25/04/2018
+ * Date: 05/03/2010
  */
 
 #ifndef _STATE_H
 #define _STATE_H
 
-#include "acorn/A3000.h"
-#include "display.h"
-#include "settings.h"
-#include "timers.h"
+#include <stdbool.h>
+#include <stdint.h>
 
-using namespace std;
+#define DEFAULT_CONFIG_FILE "./oak.cfg"
+#define DEFAULT_ROM_FILE    "./riscos-3.71.rom"
+#define STATE_MAX_PATH_LEN  200
+#define A3000_CPU_FREQUENCY 2000000
+#define A3000_RAM_SIZE      8000000
 
-class State {
+/* Application state and information */
+int state_set_config_file(const char *config_file);
+int state_get_config_file(char *config_file);
+int state_set_ROM_file(const char *rom_file);
+int state_get_ROM_file(char *rom_file);
+int state_set_ROM_file_arg_override(bool arg_override);
+int state_get_ROM_file_arg_override(bool *arg_override);
+int state_set_debug_arg_override(bool arg_override);
+int state_get_debug_arg_override(bool *arg_override);
+int state_set_fullscreen(bool fullscreen);
+int state_get_fullscreen(bool *fullscreen);
+int state_set_minimised(bool minimised);
+int state_get_mouse_focus(bool *mouse_focus);
+int state_set_mouse_focus(bool mouse_focus);
+int state_get_keyboard_focus(bool *keyboard_focus);
+int state_set_keyboard_focus(bool keyboard_focus);
 
-public:
+/* Emulation information */
+int state_set_ram_size(uint32_t ram_size);
+int state_get_ram_size(uint32_t *ram_size);
+int state_set_cpu_frequency(uint32_t cpu_frequency);
+int state_get_cpu_frequency(uint32_t *cpu_frequency);
 
-    // Constructors and destructors
-    static State *Interfaces();
-    ~State();
-
-    // Methods
-    int SetConfigFile(string config_file);
-    int GetConfigFile(string *config_file);
-    int SetCPUFrequency(int cpu_frequency);
-    int GetCPUFrequency(int *cpu_frequency);
-    int SetDisplayPtr(Display *display);
-    int GetDisplayPtr(Display * &display);
-    int SetRAMSize(int ram_size);
-    int GetRAMSize(int *ram_size);
-    int SetROMFile(string rom_file);
-    int GetROMFile(string *rom_file);
-    int SetTimersPtr(Timers *timers);
-    int GetTimersPtr(Timers * &timers);
-    int SetA3000Ptr(A3000 *a3000);
-    int GetA3000Ptr(A3000 * &a3000);
-
-private:
-
-    State(){};
-    State(State const&){};
-    State& operator=(State const&){};
-    static State *m_pInterfaces;
-};
-
-#endif // _STATE_H
+#endif /* _STATE_H */

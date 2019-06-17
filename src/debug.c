@@ -1,7 +1,6 @@
-#include <string>
-#include <cstdarg>
-#include <string.h>
+#include <stdarg.h>
 #include <stdio.h>
+#include <string.h>
 #include "debug.h"
 
 int DBG_DebugLevel = DBG_LVL_DEFAULT;
@@ -14,9 +13,9 @@ set_debug_level(int dbg_level)
 }
 
 int
-get_debug_level(int &dbg_level)
+get_debug_level(int *dbg_level)
 {
-    dbg_level = DBG_DebugLevel;
+    *dbg_level = DBG_DebugLevel;
     return 0;
 }
 

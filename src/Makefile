@@ -1,25 +1,15 @@
 # File: Makefile
 # Author: dgrubb
-# Date: 24/04/2018
+# Date: 05/03/2019
 
 # Aliases
 CC  = gcc
 CPP = g++
 RM  = rm -rf
 
-# Compilation flags
-CPPFLAGS = -O3 \
+CFLAGS = -O3 \
 		   -g \
 		   -Wall \
-		   -Wextra \
-		   -Werror \
-		   -pedantic \
-		   -fPIC \
-		   -std=c++14 \
-		   -Wno-vla \
-		   -Wno-return-type \
-		   -Wno-unused-parameter \
-		   -Wno-missing-field-initializers
 
 # Include directories
 INC = -I./ \
@@ -27,23 +17,22 @@ INC = -I./ \
 	  -I./acorn/arm2
 
 # Source files
-SRCS = oak.cpp \
-	acorn/A3000.cpp \
-	acorn/ioc.cpp \
-	acorn/memc.cpp \
-	acorn/vidc.cpp \
-	acorn/arm2/arm.cpp \
-	acorn/arm2/arm_op.cpp \
-	display.cpp \
-	lock.cpp \
-	settings.cpp \
-	state.cpp \
-	timers.cpp \
-	debug.cpp
+SRCS = oak.c \
+	display.c \
+	settings.c \
+	state.c \
+	util.c \
+	acorn/A3000.c \
+	acorn/ioc.c \
+	acorn/memc.c \
+	acorn/vidc.c \
+	acorn/arm2/arm2.c \
+	acorn/arm2/arm_op.c \
+	debug.c
 
-OBJS=$(subst .cpp,.o,$(SRCS))
+OBJS=$(subst .c,.o,$(SRCS))
 
-LDFLAGS=-lconfig++ \
+LDFLAGS=-lconfig \
 		-lrt \
 		-lpthread \
 		-lSDL2 \
@@ -56,10 +45,10 @@ LDFLAGS=-lconfig++ \
 all: oak
 
 oak: $(OBJS)
-	$(CPP) $(INC) -o oak $(OBJS) $(LDFLAGS)
+	$(CC) $(INC) -o oak $(OBJS) $(LDFLAGS)
 
-%.o: %.cpp
-	$(CPP) $(CPPFLAGS) $(INC) -c $< -o $@
+%.o: %.c
+	$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
 clean: clean-objects
 
