@@ -4,7 +4,10 @@
  * Date: 05/03/2019
  */
 
+#define _GNU_SOURCE
+
 /* Library includes */
+#include <sys/types.h>
 #include <unistd.h> // opterr, sleep()
 #include <signal.h>
 #include <stdbool.h>
@@ -32,6 +35,7 @@ int
 main (int argc, char* argv[])
 {
     char config_file[STATE_MAX_PATH_LEN];
+    state_init();
     if (-1 == parse_arguments(argc, argv)) {
         printf("Failed to parse arguments\n");
         print_usage();

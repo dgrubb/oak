@@ -10,6 +10,8 @@ RM  = rm -rf
 CFLAGS = -O3 \
 		   -g \
 		   -Wall \
+		   -std=c11 \
+		   -pedantic
 
 # Include directories
 INC = -I./ \
@@ -49,6 +51,9 @@ oak: $(OBJS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@
+
+check:
+	cppcheck -v --std=c11 --language=c --enable=all ./
 
 clean: clean-objects
 

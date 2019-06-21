@@ -16,6 +16,21 @@
 #define A3000_CPU_FREQUENCY 2000000
 #define A3000_RAM_SIZE      8000000
 
+typedef struct {
+    char        config_file[STATE_MAX_PATH_LEN];
+    char        rom_file[STATE_MAX_PATH_LEN];
+    uint32_t    cpu_frequency;
+    uint32_t    ram_size;
+    bool        rom_file_arg_override;
+    bool        debug_arg_override;
+    bool        fullscreen;
+    bool        minimised;
+    bool        mouse_focus;
+    bool        keyboard_focus;
+} InterfacesTable;
+
+int state_init();
+
 /* Application state and information */
 int state_set_config_file(const char *config_file);
 int state_get_config_file(char *config_file);
