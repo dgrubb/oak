@@ -4,8 +4,8 @@
  * Date: 11/03/2019
  */
 
-#ifndef _ARM2_H
-#define _ARM2_H
+#ifndef _ACORN_ARM2_H
+#define _ACORN_ARM2_H
 
 /* Library includes */
 #include <stdbool.h>
@@ -147,4 +147,4 @@ uint32_t get_r13(); int set_r13(uint32_t value);
 uint32_t get_r14(); int set_r14(uint32_t value);
 uint32_t get_cpsr(); int set_cpsr(uint32_t value);
 
-#endif /* _ARM2_H */
+#endif /* _ACORN_ARM2_H */

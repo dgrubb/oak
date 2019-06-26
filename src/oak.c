@@ -17,18 +17,16 @@
 
 /* Project includes */
 #include "oak.h"
+#include "acorn/A3000.h"
 #include "display.h"
 #include "settings.h"
 #include "state.h"
 #include "debug.h"
 
-volatile bool running = true;
-
 void
 exit_handler(int sig)
 {
     printf("\nSignal [ %s ], exiting ...\n", strsignal(sig));
-    running = false;
 }
 
 int
@@ -61,12 +59,14 @@ main (int argc, char* argv[])
     sleep(3);
     display_clear();
 
-    /* Main program loop */
-    while (running) {
-        if (display_process_events()) {
-            running = false;
-        }
+    if (A3000_init()) {
+        DBG_PRINT((DBG_ERROR, "Unable to start A3000, exiting.\n"));
+        display_deinit();
+        return EXIT_FAILURE;
     }
+
+    /* This will block until application exits */
+    A3000_run();
 
     display_deinit();
     return EXIT_SUCCESS;
