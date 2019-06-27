@@ -26,6 +26,13 @@ typedef enum {
     A3000_COUNT
 } A3000_thread;
 
+typedef struct {
+    int thread_id;
+    double data;
+} thread_def_table_t;
+
+typedef void* (*fp)(void*);
+
 int A3000_init();
 int A3000_deinit();
 int A3000_run();

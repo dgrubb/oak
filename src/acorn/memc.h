@@ -8,5 +8,6 @@
 #define _ACORN_MEMC_H
 
 int memc_init();
+void* memc_run(void* args);
 
 #endif /* _ACORN_MEMC_H */

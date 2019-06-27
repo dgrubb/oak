@@ -31,6 +31,7 @@ int display_splash_screen();
 int display_process_events();
 int display_set_fullscreen(bool fullscreen);
 int display_toggle_fullscreen();
+void* display_run(void* args);
 
 #endif // _DISPLAY_H
 

@@ -4,6 +4,9 @@
  * Date: 11/03/2019
  */
 
+/* Library includes */
+#include <stddef.h>
+
 /* Project includes */
 #include "arm2.h"
 #include "debug.h"
@@ -52,4 +55,14 @@ const char *ARM2_StatusFlagStrings[] = {
     "FIQ disable"
 };
 
+int
+arm2_init()
+{
+    return 0;
+}
 
+void*
+arm2_run(void* args)
+{
+    return NULL;
+}

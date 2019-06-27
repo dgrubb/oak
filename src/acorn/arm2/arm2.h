@@ -147,4 +147,8 @@ uint32_t get_r13(); int set_r13(uint32_t value);
 uint32_t get_r14(); int set_r14(uint32_t value);
 uint32_t get_cpsr(); int set_cpsr(uint32_t value);
 
+/* Worker functions */
+int arm2_init();
+void* arm2_run(void* args);
+
 #endif /* _ACORN_ARM2_H */

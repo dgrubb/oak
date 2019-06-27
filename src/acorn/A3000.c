@@ -23,6 +23,23 @@
 int
 A3000_init()
 {
+    if (arm2_init()) {
+        DBG_PRINT((DBG_ERROR, "Unable to initialise ARM2.\n"));
+        return -1;
+    }
+    if (ioc_init()) {
+        DBG_PRINT((DBG_ERROR, "Unable to initialise input/output controller.\n"));
+        return -1;
+    }
+    if (memc_init()) {
+        DBG_PRINT((DBG_ERROR, "Unable to initialise memory controller.\n"));
+        return -1;
+    }
+    if (vidc_init()) {
+        DBG_PRINT((DBG_ERROR, "Unable to initialise video controller.\n"));
+        return -1;
+    }
+
     return 0;
 }
 
@@ -35,10 +52,21 @@ A3000_deinit()
 int
 A3000_run()
 {
+    fp thread_calls[A3000_COUNT] = {
+        &display_run,
+        &arm2_run,
+        &ioc_run,
+        &memc_run,
+        &vidc_run
+    };
     pthread_t A3000_threads[A3000_COUNT];
     int i;
     for (i=0; i<A3000_COUNT; i++) {
+        pthread_create(&A3000_threads[i], NULL, thread_calls[i], NULL);
+    }
+    for (i=0; i<A3000_COUNT; i++) {
         pthread_join(A3000_threads[i], NULL);
     }
+
     return 0;
 }

@@ -6,6 +6,7 @@
 
 /* Library includes */
 #include <stdbool.h>
+#include <stddef.h>
 
 /* Project includes */
 #include "display.h"
@@ -184,4 +185,10 @@ display_set_fullscreen(bool fullscreen)
     }
     state_set_fullscreen(fullscreen);
     return 0;
+}
+
+void*
+display_run(void* args)
+{
+    return NULL;
 }
