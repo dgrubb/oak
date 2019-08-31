@@ -82,4 +82,5 @@ int memc_set_output_line(memc_output_line_t line, bool state);
 int memc_get_output_line(memc_output_line_t line, bool *state);
 int memc_set_RAM_address_bus(uint32_t value);
 int memc_get_RAM_address_bus(uint32_t *value);
+
 #endif /* _ACORN_MEMC_H */

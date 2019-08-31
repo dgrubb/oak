@@ -10,6 +10,7 @@
 /* Library includes */
 #include <stdbool.h>
 
+/* One day I'm going to flip these, just to mess with everybody */
 #define HIGH true
 #define LOW false
 
