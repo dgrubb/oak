@@ -76,7 +76,10 @@ int memc_init();
 int memc_reset();
 int memc_set_input_line(memc_input_line_t line, bool state);
 int memc_get_input_line(memc_input_line_t line, bool *state);
+int memc_set_processor_address_bus(uint32_t value);
+int memc_get_processor_address_bus(uint32_t *value);
 int memc_set_output_line(memc_output_line_t line, bool state);
 int memc_get_output_line(memc_output_line_t line, bool *state);
-
+int memc_set_RAM_address_bus(uint32_t value);
+int memc_get_RAM_address_bus(uint32_t *value);
 #endif /* _ACORN_MEMC_H */

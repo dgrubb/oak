@@ -25,6 +25,7 @@ memc_reset()
     input.lines[MEMC_INPUT_LINE_MREQ] = LOW;
     input.lines[MEMC_INPUT_LINE_SEQ] = LOW;
     input.lines[MEMC_INPUT_LINE_SPVMD] = LOW;
+    input.addr_bus = 0;
 
     /* From the MEMC datasheet, page 12:
      * "The ARM processor starts executing code from location 0000000H after
@@ -55,6 +56,20 @@ memc_get_input_line(memc_input_line_t line, bool *state)
 }
 
 int
+memc_set_processor_address_bus(uint32_t value)
+{
+    input.addr_bus = value;
+    return 0;
+}
+
+int
+memc_get_processor_address_bus(uint32_t *value)
+{
+    *value= input.addr_bus;
+    return 0;
+}
+
+int
 memc_set_output_line(memc_output_line_t line, bool state)
 {
     output.lines[line] = state;
@@ -67,3 +82,18 @@ memc_get_output_line(memc_output_line_t line, bool *state)
     *state = output.lines[line];
     return 0;
 }
+
+int
+memc_set_RAM_address_bus(uint32_t value)
+{
+    output.ra_bus = value;
+    return 0;
+}
+
+int
+memc_get_RAM_address_bus(uint32_t *value)
+{
+    *value= output.ra_bus;
+    return 0;
+}
+
