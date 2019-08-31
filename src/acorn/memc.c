@@ -4,11 +4,12 @@
  * Date: 26/06/2019
  */
 
-/* Library includes */
-#include <stddef.h>
-
 /* Project includes */
+#include "A3000.h"
 #include "memc.h"
+
+static memc_input_interface_t input = {0};
+static memc_output_interface_t output = {0};
 
 int
 memc_init()
@@ -19,26 +20,50 @@ memc_init()
 int
 memc_reset()
 {
-    /* TODO: Read the datasheet more thoroughly to figure out
-     * what these should really be on RESET condition. For the time
-     * being just put them to something sensible.
-     */
-    memc_i_a = 0;
-    memc_i_rw = false;
-    memc_i_bw = false;
-    memc_i_seq = false;
-    memc_i_spvmd = false;
+    input.lines[MEMC_INPUT_LINE_RW] = LOW;
+    input.lines[MEMC_INPUT_LINE_BW] = LOW;
+    input.lines[MEMC_INPUT_LINE_MREQ] = LOW;
+    input.lines[MEMC_INPUT_LINE_SEQ] = LOW;
+    input.lines[MEMC_INPUT_LINE_SPVMD] = LOW;
 
-    memc_o_ph1 = false;
-    memc_o_ph2 = false;
-    memc_o_ra = 0;
     /* From the MEMC datasheet, page 12:
      * "The ARM processor starts executing code from location 0000000H after
      * RESET goes inactive. To ensure that the processor always finds valid code
      * at this location (which is normally Logically mapped RAM), MEMC continually
      * enables ROM."
      */
-    memc_o_romcs = true;
+    output.lines[MEMC_OUTPUT_LINE_PH1] = HIGH;
+    output.lines[MEMC_OUTPUT_LINE_PH2] = LOW;
+    output.lines[MEMC_OUTPUT_LINE_ROMCS] = LOW;
+    output.ra_bus = 0;
 
+    return 0;
+}
+
+int
+memc_set_input_line(memc_input_line_t line, bool state)
+{
+    input.lines[line] = state;
+    return 0;
+}
+
+int
+memc_get_input_line(memc_input_line_t line, bool *state)
+{
+    *state = input.lines[line];
+    return 0;
+}
+
+int
+memc_set_output_line(memc_output_line_t line, bool state)
+{
+    output.lines[line] = state;
+    return 0;
+}
+
+int
+memc_get_output_line(memc_output_line_t line, bool *state)
+{
+    *state = output.lines[line];
     return 0;
 }
