@@ -16,8 +16,3 @@ vidc_init()
     return 0;
 }
 
-void*
-vidc_run(void* args)
-{
-    return NULL;
-}

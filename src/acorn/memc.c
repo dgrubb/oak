@@ -13,11 +13,11 @@
 int
 memc_init()
 {
-    return 0;
+    return memc_reset();
 }
 
-void*
-memc_run(void* args)
+int
+memc_reset()
 {
-    return NULL;
+    return 0;
 }

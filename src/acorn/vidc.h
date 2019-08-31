@@ -8,6 +8,5 @@
 #define _ACORN_VIDC_H
 
 int vidc_init();
-void* vidc_run(void* args);
 
 #endif /* _ACORN_VIDC_H */
