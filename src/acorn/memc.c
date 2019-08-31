@@ -32,7 +32,13 @@ memc_reset()
     memc_o_ph1 = false;
     memc_o_ph2 = false;
     memc_o_ra = 0;
-    memc_o_romcs = false;
+    /* From the MEMC datasheet, page 12:
+     * "The ARM processor starts executing code from location 0000000H after
+     * RESET goes inactive. To ensure that the processor always finds valid code
+     * at this location (which is normally Logically mapped RAM), MEMC continually
+     * enables ROM."
+     */
+    memc_o_romcs = true;
 
     return 0;
 }

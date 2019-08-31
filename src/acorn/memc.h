@@ -37,6 +37,11 @@
 #define MEMC_MEMMAP_ADDRESS_TRANS_START    0x03800000
 #define MEMC_MEMMAP_ADDRESS_TRANS_END      0x03FFFFFF
 
+/* Archimedes/ARM2 address bus is only 26-bits wide. A uint32_t
+ * is used for convenience so this mask is defined to access only 
+ * the bits that are actually used. */
+#define MEMC_ADDRESS_BUS                   0x0FFFFFFF
+
 /* MEMC interfaces */
 
 /* Inputs */
