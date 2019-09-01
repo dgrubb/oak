@@ -12,6 +12,8 @@
 #include "arm2/arm2.h"
 #include "ioc.h"
 #include "memc.h"
+#include "ram.h"
+#include "rom.h"
 #include "vidc.h"
 
 /* Project includes */
@@ -23,6 +25,19 @@
 int
 A3000_init()
 {
+    /* Ingest ROM file */
+    char rom_file[STATE_MAX_PATH_LEN] = { 0 };
+    state_get_ROM_file(rom_file);
+    if (rom_init(rom_file)) {
+        DBG_PRINT((DBG_ERROR, "Unable to initialise ROM.\n"));
+        return -1;
+    }
+
+    /* Start emulated components */
+    if (ram_init()) {
+        DBG_PRINT((DBG_ERROR, "Unable to initialise RAM.\n"));
+        return -1;
+    }
     if (arm2_init()) {
         DBG_PRINT((DBG_ERROR, "Unable to initialise ARM2.\n"));
         return -1;

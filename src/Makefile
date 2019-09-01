@@ -28,6 +28,8 @@ SRCS = oak.c \
 	acorn/ioc.c \
 	acorn/memc.c \
 	acorn/vidc.c \
+	acorn/rom.c \
+	acorn/ram.c \
 	acorn/arm2/arm2.c \
 	acorn/arm2/arm_op.c \
 	debug.c
