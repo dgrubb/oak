@@ -7,6 +7,7 @@
 /* Project includes */
 #include "A3000.h"
 #include "memc.h"
+#include "debug.h"
 
 static memc_input_interface_t input = {0};
 static memc_output_interface_t output = {0};
@@ -20,6 +21,7 @@ memc_init()
 int
 memc_reset()
 {
+    DBG_PRINT((DBG_VERBOSE, "Reset\n"));
     input.lines[MEMC_INPUT_LINE_RW] = LOW;
     input.lines[MEMC_INPUT_LINE_BW] = LOW;
     input.lines[MEMC_INPUT_LINE_MREQ] = LOW;
