@@ -52,3 +52,22 @@ rom_load(char *rom_file)
     DBG_PRINT((DBG_VERBOSE, "Read [ %d bytes ] from  ROM file: %s\n", bytes, rom_file));
     return 0;
 }
+
+int
+rom_read(uint32_t addr, uint8_t *byte)
+{
+    if (rom_boundry_check(addr)) return -1;
+    *byte = rom[addr];
+    DBG_PRINT((DBG_ULTRA_VERBOSE, "Read byte [ 0x%X ] from ROM address: 0x%X\n", addr, *byte));
+    return 0;
+}
+
+int
+rom_boundry_check(uint32_t addr)
+{
+    if (addr > ROM_SIZE) {
+        DBG_PRINT((DBG_ERROR, "Attempting ROM read outside range: 0x%X\n", addr));
+        return -1;
+    }
+    return 0;
+}

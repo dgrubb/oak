@@ -25,6 +25,7 @@
 int
 A3000_init()
 {
+    uint32_t ram_size;
     /* Ingest ROM file */
     char rom_file[STATE_MAX_PATH_LEN] = { 0 };
     state_get_ROM_file(rom_file);
@@ -34,7 +35,8 @@ A3000_init()
     }
 
     /* Start emulated components */
-    if (ram_init()) {
+    state_get_ram_size(&ram_size);
+    if (ram_init(ram_size)) {
         DBG_PRINT((DBG_ERROR, "Unable to initialise RAM.\n"));
         return -1;
     }
