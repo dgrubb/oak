@@ -87,15 +87,6 @@ typedef enum {
     FIQ_DISABLE
 } ARM2_StatusFlag;
 
-const uint32_t ARM2_StatusFlagMasks[] = {
-    ARM2_STATUS_MASK_NEGATIVE,
-    ARM2_STATUS_MASK_ZERO,
-    ARM2_STATUS_MASK_CARRY,
-    ARM2_STATUS_MASK_OVERFLOW,
-    ARM2_STATUS_MASK_IRQ_DISABLE,
-    ARM2_STATUS_MASK_FIQ_DISABLE
-};
-
 typedef struct {
     uint32_t fetch, decode, execute;
 } ARM2_Pipeline;
@@ -156,11 +147,21 @@ uint32_t get_r13(); int set_r13(uint32_t value);
 uint32_t get_r14(); int set_r14(uint32_t value);
 uint32_t get_cpsr(); int set_cpsr(uint32_t value);
 
+int arm2_set_PC(uint32_t value);
+int arm2_get_PC(uint32_t *value);
+int arm2_set_mode(ARM2_Mode mode);
+int arm2_get_mode(ARM2_Mode *mode);
 int arm2_set_status_flag(ARM2_StatusFlag flag, bool value);
 int arm2_get_status_flag(ARM2_StatusFlag flag, bool *value);
 int arm2_get_shadow_register(uint32_t reg[], ARM2_Mode *mode);
+int arm2_fetch();
+int arm2_decode();
+int arm2_execute();
 
 /* Worker functions */
 int arm2_init();
+int arm2_reset();
+int arm2_flush_pipeline();
+int arm2_print_status();
 
 #endif /* _ACORN_ARM2_H */
