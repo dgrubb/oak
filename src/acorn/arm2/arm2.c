@@ -327,6 +327,88 @@ int set_r13(uint32_t value) { return arm2_set_register(R13, value); }
 int set_r14(uint32_t value) { return arm2_set_register(R14, value); }
 int set_cpsr(uint32_t value) { return arm2_set_register(CPSR, value); }
 
+bool
+arm2_test_status_flag(ARM2_StatusFlag flag)
+{
+    bool flag_value = false;
+    arm2_get_status_flag(flag, &flag_value);
+    return flag_value;
+}
+
+bool
+arm2_test_conditions(uint32_t condition_flags)
+{
+    bool execute = false;
+    switch (condition_flags) {
+        case ARM2_CONDITION_EQ:
+            execute = arm2_test_status_flag(ZERO);
+            break;
+        case ARM2_CONDITION_NE:
+            execute = !arm2_test_status_flag(ZERO);
+            break;
+        case ARM2_CONDITION_CS:
+            execute = arm2_test_status_flag(CARRY);
+            break;
+        case ARM2_CONDITION_CC:
+            execute = !arm2_test_status_flag(CARRY);
+            break;
+        case ARM2_CONDITION_MI:
+            execute = arm2_test_status_flag(NEGATIVE);
+            break;
+        case ARM2_CONDITION_PL:
+            execute = !arm2_test_status_flag(NEGATIVE);
+            break;
+        case ARM2_CONDITION_VS:
+            execute = arm2_test_status_flag(OVERFLOW);
+            break;
+        case ARM2_CONDITION_VC:
+            execute = !arm2_test_status_flag(OVERFLOW);
+            break;
+        case ARM2_CONDITION_HI:
+            execute = (arm2_test_status_flag(CARRY) && !arm2_test_status_flag(ZERO));
+            break;
+        case ARM2_CONDITION_LS:
+            execute = (!arm2_test_status_flag(CARRY) || arm2_test_status_flag(ZERO));
+            break;
+        case ARM2_CONDITION_GE:
+            execute = (
+                (arm2_test_status_flag(NEGATIVE) && arm2_test_status_flag(OVERFLOW)) ||
+                (!arm2_test_status_flag(NEGATIVE) && !arm2_test_status_flag(OVERFLOW))
+            );
+            break;
+        case ARM2_CONDITION_LT:
+            execute = (
+                (arm2_test_status_flag(NEGATIVE) && !arm2_test_status_flag(OVERFLOW)) ||
+                (!arm2_test_status_flag(NEGATIVE) && arm2_test_status_flag(OVERFLOW))
+            );
+            break;
+        case ARM2_CONDITION_GT:
+            execute = (
+                (!arm2_test_status_flag(ZERO) && (arm2_test_status_flag(NEGATIVE) || arm2_test_status_flag(OVERFLOW))) ||
+                (!arm2_test_status_flag(NEGATIVE) && !arm2_test_status_flag(OVERFLOW))
+            );
+            break;
+        case ARM2_CONDITION_LE:
+            execute = (
+                (arm2_test_status_flag(ZERO)) ||
+                (arm2_test_status_flag(NEGATIVE) && !arm2_test_status_flag(OVERFLOW)) ||
+                (!arm2_test_status_flag(NEGATIVE) && arm2_test_status_flag(OVERFLOW))
+            );
+            break;
+        case ARM2_CONDITION_AL:
+            execute = true;
+            break;
+        case ARM2_CONDITION_NV:
+            execute = false;
+            break;
+        default:
+            DBG_PRINT((DBG_ERROR, "Unhandled condition flags: 0x%X\n", condition_flags));
+            execute = false;
+    }
+    return execute;
+}
+
+
 int
 arm2_flush_pipeline()
 {

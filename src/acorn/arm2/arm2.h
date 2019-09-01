@@ -27,22 +27,22 @@
 #define ARM2_STATUS_MASK_PC          0x3FFFFFC
 #define ARM2_WORD_BYTES_LENGTH       4
 
-#define ARM2_CONDITION_EQ            0b0000  /* EQ - Z set (equal) */
-#define ARM2_CONDITION_NE            0b0001  /* NE - Z clear (not equal) */
-#define ARM2_CONDITION_CS            0b0010  /* CS - C set (unsigned higher or lower) */
-#define ARM2_CONDITION_CC            0b0011  /* CC - C clear (unsigned lower) */
-#define ARM2_CONDITION_MI            0b0100  /* N set (negative) */
-#define ARM2_CONDITION_PL            0b0101  /* N clear (positive or zero) */
-#define ARM2_CONDITION_VS            0b0110  /* V set (overflow) */
-#define ARM2_CONDITION_VC            0b0111  /* V clear (no overflow) */
-#define ARM2_CONDITION_HI            0b1000  /* C set and Z clear (unsigned higher) */
-#define ARM2_CONDITION_LS            0b1001  /* C clear or Z set (unsigned lower or same) */
-#define ARM2_CONDITION_GE            0b1010  /* N set and V set, or N clear and V clear (greater or equal) */
-#define ARM2_CONDITION_LT            0b1011  /* N set and V clear, or N clear and V set (less than) */
-#define ARM2_CONDITION_GT            0b1100  /* Z clear and either N set or V set, or N clear and V clear (greater than) */
-#define ARM2_CONDITION_LE            0b1101  /* Z set, or N set and V clear, or N clear and V set (less than or equal) */
-#define ARM2_CONDITION_AL            0b1110  /* Always */
-#define ARM2_CONDITION_NV            0b1111  /* Never */
+#define ARM2_CONDITION_EQ            0x0  /* EQ - Z set (equal) */
+#define ARM2_CONDITION_NE            0x1  /* NE - Z clear (not equal) */
+#define ARM2_CONDITION_CS            0x2  /* CS - C set (unsigned higher or lower) */
+#define ARM2_CONDITION_CC            0x3  /* CC - C clear (unsigned lower) */
+#define ARM2_CONDITION_MI            0x4  /* N set (negative) */
+#define ARM2_CONDITION_PL            0x5  /* N clear (positive or zero) */
+#define ARM2_CONDITION_VS            0x6  /* V set (overflow) */
+#define ARM2_CONDITION_VC            0x7  /* V clear (no overflow) */
+#define ARM2_CONDITION_HI            0x8  /* C set and Z clear (unsigned higher) */
+#define ARM2_CONDITION_LS            0x9  /* C clear or Z set (unsigned lower or same) */
+#define ARM2_CONDITION_GE            0xA  /* N set and V set, or N clear and V clear (greater or equal) */
+#define ARM2_CONDITION_LT            0xB  /* N set and V clear, or N clear and V set (less than) */
+#define ARM2_CONDITION_GT            0xC  /* Z clear and either N set or V set, or N clear and V clear (greater than) */
+#define ARM2_CONDITION_LE            0xD  /* Z set, or N set and V clear, or N clear and V set (less than or equal) */
+#define ARM2_CONDITION_AL            0xE  /* Always */
+#define ARM2_CONDITION_NV            0xF  /* Never */
 #define ARM2_CONDITION_MASK          0xF0000000
 
 /* N.B: These need to be kept in the current order to correctly
@@ -163,5 +163,7 @@ int arm2_init();
 int arm2_reset();
 int arm2_flush_pipeline();
 int arm2_print_status();
+bool arm2_test_conditions(uint32_t condition_flags);
+bool arm2_test_status_flag(ARM2_StatusFlag flag);
 
 #endif /* _ACORN_ARM2_H */
