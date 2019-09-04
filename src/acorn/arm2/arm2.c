@@ -227,7 +227,7 @@ arm2_get_shadow_register(uint32_t reg[], ARM2_Mode *mode)
 int
 arm2_set_status_flag(ARM2_StatusFlag flag, bool value)
 {
-    DBG_PRINT((DBG_ULTRA_VERBOSE, "%s status flag: %s\n", (value ? "Setting" : "Clearing"), ARM2_StatusFlagStrings[flag]));
+    DBG_PRINT((DBG_VERBOSE, "%s status flag: %s\n", (value ? "Setting" : "Clearing"), ARM2_StatusFlagStrings[flag]));
     uint32_t cpsr = get_cpsr();
     if (value) {
         cpsr |= ARM2_StatusFlagMasks[flag];
@@ -266,7 +266,7 @@ arm2_get_PC(uint32_t *value)
 int
 arm2_set_mode(ARM2_Mode mode)
 {
-    DBG_PRINT((DBG_ULTRA_VERBOSE, "Setting processor mode: %s\n", ARM2_ModeStrings[mode]));
+    DBG_PRINT((DBG_VERBOSE, "Setting processor mode: %s\n", ARM2_ModeStrings[mode]));
     uint32_t cpsr = get_cpsr();
     cpsr &= ~ARM2_ModeMasks[ALL];
     cpsr &= ARM2_ModeMasks[mode];
