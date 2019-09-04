@@ -446,6 +446,7 @@ arm2_init()
 int
 arm2_reset()
 {
+    DBG_PRINT((DBG_VERBOSE, "Reset\n"));
     /* Reset behaviour defined on page 12 of ARM datasheet */
     memset(&state, 0, sizeof(state));
     arm2_flush_pipeline();
