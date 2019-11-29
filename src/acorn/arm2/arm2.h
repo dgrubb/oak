@@ -60,6 +60,19 @@ typedef enum {
 #define SVC_LEN SVC+1
 
 typedef enum {
+    BRANCH = 0,
+    DATA_PROCESSING,
+    MULTIPLY,
+    DATA_TRANSFER,
+    BLOCK_DATA_TRANSFER,
+    SOFTWARE_INTERRUPT,
+    CO_PRO_DATA_TRANSFER,
+    CO_PRO_DATA_OP,
+    CO_PRO_REGISTER_TRANSFER,
+    OP_TABLE_SIZE
+} ARM2_Op;
+
+typedef enum {
     R0 = 0,
     R1,
     R2,
@@ -128,6 +141,29 @@ typedef struct {
     uint32_t data;
     ARM2_Pipeline pipeline;
 } ARM2_State;
+
+/* Define a function pointer designed to house tests for parsing op-code type */
+typedef bool (*test_fp)(uint32_t);
+typedef struct {
+    ARM2_Op op;
+    test_fp test;
+} ARM2_Op_Test;
+
+/* Functions for testing/parsing/decoding ops */
+void arm2_populate_op_test_table();
+ARM2_Op arm2_parse_op(uint32_t op);
+bool arm2_is_data_processing_op(uint32_t op);
+bool arm2_is_multiply_op(uint32_t op);
+bool arm2_is_single_data_transfer_op(uint32_t op);
+bool arm2_is_block_transfer_op(uint32_t op);
+bool arm2_is_branch_op(uint32_t op);
+bool arm2_is_co_pro_data_transfer_op(uint32_t op);
+bool arm2_is_co_pro_data_op_op(uint32_t op);
+bool arm2_is_co_pro_register_transfer_op(uint32_t op);
+bool arm2_is_software_interrupt_op(uint32_t op);
+
+/* To be populated at init, connects op codes to the functions which test them */
+ARM2_Op_Test op_test_table[OP_TABLE_SIZE];
 
 /* Quick references for interfaces */
 uint32_t get_r0(); int set_r0(uint32_t value);
