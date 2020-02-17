@@ -60,7 +60,8 @@ typedef enum {
 #define SVC_LEN SVC+1
 
 typedef enum {
-    BRANCH = 0,
+    NONE,
+    BRANCH,
     DATA_PROCESSING,
     MULTIPLY,
     DATA_TRANSFER,
