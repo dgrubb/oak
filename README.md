@@ -7,6 +7,8 @@
 This project is an emulator for the [Acorn Archimedes](https://en.wikipedia.org/wiki/Acorn_Archimedes)
 computer, famous for introducing the [ARM procesor](https://en.wikipedia.org/wiki/ARM_Architecture).
 
+See the [Ultimate Acorn Archimedes talk](https://youtube.com/watch?v=Hf67JYkUCHQ) for more background on the machine.
+
 ## Why?
 
 Simply to develop a comprehensive understanding of the ARM processor and the sheer 
