@@ -60,7 +60,7 @@ debug_print(bool enable, int dbg_level, const char *file,
         char str[DEBUG_MAX_STRING];
         char filename[DEBUG_MAX_STRING];
         char *tmp;
-        char tmpFile[strlen(file)];
+        char tmpFile[strlen(file)+1];
         strcpy(tmpFile, file);
         tmp = strrchr(tmpFile, '/');
         if (tmp == NULL) {

@@ -56,45 +56,53 @@ arm2_parse_op(uint32_t op)
 bool
 arm2_is_data_processing_op(uint32_t op)
 {
+    return false;
 }
 
 bool
 arm2_is_multiply_op(uint32_t op)
 {
+    return false;
 }
 
 bool
 arm2_is_single_data_transfer_op(uint32_t op)
 {
+    return false;
 }
 
 bool
 arm2_is_block_transfer_op(uint32_t op)
 {
+    return false;
 }
 
 bool
 arm2_is_branch_op(uint32_t op)
 {
+    return false;
 }
 
 bool
 arm2_is_co_pro_data_transfer_op(uint32_t op)
 {
+    return false;
 }
 
 bool
 arm2_is_co_pro_data_op_op(uint32_t op)
 {
+    return false;
 }
 
 bool
 arm2_is_co_pro_register_transfer_op(uint32_t op)
 {
+    return false;
 }
 
 bool
 arm2_is_software_interrupt_op(uint32_t op)
 {
-
+    return false;
 }

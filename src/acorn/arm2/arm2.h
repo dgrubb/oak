@@ -164,7 +164,7 @@ bool arm2_is_co_pro_register_transfer_op(uint32_t op);
 bool arm2_is_software_interrupt_op(uint32_t op);
 
 /* To be populated at init, connects op codes to the functions which test them */
-ARM2_Op_Test op_test_table[OP_TABLE_SIZE];
+//ARM2_Op_Test op_test_table[OP_TABLE_SIZE];
 
 /* Quick references for interfaces */
 uint32_t get_r0(); int set_r0(uint32_t value);
