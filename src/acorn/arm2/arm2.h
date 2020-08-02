@@ -196,6 +196,7 @@ int arm2_decode();
 int arm2_execute();
 
 /* Worker functions */
+int arm2_clock();
 int arm2_init();
 int arm2_reset();
 int arm2_flush_pipeline();

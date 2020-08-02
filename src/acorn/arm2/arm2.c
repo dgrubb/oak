@@ -444,6 +444,12 @@ arm2_init()
 }
 
 int
+arm2_clock()
+{
+    return 0;
+}
+
+int
 arm2_reset()
 {
     DBG_PRINT((DBG_VERBOSE, "Reset\n"));

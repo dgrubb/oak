@@ -11,6 +11,7 @@
 ARM2_Op
 arm2_parse_op(uint32_t op)
 {
+    // NOOP
     if (0xffffffff == op) {
         return NONE;
     }

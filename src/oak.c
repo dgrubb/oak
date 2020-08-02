@@ -66,7 +66,7 @@ main (int argc, char* argv[])
     }
 
     /* This will block until application exits */
-    A3000_run();
+    /* TODO: main game loop */
 
     display_deinit();
     return EXIT_SUCCESS;

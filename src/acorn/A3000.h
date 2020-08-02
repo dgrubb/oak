@@ -16,6 +16,6 @@
 
 int A3000_init();
 int A3000_deinit();
-int A3000_run();
+int A3000_clock();
 
 #endif // _A3000_H

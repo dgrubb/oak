@@ -67,7 +67,7 @@ A3000_deinit()
 }
 
 int
-A3000_run()
+A3000_clock()
 {
     return 0;
 }
