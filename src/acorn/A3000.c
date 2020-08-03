@@ -22,6 +22,8 @@
 #include "state.h"
 #include "debug.h"
 
+static A3000_databus_t databus = { 0 };
+
 int
 A3000_init()
 {
@@ -69,5 +71,33 @@ A3000_deinit()
 int
 A3000_clock()
 {
+    /* Read the address bus value from the processor and load it into the MEMC.
+     * In most cases this will be combined with the R/W pin and translated into
+     * memory mapped RAM, ROM, or peripheral device. However, there is some special
+     * startup logic to account for where the MEMC is instructed to enable the
+     * system memory map.
+     */
+    uint32_t cpu_address;
+    arm2_get_address_bus(&cpu_address);
+    memc_set_processor_address_bus(cpu_address);
+    bool rw;
+    arm2_get_read_write(&rw);
+    memc_set_input_line(MEMC_INPUT_LINE_RW, rw);
+
     return 0;
 }
+
+int
+A3000_get_databus(uint32_t *byte)
+{
+    *byte = databus.bus;
+    return 0;
+}
+
+int
+A3000_set_databus(uint32_t byte)
+{
+    databus.bus = byte;
+    return 0;
+}
+

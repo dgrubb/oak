@@ -291,6 +291,20 @@ arm2_get_mode(ARM2_Mode *mode)
     return 0;
 }
 
+int
+arm2_get_address_bus(uint32_t *address)
+{
+    *address = state.address;
+    return 0;
+}
+
+int
+arm2_get_read_write(bool *rw)
+{
+    *rw = state.rw;
+    return 0;
+}
+
 /* Quick reference getters */
 uint32_t get_r0() { uint32_t ret_val; arm2_get_register(R0, &ret_val); return ret_val; }
 uint32_t get_r1() { uint32_t ret_val; arm2_get_register(R1, &ret_val); return ret_val; }

@@ -66,7 +66,9 @@ main (int argc, char* argv[])
     }
 
     /* This will block until application exits */
-    /* TODO: main game loop */
+    while (!display_process_events())
+    {
+    }
 
     display_deinit();
     return EXIT_SUCCESS;

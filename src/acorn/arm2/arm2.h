@@ -143,28 +143,8 @@ typedef struct {
     ARM2_Pipeline pipeline;
 } ARM2_State;
 
-/* Define a function pointer designed to house tests for parsing op-code type */
-typedef bool (*test_fp)(uint32_t);
-typedef struct {
-    ARM2_Op op;
-    test_fp test;
-} ARM2_Op_Test;
-
 /* Functions for testing/parsing/decoding ops */
-void arm2_populate_op_test_table();
 ARM2_Op arm2_parse_op(uint32_t op);
-bool arm2_is_data_processing_op(uint32_t op);
-bool arm2_is_multiply_op(uint32_t op);
-bool arm2_is_single_data_transfer_op(uint32_t op);
-bool arm2_is_block_transfer_op(uint32_t op);
-bool arm2_is_branch_op(uint32_t op);
-bool arm2_is_co_pro_data_transfer_op(uint32_t op);
-bool arm2_is_co_pro_data_op_op(uint32_t op);
-bool arm2_is_co_pro_register_transfer_op(uint32_t op);
-bool arm2_is_software_interrupt_op(uint32_t op);
-
-/* To be populated at init, connects op codes to the functions which test them */
-//ARM2_Op_Test op_test_table[OP_TABLE_SIZE];
 
 /* Quick references for interfaces */
 uint32_t get_r0(); int set_r0(uint32_t value);
@@ -184,6 +164,9 @@ uint32_t get_r13(); int set_r13(uint32_t value);
 uint32_t get_r14(); int set_r14(uint32_t value);
 uint32_t get_cpsr(); int set_cpsr(uint32_t value);
 
+/* Top-level interfaces */
+int arm2_get_address_bus(uint32_t *addr);
+int arm2_get_read_write(bool *rw);
 int arm2_set_PC(uint32_t value);
 int arm2_get_PC(uint32_t *value);
 int arm2_set_mode(ARM2_Mode mode);
@@ -191,14 +174,16 @@ int arm2_get_mode(ARM2_Mode *mode);
 int arm2_set_status_flag(ARM2_StatusFlag flag, bool value);
 int arm2_get_status_flag(ARM2_StatusFlag flag, bool *value);
 int arm2_get_shadow_register(uint32_t reg[], ARM2_Mode *mode);
-int arm2_fetch();
-int arm2_decode();
-int arm2_execute();
 
-/* Worker functions */
+/* Worker functions which advance or otherwise interact
+ * with the state machine
+ */
 int arm2_clock();
 int arm2_init();
 int arm2_reset();
+int arm2_fetch();
+int arm2_decode();
+int arm2_execute();
 int arm2_flush_pipeline();
 int arm2_print_status();
 bool arm2_test_conditions(uint32_t condition_flags);
