@@ -43,9 +43,16 @@
  * the bits that are actually used. */
 #define MEMC_ADDRESS_BUS                   0x0FFFFFFF
 
+typedef struct {
+    A3000_device_t device;
+    uint32_t start_addr;
+    uint32_t end_addr;
+} memc_device_map_entry_t;
+
 /* MEMC worker functions */
 int memc_init();
 int memc_reset();
+int memc_map_address_to_device(uint32_t address, bool rw, A3000_device_t *device);
 int memc_set_RAM_address_bus(uint32_t value);
 int memc_get_RAM_address_bus(uint32_t *value);
 

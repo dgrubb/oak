@@ -129,3 +129,20 @@ A3000_set_data_bus(uint32_t byte)
     return 0;
 }
 
+const char* A3000_device_to_string(A3000_device_t device)
+{
+    switch (device)
+    {
+        case ARM: return "ARM";
+        case MEMC: return "MEMC";
+        case IOC: return "IOC";
+        case LOGICAL_RAM: return "Logical RAM";
+        case PHYSICAL_RAM: return "Physical RAM";
+        case LOW_ROM: return "Low ROM";
+        case HIGH_ROM: return "High ROM";
+        case VIDC: return "VIDC";
+        case DMA_ADDRESS_GENERATORS: return "DMA addresses";
+        case LOGICAL_TO_PHYSICAL_TRANSLATOR: return "Logical to physical translator";
+        default: return "Unknown";
+    }
+}
