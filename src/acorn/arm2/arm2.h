@@ -131,12 +131,8 @@ typedef struct {
     uint32_t cpsr;
     bool fiq;
     bool irq;
+    /* Low/false for processor read, high/true for write */
     bool rw;
-    /* Clock phase: 
-     * true - PH2
-     * false - PH2
-     */
-    bool clock_phase;
     /* Buses */
     uint32_t address;
     uint32_t data;
@@ -164,11 +160,13 @@ uint32_t get_r13(); int set_r13(uint32_t value);
 uint32_t get_r14(); int set_r14(uint32_t value);
 uint32_t get_cpsr(); int set_cpsr(uint32_t value);
 
-/* Top-level interfaces */
+/* External interfaces */
 int arm2_get_address_bus(uint32_t *addr);
 int arm2_get_data_bus(uint32_t *data);
 int arm2_set_data_bus(uint32_t data);
 int arm2_get_read_write(bool *rw);
+
+/* Logical interfaces */
 int arm2_set_PC(uint32_t value);
 int arm2_get_PC(uint32_t *value);
 int arm2_set_mode(ARM2_Mode mode);

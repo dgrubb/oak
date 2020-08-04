@@ -43,43 +43,9 @@
  * the bits that are actually used. */
 #define MEMC_ADDRESS_BUS                   0x0FFFFFFF
 
-/* MEMC interfaces */
-
-typedef enum {
-    MEMC_INPUT_LINE_RW = 0, /* Processor read/write direction selection */
-    MEMC_INPUT_LINE_BW,     /* Processor byte/word select */
-    MEMC_INPUT_LINE_MREQ,   /* Processor memory request (n.b., next cycle) */
-    MEMC_INPUT_LINE_SEQ,    /* Processor sequential access (n.b., next cycle) */
-    MEMC_INPUT_LINE_SPVMD,  /* Processor set supervisor mode */
-    MEMC_INPUT_LINE_LENGTH
-} memc_input_line_t;
-
-typedef enum {
-    MEMC_OUTPUT_LINE_PH1 = 0, /* Processor clock, phase 1 */
-    MEMC_OUTPUT_LINE_PH2,     /* Processor clock, phase 2 */
-    MEMC_OUTPUT_LINE_ROMCS,   /* ROM select. LOW to access ROM */
-    MEMC_OUTPUT_LINE_LENGTH
-} memc_output_line_t;
-
-typedef struct {
-    bool lines[MEMC_INPUT_LINE_LENGTH];
-    uint32_t addr_bus; /* Processor address bus */
-} memc_input_interface_t;
-
-typedef struct {
-    bool lines[MEMC_OUTPUT_LINE_LENGTH];
-    uint32_t ra_bus; /* RAM address bus (n.b., RA[0:9]) */
-} memc_output_interface_t;
-
 /* MEMC worker functions */
 int memc_init();
 int memc_reset();
-int memc_set_input_line(memc_input_line_t line, bool state);
-int memc_get_input_line(memc_input_line_t line, bool *state);
-int memc_set_processor_address_bus(uint32_t value);
-int memc_get_processor_address_bus(uint32_t *value);
-int memc_set_output_line(memc_output_line_t line, bool state);
-int memc_get_output_line(memc_output_line_t line, bool *state);
 int memc_set_RAM_address_bus(uint32_t value);
 int memc_get_RAM_address_bus(uint32_t *value);
 
