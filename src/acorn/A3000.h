@@ -22,7 +22,7 @@ typedef struct {
 int A3000_init();
 int A3000_deinit();
 int A3000_clock();
-int A3000_get_databus(uint32_t *byte);
-int A3000_set_databus(uint32_t byte);
+int A3000_get_data_bus(uint32_t *byte);
+int A3000_set_data_bus(uint32_t byte);
 
 #endif // _A3000_H

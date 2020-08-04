@@ -71,6 +71,11 @@ A3000_deinit()
 int
 A3000_clock()
 {
+    /* TODO: insert test on MEMC clock output here determining whether to 
+     * give a clock to the ARM. May have to wait for memory access
+     */
+    arm2_clock();
+
     /* Read the address bus value from the processor and load it into the MEMC.
      * In most cases this will be combined with the R/W pin and translated into
      * memory mapped RAM, ROM, or peripheral device. However, there is some special
@@ -78,24 +83,38 @@ A3000_clock()
      * system memory map.
      */
     uint32_t cpu_address;
+    uint32_t data;
     arm2_get_address_bus(&cpu_address);
     memc_set_processor_address_bus(cpu_address);
     bool rw;
     arm2_get_read_write(&rw);
     memc_set_input_line(MEMC_INPUT_LINE_RW, rw);
 
+    if (rw) {
+        /* Writing to memory from ARM, set the databus according to output from
+         * the CPU.
+         */
+        arm2_get_data_bus(&data);
+        A3000_set_data_bus(data);
+    } else {
+        /* Reading from memory as input to ARM, set the databus according to
+         * mediated output from MEMC to the CPU.
+         */
+
+    }
+
     return 0;
 }
 
 int
-A3000_get_databus(uint32_t *byte)
+A3000_get_data_bus(uint32_t *byte)
 {
     *byte = databus.bus;
     return 0;
 }
 
 int
-A3000_set_databus(uint32_t byte)
+A3000_set_data_bus(uint32_t byte)
 {
     databus.bus = byte;
     return 0;

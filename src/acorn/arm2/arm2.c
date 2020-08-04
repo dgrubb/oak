@@ -299,6 +299,20 @@ arm2_get_address_bus(uint32_t *address)
 }
 
 int
+arm2_get_data_bus(uint32_t *data)
+{
+    *data = state.data;
+    return 0;
+}
+
+int
+arm2_set_data_bus(uint32_t data)
+{
+    state.data = data;
+    return 0;
+}
+
+int
 arm2_get_read_write(bool *rw)
 {
     *rw = state.rw;

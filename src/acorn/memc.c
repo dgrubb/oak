@@ -11,6 +11,7 @@
 
 static memc_input_interface_t input = {0};
 static memc_output_interface_t output = {0};
+static uint32_t rom_start_address = 0x0000000;
 
 int
 memc_init()
@@ -39,6 +40,7 @@ memc_reset()
     output.lines[MEMC_OUTPUT_LINE_PH2] = LOW;
     output.lines[MEMC_OUTPUT_LINE_ROMCS] = LOW;
     output.ra_bus = 0;
+    rom_start_address = 0x0000000;
 
     return 0;
 }

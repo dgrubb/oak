@@ -166,6 +166,8 @@ uint32_t get_cpsr(); int set_cpsr(uint32_t value);
 
 /* Top-level interfaces */
 int arm2_get_address_bus(uint32_t *addr);
+int arm2_get_data_bus(uint32_t *data);
+int arm2_set_data_bus(uint32_t data);
 int arm2_get_read_write(bool *rw);
 int arm2_set_PC(uint32_t value);
 int arm2_get_PC(uint32_t *value);
