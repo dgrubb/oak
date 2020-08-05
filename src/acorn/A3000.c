@@ -113,7 +113,6 @@ A3000_clock()
                 break;
             case LOW_ROM:     /* Intentional fall-through */
             case HIGH_ROM:
-                /* TODO: Access ROM's data bus facing interface */
                 break;
             case VIDC:
                 /* TODO: Access VIDC's data bus facing interface */

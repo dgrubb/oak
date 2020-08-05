@@ -54,11 +54,28 @@ rom_load(char *rom_file)
 }
 
 int
-rom_read(uint32_t addr, uint8_t *byte)
+rom_read_byte(uint32_t addr, uint8_t *byte)
 {
     if (rom_boundry_check(addr)) return -1;
     *byte = rom[addr];
     DBG_PRINT((DBG_ULTRA_VERBOSE, "Read byte [ 0x%X ] from ROM address: 0x%X\n", addr, *byte));
+    return 0;
+}
+
+int
+rom_read_word(uint32_t addr, uint32_t *word)
+{
+    uint8_t byte;
+    *word = 0; /* Reset in case the whole word can't be read */
+    if (rom_boundry_check(addr)) return -1;
+    for (int i=0; i<4; i++)
+    {
+        if (!rom_read_byte(addr+i, &byte))
+        {
+            *word &= (byte << i*4);
+        }
+    }
+    DBG_PRINT((DBG_ULTRA_VERBOSE, "Read word [ 0x%X ] from ROM address: 0x%X\n", addr, *word));
     return 0;
 }
 

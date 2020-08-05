@@ -35,7 +35,7 @@ ram_get_size(uint32_t *size)
 }
 
 int
-ram_read(uint32_t addr, uint8_t *byte)
+ram_read_byte(uint32_t addr, uint8_t *byte)
 {
     if (ram_boundry_check(addr)) return -1;
     *byte = ram[addr];
@@ -44,7 +44,7 @@ ram_read(uint32_t addr, uint8_t *byte)
 }
 
 int
-ram_write(uint32_t addr, uint8_t byte)
+ram_write_byte(uint32_t addr, uint8_t byte)
 {
     if (ram_boundry_check(addr)) return -1;
     ram[addr] = byte;

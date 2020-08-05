@@ -11,7 +11,8 @@
 
 int rom_init(char* rom_file);
 int rom_load(char* rom_file);
-int rom_read(uint32_t addr, uint8_t *byte);
+int rom_read_byte(uint32_t addr, uint8_t *byte);
+int rom_read_word(uint32_t addr, uint32_t *word);
 int rom_boundry_check(uint32_t addr);
 
 #endif /* _ACORN_ROM_H */
