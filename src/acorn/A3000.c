@@ -143,6 +143,7 @@ const char* A3000_device_to_string(A3000_device_t device)
         case VIDC: return "VIDC";
         case DMA_ADDRESS_GENERATORS: return "DMA addresses";
         case LOGICAL_TO_PHYSICAL_TRANSLATOR: return "Logical to physical translator";
+        case ALL_DEVICES: /* Intentional fall-through */
         default: return "Unknown";
     }
 }

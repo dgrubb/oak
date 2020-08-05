@@ -77,6 +77,7 @@ main (int argc, char* argv[])
         }
     }
 
+    DBG_PRINT((DBG_INFO, "Exiting\n"));
     display_deinit();
     return EXIT_SUCCESS;
 }
