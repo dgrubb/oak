@@ -71,6 +71,7 @@ A3000_deinit()
 int
 A3000_clock()
 {
+    A3000_device_t addressed_device;
     uint32_t cpu_address, data;
     bool rw;
 
@@ -100,7 +101,37 @@ A3000_clock()
         /* Reading from memory as input to ARM, set the databus according to
          * mediated output from MEMC to the CPU.
          */
-        /* TODO: data = some read from a device that's not the ARM */
+        memc_map_address_to_device(cpu_address, rw, &addressed_device);
+        switch (addressed_device)
+        {
+            case IOC:
+                /* TODO: Access IOC's data bus facing interface */
+                break;
+            case LOGICAL_RAM: /* Intentional fall-through */
+            case PHYSICAL_RAM:
+                /* TODO: Access RAM's data bus facing interface */
+                break;
+            case LOW_ROM:     /* Intentional fall-through */
+            case HIGH_ROM:
+                /* TODO: Access ROM's data bus facing interface */
+                break;
+            case VIDC:
+                /* TODO: Access VIDC's data bus facing interface */
+                break;
+            case DMA_ADDRESS_GENERATORS:
+                /* TODO: Access DMA's data bus facing interface */
+                break;
+            case LOGICAL_TO_PHYSICAL_TRANSLATOR:
+                /* TODO: Access translator's data bus facing interface */
+                break;
+            case MEMC:
+                /* TODO: Access MEMC*/
+                break;
+            case ARM:         /* Intentional fall-through */
+            case ALL_DEVICES: /* Intentional fall-through */
+            default:
+                DBG_PRINT((DBG_ERROR, "Illegal device requested: %d", addressed_device));
+        }
     }
 
     A3000_set_data_bus(data);
