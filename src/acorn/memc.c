@@ -51,22 +51,40 @@ memc_reset()
 int
 memc_map_address_to_device(uint32_t address, bool rw, A3000_device_t *device)
 {
-    int i;
-    const memc_device_map_entry_t (*memory_map_ptr)[];
     if (rw) {
-       memory_map_ptr = &write_memory_map;
+       return memc_map_write_address_to_device(address, device);
     } else {
-       memory_map_ptr = &read_memory_map;
+       return memc_map_read_address_to_device(address, device);
     }
-    for (i=0; i<sizeof(memory_map_ptr)/sizeof((*memory_map_ptr)[0]); i++) {
-        if ((*memory_map_ptr)[i].start_addr >= address && (*memory_map_ptr)[i].end_addr <= address) {
-            *device = (*memory_map_ptr)[i].device;
+}
+
+int
+memc_map_read_address_to_device(uint32_t address, A3000_device_t *device)
+{
+    int i;
+    for (i=0; i<sizeof(read_memory_map)/sizeof(memc_device_map_entry_t); i++) {
+        if (read_memory_map[i].start_addr <= address && read_memory_map[i].end_addr >= address) {
+            *device = read_memory_map[i].device;
             return 0;
         }
     }
+    DBG_PRINT((DBG_ERROR, "Unable to find read address mapping for: 0x%X\n", address));
     return -1;
 }
 
+int
+memc_map_write_address_to_device(uint32_t address, A3000_device_t *device)
+{
+    int i;
+    for (i=0; i<sizeof(write_memory_map)/sizeof(memc_device_map_entry_t); i++) {
+        if (write_memory_map[i].start_addr <= address && write_memory_map[i].end_addr >= address) {
+            *device = write_memory_map[i].device;
+            return 0;
+        }
+    }
+    DBG_PRINT((DBG_ERROR, "Unable to find write address mapping for: 0x%X\n", address));
+    return -1;
+}
 int
 memc_set_RAM_address_bus(uint32_t value)
 {

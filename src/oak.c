@@ -23,10 +23,13 @@
 #include "state.h"
 #include "debug.h"
 
+static bool running = true;
+
 void
 exit_handler(int sig)
 {
     printf("\nSignal [ %s ], exiting ...\n", strsignal(sig));
+    running = false;
 }
 
 int
@@ -66,8 +69,12 @@ main (int argc, char* argv[])
     }
 
     /* This will block until application exits */
-    while (!display_process_events())
+    while (running)
     {
+        if (display_process_events())
+        {
+            running = false;
+        }
     }
 
     display_deinit();
