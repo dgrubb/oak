@@ -15,10 +15,6 @@
 #define HIGH true
 #define LOW false
 
-typedef struct {
-    uint32_t bus; /* System data bus */
-} A3000_databus_t;
-
 typedef enum {
     ARM = 0,
     MEMC,
@@ -36,8 +32,8 @@ typedef enum {
 int A3000_init();
 int A3000_deinit();
 int A3000_clock();
-int A3000_get_data_bus(uint32_t *byte);
-int A3000_set_data_bus(uint32_t byte);
+int A3000_read_data_from_peripheral(uint32_t address, uint32_t *data);
+int A3000_write_data_to_peripheral(uint32_t address, uint32_t data);
 const char* A3000_device_to_string(A3000_device_t device);
 
 #endif // _A3000_H

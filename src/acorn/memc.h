@@ -56,6 +56,6 @@ int memc_init();
 int memc_reset();
 int memc_init_system_memory_map();
 int memc_map_address_to_device(uint32_t address, bool rw, A3000_device_t *device);
-int memc_set_RAM_address_bus(uint32_t value);
-int memc_get_RAM_address_bus(uint32_t *value);
+int memc_read(uint32_t address, uint32_t *data);
+int memc_write(uint32_t address, uint32_t data);
 #endif /* _ACORN_MEMC_H */

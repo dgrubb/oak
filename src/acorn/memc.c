@@ -10,7 +10,6 @@
 #include "debug.h"
 
 static uint32_t rom_start_address = 0x0000000;
-static uint32_t ram_address = 0;
 static const memc_device_map_entry_t read_memory_map[] = {
     { LOGICAL_RAM,  MEMC_MEMMAP_LOGICAL_RAM_START,      MEMC_MEMMAP_LOGICAL_RAM_END},
     { PHYSICAL_RAM, MEMC_MEMMAP_PHYSICAL_RAM_START,     MEMC_MEMMAP_PHYSICAL_RAM_END},
@@ -103,16 +102,13 @@ memc_map_address_to_device(uint32_t address, bool rw, A3000_device_t *device)
 }
 
 int
-memc_set_RAM_address_bus(uint32_t value)
+memc_read(uint32_t address, uint32_t *data)
 {
-    ram_address = value;
     return 0;
 }
 
 int
-memc_get_RAM_address_bus(uint32_t *value)
+memc_write(uint32_t address, uint32_t data)
 {
-    *value= ram_address;
     return 0;
 }
-

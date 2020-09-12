@@ -241,7 +241,7 @@ int
 arm2_get_status_flag(ARM2_StatusFlag flag, bool *value)
 {
     *value = (get_cpsr() & ARM2_StatusFlagMasks[flag]);
-    DBG_PRINT((DBG_ULTRA_VERBOSE, "Reading status flag %s: %s\n", ARM2_StatusFlagStrings[flag], (value ? "set" : "clear")));
+    DBG_PRINT((DBG_ULTRA_VERBOSE, "Reading status flag %s: %s\n", ARM2_StatusFlagStrings[flag], (*value ? "set" : "clear")));
     return 0;
 }
 
