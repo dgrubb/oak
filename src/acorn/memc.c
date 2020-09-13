@@ -45,6 +45,7 @@ static const memc_device_map_entry_t reset_write_memory_map[] = {
 
 static entry_map_t *write_map = &reset_write_memory_map;
 static entry_map_t *read_map = &reset_write_memory_map;
+static memc_mode_t current_mode = MEMC_MODE_SUPERVISOR;
 
 int
 memc_init()
@@ -110,5 +111,19 @@ memc_read(uint32_t address, uint32_t *data)
 int
 memc_write(uint32_t address, uint32_t data)
 {
+    return 0;
+}
+
+int
+memc_get_mode(memc_mode_t *mode)
+{
+    *mode = current_mode;
+    return 0;
+}
+
+int
+memc_set_mode(memc_mode_t mode)
+{
+    current_mode = mode;
     return 0;
 }

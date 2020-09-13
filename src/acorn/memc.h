@@ -43,6 +43,12 @@
  * the bits that are actually used. */
 #define MEMC_ADDRESS_BUS                   0x0FFFFFFF
 
+typedef enum {
+    MEMC_MODE_SUPERVISOR = 0,
+    MEMC_MODE_OS,
+    MEMC_MODE_USER
+} memc_mode_t;
+
 typedef struct {
     A3000_device_t device;
     uint32_t start_addr;
@@ -56,6 +62,8 @@ int memc_init();
 int memc_reset();
 int memc_init_system_memory_map();
 int memc_map_address_to_device(uint32_t address, bool rw, A3000_device_t *device);
+int memc_set_mode(memc_mode_t mode);
+int memc_get_mode(memc_mode_t *mode);
 int memc_read(uint32_t address, uint32_t *data);
 int memc_write(uint32_t address, uint32_t data);
 #endif /* _ACORN_MEMC_H */
