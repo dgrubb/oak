@@ -71,7 +71,7 @@ main (int argc, char* argv[])
     /* This will block until application exits */
     while (running)
     {
-        if (display_process_events())
+        if (display_process_events() /*|| A3000_clock()*/)
         {
             running = false;
         }
