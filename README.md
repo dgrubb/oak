@@ -66,6 +66,8 @@ ram_size = 2000000;          // Amount of RAM to simulate in bytes, 2MB by defau
 cpu_frequency = 8000000;     // CPU frequency in hertz, 8MHz by default (same as a stock A3000)
 log_level = 4;               // See Usage, INFO by default. Overriden if user invokes the -d option at runtime
 
+N.B., ROM files for RISC OS 3.71 are available legally at [4corn.co.uk.](https://www.4corn.co.uk/articles/rpcemu371win/)
+
 ```
 
 # Requirements
