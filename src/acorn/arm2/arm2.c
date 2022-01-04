@@ -268,7 +268,7 @@ arm2_set_mode(ARM2_Mode mode)
 {
     DBG_PRINT((DBG_VERBOSE, "Setting processor mode: %s\n", ARM2_ModeStrings[mode]));
     uint32_t cpsr = get_cpsr();
-    cpsr &= ~ARM2_ModeMasks[SVC];
+    cpsr &= ~ARM2_ModeMasks[ALL];
     cpsr |= ARM2_ModeMasks[mode];
     return set_cpsr(cpsr);
 }
@@ -485,10 +485,10 @@ arm2_reset()
     uint32_t cspr = get_cpsr();;
     arm2_set_mode(SVC);
     set_r14(cspr);
-    /* TODO: Save R15 (CSPR) to R14_svc */
     /* Reset state defined on page 12 of ARM datasheet */
     memset(&state, 0, sizeof(state));
     arm2_flush_pipeline();
+    arm2_set_mode(SVC);
     arm2_set_PC(0);
     arm2_set_status_flag(IRQ_DISABLE, true);
     arm2_set_status_flag(FIQ_DISABLE, true);
