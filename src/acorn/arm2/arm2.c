@@ -319,6 +319,13 @@ arm2_get_read_write(bool *rw)
     return 0;
 }
 
+int
+arm2_set_read_write(bool rw)
+{
+    state.rw = rw;
+    return 0;
+}
+
 /* Quick reference getters */
 uint32_t get_r0() { uint32_t ret_val; arm2_get_register(R0, &ret_val); return ret_val; }
 uint32_t get_r1() { uint32_t ret_val; arm2_get_register(R1, &ret_val); return ret_val; }
@@ -492,6 +499,7 @@ arm2_reset()
     arm2_set_PC(0);
     arm2_set_status_flag(IRQ_DISABLE, true);
     arm2_set_status_flag(FIQ_DISABLE, true);
+    arm2_set_read_write(ARM2_RW_READ);
     arm2_print_status();
 
     return 0;

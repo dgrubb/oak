@@ -45,6 +45,9 @@
 #define ARM2_CONDITION_NV            0xF  /* Never */
 #define ARM2_CONDITION_MASK          0xF0000000
 
+#define ARM2_RW_READ false
+#define ARM2_RW_WRITE true
+
 /* N.B: These need to be kept in the current order to correctly
  * derive whether the modes have shadow registers, see get_shadow_register()
  */
@@ -165,6 +168,7 @@ int arm2_get_address_bus(uint32_t *addr);
 int arm2_get_data_bus(uint32_t *data);
 int arm2_set_data_bus(uint32_t data);
 int arm2_get_read_write(bool *rw);
+int arm2_set_read_write(bool rw);
 
 /* Logical interfaces */
 int arm2_set_PC(uint32_t value);
