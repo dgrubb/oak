@@ -57,20 +57,34 @@ bool Op::CheckConditions()
             return  !(cpsr & Cpsr::statusFlagsMasks[Cpsr::StatusFlag::CARRY]) ||
                     (cpsr & Cpsr::statusFlagsMasks[Cpsr::StatusFlag::ZERO]);
         case GE:
-            // NEGATIVE is set and OVERFLOW is set, or NEGATIVE is clear and
-            // OVERFLOW is set
-            return ((cpsr & Cpsr::statusFlagsMasks[Cpsr::StatusFlag::NEGATIVE]) &&
-                     (cpsr & Cpsr::statusFlagsMasks[Cpsr::StatusFlag::OVERFLOW])) ||
-                   (!(cpsr & Cpsr::statusFlagsMasks[Cpsr::StatusFlag::NEGATIVE]) &&
-                     (cpsr & Cpsr::statusFlagsMasks[Cpsr::StatusFlag::OVERFLOW]));
-        case LT: return true;
-        case GT: return true;
-        case LE: return true;
-        case AL: return true;
-        case NV: return false;
+            // NEGATIVE equals OVERFLOW
+            return ((cpsr & Cpsr::statusFlagsMasks[Cpsr::StatusFlag::NEGATIVE]) ==
+                    (cpsr & Cpsr::statusFlagsMasks[Cpsr::StatusFlag::OVERFLOW]));
+        case LT:
+            // NEGATIVE not equal to OVERFLOW
+            return ((cpsr & Cpsr::statusFlagsMasks[Cpsr::StatusFlag::NEGATIVE]) !=
+                    (cpsr & Cpsr::statusFlagsMasks[Cpsr::StatusFlag::OVERFLOW]));
+        case GT:
+            // ZERO is clear, and either NEGATIVE is set and OVERFLOW is set, or NEGATIVE
+            // is clear and OVERFLOW clear
+            return (!(cpsr & Cpsr::statusFlagsMasks[Cpsr::StatusFlag::ZERO]) &&
+                    ((cpsr & Cpsr::statusFlagsMasks[Cpsr::StatusFlag::NEGATIVE]) ==
+                     (cpsr & Cpsr::statusFlagsMasks[Cpsr::StatusFlag::OVERFLOW])));
+        case LE:
+            // ZERO is set, or NEGATIVE not equal to OVERFLOW
+            return ((cpsr & Cpsr::statusFlagsMasks[Cpsr::StatusFlag::ZERO]) ||
+                    ((cpsr & Cpsr::statusFlagsMasks[Cpsr::StatusFlag::NEGATIVE]) !=
+                    (cpsr & Cpsr::statusFlagsMasks[Cpsr::StatusFlag::OVERFLOW])));
+        case AL:
+            // Always
+            return true;
+        case NV:
+            // Never
+            return false;
+        default:
+            ERROR("Unknown condition field: ", conditionField);
+            return false;
     }
-
-    return false;
 }
 
 bool Op::Execute()
