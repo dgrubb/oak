@@ -22,5 +22,4 @@ TEST(IOC, CanReadWriteAddressBus)
     uint32_t address = 0x50;
     auto systemBus = std::make_shared<Device::SystemBus>();
     auto ioc = Ioc(systemBus);
-
 }

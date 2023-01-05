@@ -34,6 +34,15 @@ public:
         NEGATIVE
     };
 
+    static constexpr uint32_t statusFlagsMasks[] = {
+        0x04000000, // FIQ_DISABLE
+        0x08000000, // IRQ_DISABLE
+        0x10000000, // OVERFLOW
+        0x20000000, // CARRY
+        0x40000000, // ZERO
+        0x80000000  // NEGATIVE
+    };
+
     Cpsr();
     ~Cpsr();
 
@@ -54,14 +63,6 @@ private:
 
     static constexpr uint32_t ModeMask = 0x00000003;
     static constexpr uint32_t ProgramCounterMask = 0x03FFFFFC;
-    static constexpr uint32_t statusFlagsMasks[] = {
-        0x04000000, // FIQ_DISABLE
-        0x08000000, // IRQ_DISABLE
-        0x10000000, // OVERFLOW
-        0x20000000, // CARRY
-        0x40000000, // ZERO
-        0x80000000  // NEGATIVE
-    };
     static const char* modeNameStrings[];
     static const char* statusFlagsNameStrings[];
 

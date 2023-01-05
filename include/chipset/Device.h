@@ -24,22 +24,25 @@ public:
     {
         typedef bool RW;
 
-        // This is oriented towards to the CPU's perspective of its output
-        // signal. In other words, when WRITE then the CPU is writing which may
-        // be a read from the perspective of the device being written to
         enum ReadWrite
         {
             READ = 0,
             WRITE
         };
 
+        // CPU I/O
         uint32_t addressBus{0};
         uint32_t dataBus{0};
         RW rw{READ};
+
+        // MEMC I/O
+
     };
 
     Device(std::shared_ptr<Device::SystemBus> systemBus_);
     ~Device();
+
+    void Tick();
 
 protected:
 
@@ -50,8 +53,6 @@ protected:
     void SetAddressBus(uint32_t addr);
     void SetDataBus(uint32_t data);
     void SetReadWrite(SystemBus::RW direction);
-
-    void Tick();
 
 private:
 

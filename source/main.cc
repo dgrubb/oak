@@ -83,6 +83,15 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
                     {
                         a3000.Tick();
                     }
+                    if ((SDL_KEYDOWN == ev.type) && (SDLK_p == ev.key.keysym.sym))
+                    {
+                        a3000.PrintState();
+                    }
+                    if ((SDL_KEYDOWN == ev.type) && (SDLK_q == ev.key.keysym.sym))
+                    {
+                        INFO("Quit requested");
+                        running = false;
+                    }
                 }
                 events.clear();
             }

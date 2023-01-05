@@ -13,6 +13,7 @@ set(${PROJECT_NAME}_TEST_SOURCES utmain.cc
     utIoc.cc
     utMemc.cc
     utLog.cc
+    utRegister.cc
     utRegisterFile.cc
 )
 
@@ -36,6 +37,7 @@ target_include_directories(${PROJECT_NAME}-utmain
         ${CMAKE_CURRENT_LIST_DIR}/../include/
         ${CMAKE_CURRENT_LIST_DIR}/../include/chipset
         ${CMAKE_CURRENT_LIST_DIR}/../include/chipset/arm2
+        ${CMAKE_CURRENT_LIST_DIR}/../include/chipset/arm2/opcodes
         ${CMAKE_CURRENT_LIST_DIR}/../include/util
 )
 

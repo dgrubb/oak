@@ -28,6 +28,7 @@ public:
     ~A3000();
 
     bool LoadROM(std::string& romFilePath);
+    void PrintState();
     void Reset();
     void Tick();
 

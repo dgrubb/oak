@@ -21,6 +21,7 @@ public:
     Arm2(std::shared_ptr<Device::SystemBus> systemBus_);
     ~Arm2();
 
+    void PrintState();
     void Reset();
 
 private:
@@ -35,6 +36,7 @@ private:
     Pipeline pipeline;
     RegisterFile registerFile;
 
+    void AdvancePipeline();
     void FlushPipeline();
 
     void DoTick() override;

@@ -17,7 +17,7 @@ uint32_t Register::Get(Cpsr::Mode mode)
 {
     if (mode > highestAccessMode)
     {
-        return shadowRegisters[Cpsr::USER];
+        return shadowRegisters[Cpsr::Mode::USER];
     }
     return shadowRegisters[mode];
 }
@@ -26,7 +26,7 @@ void Register::Set(Cpsr::Mode mode, uint32_t value)
 {
     if (mode > highestAccessMode)
     {
-        mode = Cpsr::USER;
+        mode = Cpsr::Mode::USER;
     }
     shadowRegisters[mode] = value;
 }

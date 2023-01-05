@@ -27,6 +27,11 @@ bool A3000::LoadROM(std::string& romFilePath)
     return rom.Load(romFilePath);
 }
 
+void A3000::PrintState()
+{
+    arm2.PrintState();
+}
+
 void A3000::Reset()
 {
     arm2.Reset();
@@ -35,7 +40,8 @@ void A3000::Reset()
 void A3000::Tick()
 {
     TRACE("Stepping A3000");
-
+    arm2.Tick();
+    memc.Tick();
 }
 
 A3000::~A3000()

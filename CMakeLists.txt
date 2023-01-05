@@ -17,6 +17,7 @@ target_include_directories(${PROJECT_NAME}
         ${PROJECT_SOURCE_DIR}/include
         ${PROJECT_SOURCE_DIR}/include/chipset
         ${PROJECT_SOURCE_DIR}/include/chipset/arm2
+        ${PROJECT_SOURCE_DIR}/include/chipset/arm2/opcodes
         ${PROJECT_SOURCE_DIR}/include/util
 )
 
