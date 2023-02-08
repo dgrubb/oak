@@ -57,6 +57,6 @@ libsdl2-image-2.0-0 libsdl2-image-dev libconfig-dev
 ```
 $ mkdir build && cd build
 $ cmake -DCMAKE_BUILD_TYPE=Debug ..
-$ cmake --build
+$ cmake --build .
 ```
 
