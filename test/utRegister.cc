@@ -12,7 +12,7 @@
 #include <gtest/gtest.h>
 
 // C++ library includes
-#include "memory" // std::shared_ptr
+#include <memory> // std::shared_ptr
 
 // Project includes
 #include "Cpsr.h"

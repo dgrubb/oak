@@ -7,10 +7,17 @@
 // Implementation header
 #include "Register.h"
 
+// C++ library includes
+#include <algorithm> // std::fill
+
 Register::Register(Cpsr::Mode highestAccessMode_)
   : highestAccessMode(highestAccessMode_)
 {
-    shadowRegisters.resize(highestAccessMode);
+    // N.b., access modes are zero indexed, so +1 when allocating
+    // size so the basic level (Cpsr::Mode::USER == 0) results in
+    // at least one register
+    shadowRegisters.resize(highestAccessMode+1);
+    std::fill(shadowRegisters.begin(), shadowRegisters.end(), 0);
 }
 
 uint32_t Register::Get(Cpsr::Mode mode)
