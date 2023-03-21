@@ -49,7 +49,7 @@ The usual tooling for compiling C++ with clang under Linux and the SDL developme
 
 ```
 $ sudo apt-get install clang cmake build-essential libsdl2-2.0-0 libsdl2-dev
-libsdl2-image-2.0-0 libsdl2-image-dev libconfig-dev
+libsdl2-image-2.0-0 libsdl2-image-dev libconfig-dev google-mock googletest googletest-tools libgmock-dev
 ```
 
 ## Compilation
