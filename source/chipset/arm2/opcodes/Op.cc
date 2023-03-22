@@ -1,4 +1,4 @@
-// File: Op.h
+// File: Op.cc
 // Author: dgrubb
 // Date: 02/01/2023
 //
@@ -11,11 +11,11 @@
 // Project includes
 #include "Log.h"
 
-Op::Op(uint32_t opcode_, std::shared_ptr<RegisterFile> registerFile_)
-  :  opcode{opcode_},
+Op::Op(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_)
+  :  opCode{opCode_},
      registerFile{registerFile_}
 {
-    conditionField = ((opcode & ConditionFieldMask) >> 28);
+    conditionField = ((opCode & ConditionFieldMask) >> 28);
 }
 
 bool Op::CheckConditions()

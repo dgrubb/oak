@@ -19,12 +19,14 @@ class Op
 {
 public:
 
-    Op(uint32_t opcode_, std::shared_ptr<RegisterFile> registerFile_);
+    Op(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_);
     ~Op();
 
     bool Execute();
 
 protected:
+
+    uint32_t opCode{0};
 
     bool GetExecutionCompleted() { return executionCompleted; }
 
@@ -55,7 +57,6 @@ private:
     uint32_t conditionField{0};
     uint32_t cycleCount{0};
     bool executionCompleted{false};
-    uint32_t opcode{0};
     std::shared_ptr<RegisterFile> registerFile;
 
     bool CheckConditions();

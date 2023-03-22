@@ -12,6 +12,7 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_LIST_DIR}/chipset/arm2/Cpsr.cc
         ${CMAKE_CURRENT_LIST_DIR}/chipset/arm2/Register.cc
         ${CMAKE_CURRENT_LIST_DIR}/chipset/arm2/RegisterFile.cc
+        ${CMAKE_CURRENT_LIST_DIR}/chipset/arm2/opcodes/Branch.cc
         ${CMAKE_CURRENT_LIST_DIR}/chipset/arm2/opcodes/Op.cc
         ${CMAKE_CURRENT_LIST_DIR}/util/Log.cc
 )
