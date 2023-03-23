@@ -27,6 +27,7 @@ public:
 protected:
 
     uint32_t opCode{0};
+    std::shared_ptr<RegisterFile> registerFile;
 
 private:
 
@@ -55,7 +56,6 @@ private:
     uint32_t conditionField{0};
     bool conditionsMet{false};
     uint32_t cycleCount{0};
-    std::shared_ptr<RegisterFile> registerFile;
 
     bool CheckConditions();
 

@@ -19,8 +19,9 @@
 #define BRANCH_H
 
 // C++ header includes
-#include <cstdint> // uint32_t
-#include <memory>  // std::shared_ptr
+#include <cstdint>    // uint32_t
+#include <functional> // std::function
+#include <memory>     // std::shared_ptr
 
 // Project includes
 #include "Op.h"
@@ -40,14 +41,16 @@ public:
 
 private:
 
-    // TODO figure out bitmasks here
-    static constexpr uint32_t LinkBitMask = 0x00000000;
-    static constexpr uint32_t OffsetMask = 0x00000000;
+    static constexpr uint32_t LinkBitMask = 0x01000000;
+    static constexpr uint32_t OffsetMask = 0x00FFFFFF;
     static const char* instructionNameStrings[];
 
     BranchInstruction branchInstruction{BranchInstruction::BRANCH};
     uint32_t branchOffset{0};
+    std::function<void(void)> branchExecution;
 
+    void ExecuteBranch();
+    void ExecuteBranchWithLink();
     void ParseInstruction();
     bool DoExecute() override;
 };

@@ -23,8 +23,8 @@
 #include "Log.h"
 
 const char* Branch::instructionNameStrings[] = {
-    "BRANCH",
-    "BRANCH WITH LINK"
+    "[B] BRANCH",
+    "[BL] BRANCH WITH LINK"
 };
 
 Branch::Branch(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_)
@@ -37,22 +37,62 @@ Branch::~Branch()
 {
 }
 
+void Branch::ExecuteBranch()
+{
+    TRACE("Executing: ",
+          instructionNameStrings[Branch::BranchInstruction::BRANCH],
+          ", offset: ",
+          branchOffset);
+
+    // The current PC content is summed with the offset specified
+    // in the instruction to create a jump address to be written
+    // into the PC
+    auto pc = registerFile->GetProgramCounter();
+    pc = (pc + branchOffset) & Branch::OffsetMask;
+
+    // Reload the appropriate register contents
+    registerFile->SetProgramCounter(pc);
+}
+
+void Branch::ExecuteBranchWithLink()
+{
+    TRACE("Executing: ",
+          instructionNameStrings[Branch::BranchInstruction::BRANCH_WITH_LINK],
+          ", offset: ",
+          branchOffset);
+
+    auto pc = registerFile->GetProgramCounter();
+    // The link address is the next address in the program counter, so that
+    // on completion of the branch subroutine the CPU can resume where it left
+    // off by simply writing that address back into the PC
+    auto linkAddress = pc+1;
+
+    // Meanwhile, the current PC content is summed with the
+    // offset specified in the instruction to create a jump
+    // address to be written into the PC
+    pc = (pc + branchOffset) & Branch::OffsetMask;
+
+    // Reload the appropriate register contents
+    registerFile->SetRegisterValue(RegisterFile::RegisterRef::R14, linkAddress);
+    registerFile->SetProgramCounter(pc);
+}
+
 bool Branch::DoExecute()
 {
+    branchExecution();
     return true;
 }
 
 void Branch::ParseInstruction()
 {
+    branchOffset = (Branch::OffsetMask & opCode);
     if (Branch::LinkBitMask & opCode)
     {
-        branchInstruction = Branch::BranchInstruction::BRANCH_WITH_LINK;
+        branchExecution = [this](){ ExecuteBranchWithLink(); };
     }
     else
     {
-        branchInstruction = Branch::BranchInstruction::BRANCH;
+        branchExecution = [this](){ ExecuteBranch(); };
     }
-    branchOffset = (Branch::OffsetMask & opCode);
 
-    DEBUG("Branch instruction parsed: ", instructionNameStrings[branchInstruction], ", offset: ", branchOffset);
 }
