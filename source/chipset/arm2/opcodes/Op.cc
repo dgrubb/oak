@@ -89,20 +89,26 @@ bool Op::CheckConditions()
 
 bool Op::Execute()
 {
-    if (executionCompleted)
+    // If this is the first tick for this instruction it's necessary to
+    // ensure conditions are valid prior to attempting any further computation.
+    // If the condition fields denote the instruction can't be executed at
+    // this time then indicate this instruction is completed.
+    if (0 == cycleCount && !conditionsMet)
     {
-        TRACE("Op execution completed, no further execution reqiured");
-        return true;
+        if (!CheckConditions())
+        {
+            TRACE("Op conditions not met, no further execution required");
+            return true;
+        }
+        else
+        {
+            conditionsMet = true;
+        }
     }
 
-    // Check the cycle count first before re-checking all the potential
-    // condition fields again
-    if (!cycleCount && !CheckConditions())
-    {
-        TRACE("Op conditions not met, no further execution required");
-        executionCompleted = true;
-        return true;
-    }
+    // Execute a tick of the derived instruction
+    cycleCount++;
+    TRACE("Instruction cycle count: ", cycleCount);
     return DoExecute();
 }
 
