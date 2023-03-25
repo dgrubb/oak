@@ -31,18 +31,18 @@ void Arm2::AdvancePipeline()
     pipeline.decode = pipeline.fetch;
     pipeline.fetch = systemBus->dataBus;
 
-    // Decode the insutruction which landed in
+    // Decode the instruction which landed in
     // the execute step of the pipeline
     currentInstruction = OpFactory::Create(pipeline.execute, registerFile);
 }
 
 void Arm2::DoTick()
 {
-    // Execute will return "true" to indicate computation was
+    // Execute() will return "true" to indicate computation was
     // completed in this clock tick. This is so instructions which
     // require multiple clock ticks to execute fully can be simulated
     // accurately.
-    if (!currentInstruction->Execute())
+    if (currentInstruction && !currentInstruction->Execute())
     {
         return;
     }
