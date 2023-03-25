@@ -10,29 +10,46 @@
 // Project includes
 #include "Cpsr.h" // Mode, StatusFlag
 #include "Log.h"
+#include "OpFactory.h"
 #include "Register.h"
 
 Arm2::Arm2(std::shared_ptr<Device::SystemBus> systemBus_)
   : Device(systemBus_)
 {
+    registerFile = std::make_shared<RegisterFile>();
     INFO("ARM2 initialised");
 }
 
 void Arm2::AdvancePipeline()
 {
-    // TODO: copy object from one step to the next
+    TRACE("Advancing pipeline");
+
+    // Advance fetched instructions through the
+    // mocked up pipeline and poulate the fetch
+    // step with the content of the data bus
+    pipeline.execute = pipeline.decode;
+    pipeline.decode = pipeline.fetch;
+    pipeline.fetch = systemBus->dataBus;
+
+    // Decode the insutruction which landed in
+    // the execute step of the pipeline
+    currentInstruction = OpFactory::Create(pipeline.execute, registerFile);
 }
 
 void Arm2::DoTick()
 {
-    // TODO: check if current instruction is single shot or
-    // sequential clocks (e.g., block transfer)
+    // Execute will return "true" to indicate computation was
+    // completed in this clock tick. This is so instructions which
+    // require multiple clock ticks to execute fully can be simulated
+    // accurately.
+    if (!currentInstruction->Execute())
+    {
+        return;
+    }
 
-    // TODO: Step Op
-
-    // TODO: test is op is completed, return if not
-
-    // TODO: advance pipeline
+    // Once the current instruction has completed execution the CPU
+    // will fetch the next instruction from the data bus.
+    AdvancePipeline();
 }
 
 void Arm2::FlushPipeline()
@@ -44,7 +61,7 @@ void Arm2::FlushPipeline()
 
 void Arm2::PrintState()
 {
-    registerFile.PrintCPSR();
+    registerFile->PrintCPSR();
 }
 
 void Arm2::Reset()
@@ -52,15 +69,15 @@ void Arm2::Reset()
     DEBUG("Reset");
 
     // Backup CPSR content into R14
-    uint32_t cpsr = registerFile.GetCPSR();
-    registerFile.SetMode(Cpsr::Mode::SVC);
-    registerFile.SetRegisterValue(RegisterFile::RegisterRef::R14, cpsr);
+    uint32_t cpsr = registerFile->GetCPSR();
+    registerFile->SetMode(Cpsr::Mode::SVC);
+    registerFile->SetRegisterValue(RegisterFile::RegisterRef::R14, cpsr);
 
     // Execute reset sequence, see page 12 of ARM datasheet
     FlushPipeline();
-    registerFile.SetProgramCounter(0);
-    registerFile.SetStatusFlag(Cpsr::StatusFlag::IRQ_DISABLE, true);
-    registerFile.SetStatusFlag(Cpsr::StatusFlag::FIQ_DISABLE, true);
+    registerFile->SetProgramCounter(0);
+    registerFile->SetStatusFlag(Cpsr::StatusFlag::IRQ_DISABLE, true);
+    registerFile->SetStatusFlag(Cpsr::StatusFlag::FIQ_DISABLE, true);
     SetReadWrite(Device::SystemBus::READ);
 }
 

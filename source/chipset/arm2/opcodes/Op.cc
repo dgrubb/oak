@@ -18,6 +18,10 @@ Op::Op(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_)
     conditionField = ((opCode & ConditionFieldMask) >> 28);
 }
 
+Op::~Op()
+{
+}
+
 bool Op::CheckConditions()
 {
     auto cpsr = registerFile->GetCPSR();
@@ -110,8 +114,4 @@ bool Op::Execute()
     cycleCount++;
     TRACE("Instruction cycle count: ", cycleCount);
     return DoExecute();
-}
-
-Op::~Op()
-{
 }

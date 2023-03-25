@@ -46,6 +46,8 @@ public:
 
 protected:
 
+    std::shared_ptr<Device::SystemBus> systemBus;
+
     uint32_t GetAddressBus();
     uint32_t GetDataBus();
     SystemBus::RW GetReadWrite();
@@ -55,8 +57,6 @@ protected:
     void SetReadWrite(SystemBus::RW direction);
 
 private:
-
-    std::shared_ptr<Device::SystemBus> systemBus;
 
     virtual void DoTick() = 0;
 };

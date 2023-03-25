@@ -8,10 +8,11 @@
 #define ARM2_H
 
 // C++ header includes
-#include <memory> // std::shared_ptr
+#include <memory> // std::shared_ptr, std::unique_ptr
 
 // Project includes
 #include "Device.h"
+#include "Op.h"
 #include "RegisterFile.h"
 
 class Arm2: public Device
@@ -34,7 +35,8 @@ private:
     };
 
     Pipeline pipeline;
-    RegisterFile registerFile;
+    std::shared_ptr<RegisterFile> registerFile;
+    std::unique_ptr<Op> currentInstruction;
 
     void AdvancePipeline();
     void FlushPipeline();
