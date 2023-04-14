@@ -9,7 +9,8 @@
 #define MEMC_H
 
 // C++ header includes
-#include <array> // std::array
+#include <array>   // std::array
+#include <utility> // std::pair
 
 // Project includes
 #include "Device.h"
@@ -45,6 +46,15 @@ public:
     ~Memc();
 
 private:
+
+    static constexpr std::array<std::pair<uint32_t, uint32_t>, 5> ReadMap = {{
+        // Start,   End
+        {0x0000000, 0x2000000}, // Logically mapped RAM
+        {0x2000001, 0x3000000}, // Physically mapped RAM
+        {0x3000001, 0x3400000}, // Input/output controllers
+        {0x3400001, 0x3800000}, // ROM (low)
+        {0x3800001, 0x3FFFFFF}  // ROM (high)
+    }};
 
     static const char* osModeSelectStrings[];
     static const char* pageSizeStrings[];

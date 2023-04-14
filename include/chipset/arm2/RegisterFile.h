@@ -13,7 +13,7 @@
 #include <vector>  // std::vector
 
 // Project includes
-#include "Cpsr.h"     // Mode, StatusFlag
+#include "Cpsr.h"  // Mode, StatusFlag
 #include "Register.h"
 
 class RegisterFile

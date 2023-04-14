@@ -10,6 +10,7 @@ set(GMOCK_LIBRARIES "${GMOCK_LIB};${GMOCK_MAIN_LIB}")
 get_target_property(${PROJECT_NAME}_sources ${PROJECT_NAME} SOURCES)
 list(FILTER ${PROJECT_NAME}_sources EXCLUDE REGEX main.cc)
 set(${PROJECT_NAME}_TEST_SOURCES utmain.cc
+    utCpsr.cc
     utIoc.cc
     utMemc.cc
     utLog.cc

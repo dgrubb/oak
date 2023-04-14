@@ -64,6 +64,9 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
         return EXIT_FAILURE;
     }
 
+    // Brace scope to ensure things instantiated within this block
+    // are automatically destroyed cleanly before manually
+    // stopping the renderer.
     {
         auto display = Display(Oak::name, Oak::defaultWindowWidth, Oak::defaultWindowHeight);
         auto a3000 = A3000();

@@ -45,3 +45,10 @@ TEST(RegisterFile, CanSetModeSVC)
     registerFile.SetMode(mode);
     EXPECT_EQ(registerFile.GetMode(), mode);
 }
+
+TEST(RegisterFile, CanSetGetProgramCounter)
+{
+    auto registerFile = RegisterFile();
+    registerFile.SetProgramCounter(1000);
+    EXPECT_EQ(registerFile.GetProgramCounter(), 1000);
+}
