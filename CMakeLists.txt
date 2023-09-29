@@ -9,8 +9,12 @@ set(CMAKE_VERBOSE_MAKEFILE OFF)
 add_executable(${PROJECT_NAME} "" )
 
 find_package(SDL2 REQUIRED)
+
 target_compile_options(${PROJECT_NAME} PRIVATE -pedantic -Wall -Werror)
+add_compile_options(-fsanitize=address)
+add_link_options(-fsanitize=address)
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
+
 add_subdirectory("source")
 target_include_directories(${PROJECT_NAME}
     PUBLIC

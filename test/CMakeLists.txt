@@ -28,6 +28,7 @@ target_link_libraries(${PROJECT_NAME}-utmain
     ${GMOCK_LIBRARIES}
     ${SDL2_LIBRARIES}
 )
+
 target_include_directories(${PROJECT_NAME}-utmain
     PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
@@ -41,4 +42,3 @@ target_include_directories(${PROJECT_NAME}-utmain
         ${CMAKE_CURRENT_LIST_DIR}/../include/chipset/arm2/opcodes
         ${CMAKE_CURRENT_LIST_DIR}/../include/util
 )
-
