@@ -37,7 +37,7 @@ const char* RegisterFile::registerNameStrings[] = {
 RegisterFile::RegisterFile()
 {
     Init();
-    INFO("RegisterFile initialised");
+    DEBUG("RegisterFile initialised");
 }
 
 void RegisterFile::Init()
@@ -158,5 +158,5 @@ void RegisterFile::SetStatusFlag(Cpsr::StatusFlag flag, bool set)
 
 RegisterFile::~RegisterFile()
 {
-    INFO("RegisterFile uninitialised");
+    DEBUG("RegisterFile uninitialised");
 }

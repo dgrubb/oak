@@ -17,7 +17,7 @@ Arm2::Arm2(std::shared_ptr<Device::SystemBus> systemBus_)
   : Device(systemBus_)
 {
     registerFile = std::make_shared<RegisterFile>();
-    INFO("ARM2 initialised");
+    DEBUG("ARM2 initialised");
 }
 
 void Arm2::AdvancePipeline()
@@ -83,4 +83,5 @@ void Arm2::Reset()
 
 Arm2::~Arm2()
 {
+    DEBUG("ARM2 uninitialised");
 }

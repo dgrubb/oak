@@ -31,7 +31,7 @@ const char* Cpsr::statusFlagsNameStrings[] = {
 
 Cpsr::Cpsr()
 {
-    INFO("Initialised Cpsr");
+    DEBUG("Initialised Cpsr");
 }
 
 Cpsr::Mode Cpsr::GetMode()
@@ -116,6 +116,6 @@ void Cpsr::SetStatusFlag(StatusFlag flag, bool set)
 
 Cpsr::~Cpsr()
 {
-    INFO("Unintialised Cpsr");
+    DEBUG("Unintialised Cpsr");
 }
 

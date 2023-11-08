@@ -17,7 +17,7 @@
 namespace Oak
 {
     static constexpr char name[] = "Oak";
-    static constexpr Log::Levels defaultLogLevel = Log::TRACE;
+    static constexpr Log::Levels defaultLogLevel = Log::INFO;
     static constexpr uint32_t defaultWindowWidth = 800;
     static constexpr uint32_t defaultWindowHeight = 600;
 }

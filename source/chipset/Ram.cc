@@ -14,7 +14,7 @@
 Ram::Ram(std::shared_ptr<Device::SystemBus> systemBus_)
   : Device(systemBus_)
 {
-    INFO("RAM initialised");
+    DEBUG("RAM initialised");
 }
 
 void Ram::DoTick()
@@ -50,5 +50,5 @@ bool Ram::Write(uint32_t address, uint8_t byte)
 
 Ram::~Ram()
 {
-    INFO("RAM uninitialised");
+    DEBUG("RAM uninitialised");
 }

@@ -26,7 +26,7 @@ const char* Memc::pageSizeStrings[] = {
 Memc::Memc(std::shared_ptr<Device::SystemBus> systemBus_)
   : Device(systemBus_)
 {
-    INFO("MEMC initialised");
+    DEBUG("MEMC initialised");
 }
 
 void Memc::DoTick()
@@ -63,5 +63,5 @@ void Memc::SetPageSize(PageSize size)
 
 Memc::~Memc()
 {
-    INFO("MEMC uninitialised");
+    DEBUG("MEMC uninitialised");
 }

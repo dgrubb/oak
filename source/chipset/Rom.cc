@@ -18,7 +18,7 @@
 Rom::Rom(std::shared_ptr<Device::SystemBus> systemBus_)
   : Device(systemBus_)
 {
-    INFO("ROM initialised");
+    DEBUG("ROM initialised");
 }
 
 void Rom::DoTick()
@@ -95,5 +95,5 @@ std::optional<uint32_t> Rom::ReadWord(uint32_t address)
 
 Rom::~Rom()
 {
-    INFO("ROM uninitialised");
+    DEBUG("ROM uninitialised");
 }

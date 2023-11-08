@@ -58,3 +58,11 @@ TEST(Log, CanSetCurrentLevelCritical)
     EXPECT_EQ(Log::Levels::CRITICAL, Log::GetCurrentLevel());
 }
 
+// The rest of the test suite will have this value persist
+// so applying the default will prevent a lot of log spew.
+// Adjust to more detailed levels when debugging
+TEST(Log, ResumeDefaultLevel)
+{
+    Log::SetCurrentLevel(Oak::defaultLogLevel);
+    EXPECT_EQ(Oak::defaultLogLevel, Log::GetCurrentLevel());
+}

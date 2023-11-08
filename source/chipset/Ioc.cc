@@ -14,7 +14,7 @@
 Ioc::Ioc(std::shared_ptr<Device::SystemBus> systemBus_)
   : Device(systemBus_)
 {
-    INFO("IOC initialised");
+    DEBUG("IOC initialised");
 }
 
 void Ioc::DoTick()
@@ -23,5 +23,5 @@ void Ioc::DoTick()
 
 Ioc::~Ioc()
 {
-    INFO("IOC uninitialised");
+    DEBUG("IOC uninitialised");
 }

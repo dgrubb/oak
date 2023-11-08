@@ -19,7 +19,7 @@ A3000::A3000()
     ram{systemBus},
     rom{systemBus}
 {
-    INFO("A3000 initialised");
+    DEBUG("A3000 initialised");
 }
 
 bool A3000::LoadROM(std::string& romFilePath)
@@ -46,6 +46,6 @@ void A3000::Tick()
 
 A3000::~A3000()
 {
-    INFO("A3000 uninitialised");
+    DEBUG("A3000 uninitialised");
 }
 
