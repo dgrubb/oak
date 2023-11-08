@@ -52,3 +52,11 @@ TEST(RegisterFile, CanSetGetProgramCounter)
     registerFile.SetProgramCounter(1000);
     EXPECT_EQ(registerFile.GetProgramCounter(), 1000);
 }
+
+TEST(RegisterFile, CanSetGetRegisterR0)
+{
+    auto registerFile = RegisterFile();
+    registerFile.SetRegisterValue(RegisterFile::RegisterRef::R0, 1000);
+    EXPECT_EQ(registerFile.GetRegisterValue(RegisterFile::RegisterRef::R0), 1000);
+}
+

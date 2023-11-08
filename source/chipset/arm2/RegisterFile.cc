@@ -84,9 +84,10 @@ uint32_t RegisterFile::GetRegisterValue(RegisterRef reg)
 {
     std::stringstream valHex;
     uint32_t value{0};
+    size_t regIdx = static_cast<size_t>(reg);
     Cpsr::Mode mode = GetMode();
 
-    if (R15 == reg)
+    if (RegisterRef::R15 == reg)
     {
         // R15 is the CPSR which can accessed by any mode
         // and has no shadow registers
@@ -96,11 +97,21 @@ uint32_t RegisterFile::GetRegisterValue(RegisterRef reg)
     {
         // Fetch the current mode for debug printing and for determining
         // whether a shadow register should be accessed
-        value = registers[reg].Get(mode);
+        try
+        {
+            value = registers.at(regIdx).Get(mode);
+        }
+        catch (std::out_of_range const& e)
+        {
+            std::string msg{"Failed to access register: "};
+            msg += registerNameStrings[regIdx];
+            CRITICAL(msg);
+            throw std::runtime_error(msg);
+        }
     }
 
     valHex << std::hex << value;
-    TRACE("Fetched 0x", valHex.str(), " from [ ", registerNameStrings[reg], " ], mode: ", Cpsr::GetModeString(mode));
+    TRACE("Fetched 0x", valHex.str(), " from [ ", registerNameStrings[regIdx], " ], mode: ", Cpsr::GetModeString(mode));
     return value;
 }
 
@@ -132,9 +143,10 @@ void RegisterFile::SetProgramCounter(uint32_t counter)
 void RegisterFile::SetRegisterValue(RegisterRef reg, uint32_t value)
 {
     std::stringstream valHex;
+    size_t regIdx = static_cast<size_t>(reg);
     Cpsr::Mode mode = GetMode();
 
-    if (R15 == reg)
+    if (RegisterRef::R15 == reg)
     {
         // R15 is the CPSR which can accessed by any mode
         // and has no shadow registers
@@ -144,11 +156,21 @@ void RegisterFile::SetRegisterValue(RegisterRef reg, uint32_t value)
     {
         // Fetch the current mode for debug printing and for determining
         // whether a shadow register should be accessed
-        registers[reg].Set(mode, value);
+        try
+        {
+            registers.at(regIdx).Set(mode, value);
+        }
+        catch (std::out_of_range const& e)
+        {
+            std::string msg{"Failed to access register: "};
+            msg += registerNameStrings[regIdx];
+            CRITICAL(msg);
+            throw std::runtime_error(msg);
+        }
     }
 
     valHex << std::hex << value;
-    TRACE("Set register [ ", registerNameStrings[reg], " ] to 0x", valHex.str(), ", mode: ", Cpsr::GetModeString(mode));
+    TRACE("Set register [ ", registerNameStrings[regIdx], " ] to 0x", valHex.str(), ", mode: ", Cpsr::GetModeString(mode));
 }
 
 void RegisterFile::SetStatusFlag(Cpsr::StatusFlag flag, bool set)
