@@ -38,8 +38,20 @@ and you can even run [RISC OS on a Raspberry Pi!](https://www.riscosopen.org/con
 
 ```
 Usage:
-$ ./oak -r <rom file>
+$ ./Oak [arguments]
 ```
+
+Arguments:
+
+    -h   Show usage
+    -l   Set log level (e.g., ./Oak -l DEBUG). Default INFO. Options:
+            TRACE
+            DEBUG
+            INFO
+            WARN
+            ERROR
+            CRITICAL
+    -r  Specify ROM file (e.g., ./Oak -r myROM). Defaults to ./riscos-3.71.rom
 
 **N.B.,** ROM files for RISC OS 3.71 are available legally at [4corn.co.uk.](https://www.4corn.co.uk/articles/rpcemu371win/)
 

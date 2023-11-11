@@ -25,13 +25,13 @@ namespace Oak
         "Usage: Oak [arguments]\n\n"
         "Arguments:\n\n"
         "\t-h\tShow usage\n"
-        "\t-l\tSet log level (e.g., ./Oak -l 3). Default 2 (INFO). Options:\n"
-        "\t\t\t0 - TRACE\n"
-        "\t\t\t1 - DEBUG\n"
-        "\t\t\t2 - INFO\n"
-        "\t\t\t3 - WARN\n"
-        "\t\t\t4 - ERROR\n"
-        "\t\t\t5 - CRITICAL\n"
+        "\t-l\tSet log level (e.g., ./Oak -l DEBUG). Default INFO. Options:\n"
+        "\t\t\tTRACE\n"
+        "\t\t\tDEBUG\n"
+        "\t\t\tINFO\n"
+        "\t\t\tWARN\n"
+        "\t\t\tERROR\n"
+        "\t\t\tCRITICAL\n"
         "\t-r\tSpecify ROM file (e.g., ./Oak -r myROM). Defaults to ./riscos-3.71.rom\n";
 }
 
