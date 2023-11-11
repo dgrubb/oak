@@ -10,6 +10,7 @@
 // C++ standard includes
 #include <cstring>  // std::strrchr
 #include <iostream> // std::cout, std::endl
+#include <optional> // std::optional, std::nullopt
 #include <sstream>  // std::ostringstream
 
 #define __FILENAME__ (std::strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
@@ -43,6 +44,29 @@ namespace Log {
         CRITICAL
     };
 
+    static const char* logLevelStrings[] = {
+        "TRACE",
+        "DEBUG",
+        "INFO",
+        "WARN",
+        "ERROR",
+        "CRITICAL"
+    };
+
+    static inline std::string_view GetLogLevelString(Levels level) { return logLevelStrings[level]; }
+    static inline std::optional<Levels> GetLogLevelFromString(std::string& level)
+    {
+        int logLevelIdx{0};
+        for (auto& logLevelStr: logLevelStrings)
+        {
+            if (level == logLevelStr)
+            {
+                return static_cast<Levels>(logLevelIdx);
+            }
+            logLevelIdx++;
+        }
+        return std::nullopt;
+    }
     template <typename ...Args>
     void Log(const char* level, int line, const char* file, const char* function, Args&& ... args)
     {

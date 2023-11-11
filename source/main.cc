@@ -7,6 +7,7 @@
 // C++ standard includes
 #include <csignal>    // SIGABRT, SIGTERM, SIGINT, std::signal, strsignal
 #include <cstdlib>    // EXIT_n macros
+#include <iostream>   // std::cout
 #include <string>     // std::string
 #include <unistd.h>   // opterr
 #include <vector>     // std::vector
@@ -30,24 +31,50 @@ void signalHandler(int signal)
     running = false;
 }
 
-bool ParseRomFilePath(int argc, char* argv[])
+void PrintHelp()
+{
+    std::cout << std::endl << Oak::name << " "
+        << Oak_VERSION_MAJOR << "." << Oak_VERSION_MINOR
+        << " " << Oak::author << std::endl;
+    std::cout << Oak::usage <<std::endl;
+}
+
+bool ParseArguments(int argc, char* argv[])
 {
     int c;
     opterr = 0;
 
-    while (-1 != (c = getopt(argc, argv, "r:")))
+    std::string logLevel{""};
+
+    while (-1 != (c = getopt(argc, argv, "hl:r:")))
     {
         switch (c)
         {
+            case 'h':
+                PrintHelp();
+                return false;
+            case 'l':
+                logLevel = optarg;
+                if (auto newLogLevel = Log::GetLogLevelFromString(logLevel))
+                {
+                    Log::SetCurrentLevel(newLogLevel.value());
+                }
+                else
+                {
+                    ERROR("Invalid log level selection entered: ", logLevel);
+                    PrintHelp();
+                    return false;
+                }
+                break;
             case 'r':
                 romFilePath = optarg;
-                return true;
+                break;
             default:
                 break;
         }
     }
 
-    return false;
+    return true;
 }
 
 int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
@@ -56,7 +83,10 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
     signal(SIGTERM, &signalHandler);
     signal(SIGINT, &signalHandler);
 
-    ParseRomFilePath(argc, argv);
+    if (!ParseArguments(argc, argv))
+    {
+        return EXIT_SUCCESS;
+    }
 
     if (!Display::StartRenderer())
     {

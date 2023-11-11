@@ -17,9 +17,22 @@
 namespace Oak
 {
     static constexpr char name[] = "Oak";
+    static constexpr char author[] = "dgrubb";
     static constexpr Log::Levels defaultLogLevel = Log::INFO;
     static constexpr uint32_t defaultWindowWidth = 800;
     static constexpr uint32_t defaultWindowHeight = 600;
+    static constexpr char usage[] =
+        "Usage: Oak [arguments]\n\n"
+        "Arguments:\n\n"
+        "\t-h\tShow usage\n"
+        "\t-l\tSet log level (e.g., ./Oak -l 3). Default 2 (INFO). Options:\n"
+        "\t\t\t0 - TRACE\n"
+        "\t\t\t1 - DEBUG\n"
+        "\t\t\t2 - INFO\n"
+        "\t\t\t3 - WARN\n"
+        "\t\t\t4 - ERROR\n"
+        "\t\t\t5 - CRITICAL\n"
+        "\t-r\tSpecify ROM file (e.g., ./Oak -r myROM). Defaults to ./riscos-3.71.rom\n";
 }
 
 #endif // OAK_H
