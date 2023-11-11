@@ -59,3 +59,26 @@ $ mkdir build && cd build
 $ cmake -DCMAKE_BUILD_TYPE=Debug ..
 $ cmake --build .
 ```
+
+## Execute Unit Tests
+
+To run complete suite, execute the Oak-utmain binary without arguments:
+
+```
+$ cd build/test
+$ ./Oak-utmain
+```
+
+To list available tests:
+
+```
+$ cd build/test
+$ ./Oak-utmain --gtest_list_tests
+```
+
+To execute specific tests by filter:
+
+```
+$ cd build/test
+$ ./Oak-utmain --gtest_list_tests=RegisterFile*
+```
