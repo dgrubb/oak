@@ -66,7 +66,7 @@ private:
     static const char* modeNameStrings[];
     static const char* statusFlagsNameStrings[];
 
-    uint32_t value;
+    uint32_t value{0};
 };
 
 #endif // CPSR_H

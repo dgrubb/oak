@@ -61,8 +61,6 @@ void RegisterFile::Init()
     registers.emplace_back(Cpsr::Mode::FIQ);  // R12
     registers.emplace_back(Cpsr::Mode::SVC);  // R13
     registers.emplace_back(Cpsr::Mode::SVC);  // R14
-
-    cpsr = Cpsr();
 }
 
 uint32_t RegisterFile::GetCPSR()

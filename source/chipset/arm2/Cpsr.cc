@@ -36,7 +36,7 @@ Cpsr::Cpsr()
 
 Cpsr::Mode Cpsr::GetMode()
 {
-    Mode mode = static_cast<Mode>(value &= ModeMask);
+    Mode mode = static_cast<Mode>(value & ModeMask);
     TRACE("Fetched current Mode: ", modeNameStrings[mode]);
     return mode;
 }

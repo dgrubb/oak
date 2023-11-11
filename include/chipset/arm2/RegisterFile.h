@@ -64,7 +64,7 @@ private:
 
     // R15 is a special register which contains both
     // the Program Counter (PC) and Status Register (PSR)
-    Cpsr cpsr;
+    Cpsr cpsr{};
 
     void Init();
 };

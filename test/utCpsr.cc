@@ -18,4 +18,10 @@ TEST(Cpsr, CanSetModeUSER)
     EXPECT_EQ(Cpsr::Mode::USER, cpsr.GetMode());
 }
 
+TEST(Cpsr, CanSetGetDirectly)
+{
+    auto cpsr = Cpsr();
+    cpsr.Set(50);
+    EXPECT_EQ(50, cpsr.Get());
+}
 
