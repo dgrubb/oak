@@ -33,13 +33,7 @@ void Rom::DoTick()
         {
             if (auto byte = ReadByte(systemBus->addressBus))
             {
-                // The CPU is only requesting a byte out of memory
-                // but the data bus is a full 32 bits wide. Mask the
-                // byte onto a uint32_t with a value of 0 so the
-                // behaviour is completely explicit
-                uint32_t memoryValue{0};
-                memoryValue &= byte.value();
-                systemBus->dataBus = memoryValue;
+                systemBus->dataBus = (uint32_t{0} & byte.value());
             }
             else
             {
