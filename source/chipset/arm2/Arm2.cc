@@ -78,7 +78,7 @@ void Arm2::Reset()
     registerFile->SetProgramCounter(0);
     registerFile->SetStatusFlag(Cpsr::StatusFlag::IRQ_DISABLE, true);
     registerFile->SetStatusFlag(Cpsr::StatusFlag::FIQ_DISABLE, true);
-    SetReadWrite(Device::SystemBus::READ);
+    systemBus->readWrite = Device::SystemBus::ReadWrite::READ;
 }
 
 Arm2::~Arm2()

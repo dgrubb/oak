@@ -22,21 +22,27 @@ public:
     static constexpr uint32_t AddressBusMask = 0x0FFFFFFF;
     struct SystemBus
     {
-        typedef bool RW;
-
-        enum ReadWrite
+        enum class ReadWrite : int
         {
             READ = 0,
             WRITE
         };
 
+        enum class ByteWord : int
+        {
+            BYTE = 0,
+            WORD
+        };
+
         // CPU I/O
         uint32_t addressBus{0};
         uint32_t dataBus{0};
-        RW rw{READ};
+        ReadWrite readWrite{ReadWrite::READ};
+        ByteWord byteWord{ByteWord::BYTE};
 
         // MEMC I/O
-
+        bool abortMemoryAccess{false};
+        bool enableROM{false};
     };
 
     Device(std::shared_ptr<Device::SystemBus> systemBus_);
@@ -47,14 +53,6 @@ public:
 protected:
 
     std::shared_ptr<Device::SystemBus> systemBus;
-
-    uint32_t GetAddressBus();
-    uint32_t GetDataBus();
-    SystemBus::RW GetReadWrite();
-
-    void SetAddressBus(uint32_t addr);
-    void SetDataBus(uint32_t data);
-    void SetReadWrite(SystemBus::RW direction);
 
 private:
 

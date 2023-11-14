@@ -23,6 +23,41 @@ Rom::Rom(std::shared_ptr<Device::SystemBus> systemBus_)
 
 void Rom::DoTick()
 {
+    if (systemBus->abortMemoryAccess)
+    {
+        return;
+    }
+    if (systemBus->enableROM)
+    {
+        if (Device::SystemBus::ByteWord::BYTE == systemBus->byteWord)
+        {
+            if (auto byte = ReadByte(systemBus->addressBus))
+            {
+                // The CPU is only requesting a byte out of memory
+                // but the data bus is a full 32 bits wide. Mask the
+                // byte onto a uint32_t with a value of 0 so the
+                // behaviour is completely explicit
+                uint32_t memoryValue{0};
+                memoryValue &= byte.value();
+                systemBus->dataBus = memoryValue;
+            }
+            else
+            {
+                throw std::runtime_error("Illegal memory access attempted");
+            }
+        }
+        else
+        {
+            if (auto word = ReadWord(systemBus->addressBus))
+            {
+                systemBus->dataBus = word.value();
+            }
+            else
+            {
+                throw std::runtime_error("Illegal memory access attempted");
+            }
+        }
+    }
 }
 
 bool Rom::Load(std::string& romFilePath)

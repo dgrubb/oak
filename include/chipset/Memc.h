@@ -9,8 +9,9 @@
 #define MEMC_H
 
 // C++ header includes
-#include <array>   // std::array
-#include <utility> // std::pair
+#include <array>      // std::array
+#include <functional> // std::function
+#include <utility>    // std::pair
 
 // Project includes
 #include "Device.h"
@@ -33,20 +34,25 @@ public:
         OSModeSelected
     };
 
-    static constexpr uint32_t AddressLookupTableSize = 128;
-    static constexpr uint32_t PageSizeMask = 0x00000005;
-    static constexpr uint32_t OSModeSelectMask = 0x00001000;
-
-    struct AddressTranslator
-    {
-        std::array<uint32_t, AddressLookupTableSize> lookupTable = {0};
-    };
-
     Memc(std::shared_ptr<Device::SystemBus> systemBus_);
     ~Memc();
 
+    void Reset();
+
 private:
 
+    enum class MapRegions : int
+    {
+        LOGICAL_RAM = 0,
+        PHYSICAL_RAM,
+        IO,
+        LOW_ROM,
+        HIGH_ROM
+    };
+
+    static constexpr uint32_t AddressLookupTableSize = 128;
+    static constexpr uint32_t PageSizeMask = 0x00000005;
+    static constexpr uint32_t OSModeSelectMask = 0x00001000;
     static constexpr std::array<std::pair<uint32_t, uint32_t>, 5> ReadMap = {{
         // Start,   End
         {0x0000000, 0x2000000}, // Logically mapped RAM
@@ -55,16 +61,24 @@ private:
         {0x3400001, 0x3800000}, // ROM (low)
         {0x3800001, 0x3FFFFFF}  // ROM (high)
     }};
+    struct AddressTranslator
+    {
+        std::array<uint32_t, AddressLookupTableSize> lookupTable = {0};
+    };
 
     static const char* osModeSelectStrings[];
     static const char* pageSizeStrings[];
 
     AddressTranslator addressTranslator;
     uint32_t controlRegister{0};
+    std::function<MapRegions(void)> mapFunction;
 
+    void EnableDefaultMemoryMap();
     OSModeSelect GetOSModeSelect();
-    void SetOSModeSelect(OSModeSelect select);
     PageSize GetPageSize();
+    MapRegions GetResetMemoryMapRegion();
+    MapRegions GetDefaultMemoryMapRegion();
+    void SetOSModeSelect(OSModeSelect select);
     void SetPageSize(PageSize size);
 
     void DoTick() override;
