@@ -113,7 +113,8 @@ std::optional<uint32_t> Rom::ReadWord(uint32_t address)
     {
         try
         {
-            word |= (rom.at(address) << bytesRead);
+            word <<= 8;
+            word |= rom.at(address + bytesRead);
         }
         catch(std::out_of_range&)
         {
