@@ -38,6 +38,8 @@ void Arm2::AdvancePipeline()
 
 void Arm2::DoTick()
 {
+    // TODO: Check for MEMC abort here
+
     // Execute() will return "true" to indicate computation was
     // completed in this clock tick. This is so instructions which
     // require multiple clock ticks to execute fully can be simulated
@@ -79,6 +81,7 @@ void Arm2::Reset()
     registerFile->SetStatusFlag(Cpsr::StatusFlag::IRQ_DISABLE, true);
     registerFile->SetStatusFlag(Cpsr::StatusFlag::FIQ_DISABLE, true);
     systemBus->readWrite = Device::SystemBus::ReadWrite::READ;
+    systemBus->byteWord = Device::SystemBus::ByteWord::WORD;
 }
 
 Arm2::~Arm2()

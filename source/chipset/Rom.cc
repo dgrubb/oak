@@ -29,6 +29,7 @@ void Rom::DoTick()
     }
     if (systemBus->enableROM)
     {
+        std::stringstream valHex;
         if (Device::SystemBus::ByteWord::BYTE == systemBus->byteWord)
         {
             if (auto byte = ReadByte(systemBus->addressBus))
@@ -51,6 +52,8 @@ void Rom::DoTick()
                 throw std::runtime_error("Illegal memory access attempted");
             }
         }
+        valHex << std::hex << systemBus->dataBus;
+        TRACE("Wrote value from ROM memory into data bus: 0x", valHex.str());
     }
 }
 
@@ -115,11 +118,11 @@ std::optional<uint32_t> Rom::ReadWord(uint32_t address)
         catch(std::out_of_range&)
         {
             ERROR("Failed to read ROM, address out of range: ", address);
+            return std::nullopt;
         }
     }
 
-    if (bytesRead == 3) return word;
-    return std::nullopt;
+    return word;
 }
 
 Rom::~Rom()

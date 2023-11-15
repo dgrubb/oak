@@ -34,14 +34,24 @@ void A3000::PrintState()
 
 void A3000::Reset()
 {
+    memc.Reset();
     arm2.Reset();
 }
 
 void A3000::Tick()
 {
     TRACE("Stepping A3000");
-    arm2.Tick();
-    memc.Tick();
+    try
+    {
+        arm2.Tick();
+        memc.Tick();
+        rom.Tick();
+    }
+    catch(std::exception& e)
+    {
+        arm2.PrintState();
+        throw std::runtime_error(e.what());
+    }
 }
 
 A3000::~A3000()
