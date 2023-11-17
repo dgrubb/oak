@@ -26,7 +26,7 @@
 // Project includes
 #include "Op.h"
 
-class Branch: public Op
+class Branch final: public Op
 {
 public:
 

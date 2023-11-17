@@ -16,7 +16,7 @@
 // Project includes
 #include "Device.h"
 
-class Memc: public Device
+class Memc final: public Device
 {
 public:
 

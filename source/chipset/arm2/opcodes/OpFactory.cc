@@ -14,12 +14,32 @@
 OpFactory::OpFactory() = default;
 OpFactory::~OpFactory() = default;
 
-std::unique_ptr<Op> OpFactory::Create(uint32_t opCode, std::shared_ptr<RegisterFile> registerFile)
+std::optional<std::unique_ptr<Op>> OpFactory::Create(uint32_t opCode, std::shared_ptr<RegisterFile> registerFile)
 {
-    // TODO: For the time being only one instruction type
-    // has been defined so just return that by default. This
-    // shall be fleshed out when the others are implemented
-    // as well
-    return std::make_unique<Branch>(opCode, registerFile);
+    if (IsBranch(opCode)) return std::make_unique<Branch>(opCode, registerFile);
+    if (IsDataProcessing(opCode)) return std::make_unique<Branch>(opCode, registerFile);
+    if (IsSingleDataTransfer(opCode)) return std::make_unique<Branch>(opCode, registerFile);
+    if (IsMultipleDataTransfer(opCode)) return std::make_unique<Branch>(opCode, registerFile);
+
+    return std::nullopt;
 }
 
+bool OpFactory::IsBranch(uint32_t opCode)
+{
+    return false;
+}
+
+bool OpFactory::IsDataProcessing(uint32_t opCode)
+{
+    return false;
+}
+
+bool OpFactory::IsSingleDataTransfer(uint32_t opCode)
+{
+    return false;
+}
+
+bool OpFactory::IsMultipleDataTransfer(uint32_t opCode)
+{
+    return false;
+}

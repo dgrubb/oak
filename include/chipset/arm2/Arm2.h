@@ -15,7 +15,7 @@
 #include "Op.h"
 #include "RegisterFile.h"
 
-class Arm2: public Device
+class Arm2 final: public Device
 {
 public:
 

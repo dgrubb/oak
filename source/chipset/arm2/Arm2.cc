@@ -33,7 +33,14 @@ void Arm2::AdvancePipeline()
 
     // Decode the instruction which landed in
     // the execute step of the pipeline
-    currentInstruction = OpFactory::Create(pipeline.execute, registerFile);
+    if (auto instruction = OpFactory::Create(pipeline.execute, registerFile))
+    {
+        currentInstruction = std::move(instruction.value());
+    }
+    else
+    {
+        throw std::runtime_error("Failed to parse instruction from op code");
+    }
 }
 
 void Arm2::DoTick()

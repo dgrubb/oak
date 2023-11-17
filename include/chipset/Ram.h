@@ -17,7 +17,7 @@
 // Project includes
 #include "Device.h"
 
-class Ram: public Device
+class Ram final: public Device
 {
 public:
 

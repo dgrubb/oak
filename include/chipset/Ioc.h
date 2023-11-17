@@ -15,7 +15,7 @@
 // Project includes
 #include "Device.h"
 
-class Ioc: public Device
+class Ioc final: public Device
 {
 public:
 

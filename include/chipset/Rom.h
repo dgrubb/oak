@@ -17,7 +17,7 @@
 // Project includes
 #include "Device.h"
 
-class Rom: public Device
+class Rom final: public Device
 {
 public:
 
