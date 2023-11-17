@@ -19,8 +19,8 @@ namespace Oak
     static constexpr char name[] = "Oak";
     static constexpr char author[] = "dgrubb";
     static constexpr Log::Levels defaultLogLevel = Log::INFO;
-    static constexpr uint32_t defaultWindowWidth = 800;
-    static constexpr uint32_t defaultWindowHeight = 600;
+    static constexpr unsigned int defaultWindowWidth = 800;
+    static constexpr unsigned int defaultWindowHeight = 600;
     static constexpr char usage[] =
         "Usage: Oak [arguments]\n\n"
         "Arguments:\n\n"

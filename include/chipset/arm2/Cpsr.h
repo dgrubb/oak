@@ -12,11 +12,14 @@
 #include <cstdint>     // uint32_t
 #include <string_view> // std::string_view
 
+// Project includes
+#include "Integral.h"
+
 class Cpsr
 {
 public:
 
-    enum Mode
+    enum class Mode : int
     {
         USER = 0, // 00
         FIQ,      // 01
@@ -24,7 +27,7 @@ public:
         SVC       // 11
     };
 
-    enum StatusFlag
+    enum class StatusFlag : int
     {
         FIQ_DISABLE = 0,
         IRQ_DISABLE,
@@ -46,7 +49,7 @@ public:
     Cpsr();
     ~Cpsr();
 
-    static inline std::string_view GetModeString(Mode mode) { return modeNameStrings[mode]; }
+    static inline std::string_view GetModeString(Mode mode) { return modeNameStrings[ToIntegral(mode)]; }
     uint32_t Get() { return value; }
     Mode GetMode();
     uint32_t GetProgramCounter();

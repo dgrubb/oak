@@ -16,7 +16,7 @@ Register::Register(Cpsr::Mode highestAccessMode_)
     // N.b., access modes are zero indexed, so +1 when allocating
     // size so the basic level (Cpsr::Mode::USER == 0) results in
     // at least one register
-    shadowRegisters.resize(highestAccessMode+1);
+    shadowRegisters.resize(ToIntegral(highestAccessMode) + 1);
     std::fill(shadowRegisters.begin(), shadowRegisters.end(), 0);
 }
 
@@ -24,9 +24,9 @@ uint32_t Register::Get(Cpsr::Mode mode)
 {
     if (mode > highestAccessMode)
     {
-        return shadowRegisters[Cpsr::Mode::USER];
+        return shadowRegisters[ToIntegral(Cpsr::Mode::USER)];
     }
-    return shadowRegisters[mode];
+    return shadowRegisters[ToIntegral(mode)];
 }
 
 void Register::Set(Cpsr::Mode mode, uint32_t value)
@@ -35,7 +35,7 @@ void Register::Set(Cpsr::Mode mode, uint32_t value)
     {
         mode = Cpsr::Mode::USER;
     }
-    shadowRegisters[mode] = value;
+    shadowRegisters[ToIntegral(mode)] = value;
 }
 
 Register::~Register()

@@ -13,6 +13,7 @@
 #include <sstream> // std::stringstream
 
 // Project includes
+#include "Integral.h"
 #include "Log.h"
 
 const char* RegisterFile::registerNameStrings[] = {
@@ -82,7 +83,6 @@ uint32_t RegisterFile::GetRegisterValue(RegisterRef reg)
 {
     std::stringstream valHex;
     uint32_t value{0};
-    size_t regIdx = static_cast<size_t>(reg);
     Cpsr::Mode mode = GetMode();
 
     if (RegisterRef::R15 == reg)
@@ -97,19 +97,19 @@ uint32_t RegisterFile::GetRegisterValue(RegisterRef reg)
         // whether a shadow register should be accessed
         try
         {
-            value = registers.at(regIdx).Get(mode);
+            value = registers.at(ToIntegral(reg)).Get(mode);
         }
         catch (std::out_of_range const& e)
         {
             std::string msg{"Failed to access register: "};
-            msg += registerNameStrings[regIdx];
+            msg += registerNameStrings[ToIntegral(reg)];
             CRITICAL(msg);
             throw std::runtime_error(msg);
         }
     }
 
     valHex << std::hex << value;
-    TRACE("Fetched 0x", valHex.str(), " from [ ", registerNameStrings[regIdx], " ], mode: ", Cpsr::GetModeString(mode));
+    TRACE("Fetched 0x", valHex.str(), " from [ ", registerNameStrings[ToIntegral(reg)], " ], mode: ", Cpsr::GetModeString(mode));
     return value;
 }
 
@@ -141,7 +141,6 @@ void RegisterFile::SetProgramCounter(uint32_t counter)
 void RegisterFile::SetRegisterValue(RegisterRef reg, uint32_t value)
 {
     std::stringstream valHex;
-    size_t regIdx = static_cast<size_t>(reg);
     Cpsr::Mode mode = GetMode();
 
     if (RegisterRef::R15 == reg)
@@ -156,19 +155,19 @@ void RegisterFile::SetRegisterValue(RegisterRef reg, uint32_t value)
         // whether a shadow register should be accessed
         try
         {
-            registers.at(regIdx).Set(mode, value);
+            registers.at(ToIntegral(reg)).Set(mode, value);
         }
         catch (std::out_of_range const& e)
         {
             std::string msg{"Failed to access register: "};
-            msg += registerNameStrings[regIdx];
+            msg += registerNameStrings[ToIntegral(reg)];
             CRITICAL(msg);
             throw std::runtime_error(msg);
         }
     }
 
     valHex << std::hex << value;
-    TRACE("Set register [ ", registerNameStrings[regIdx], " ] to 0x", valHex.str(), ", mode: ", Cpsr::GetModeString(mode));
+    TRACE("Set register [ ", registerNameStrings[ToIntegral(reg)], " ] to 0x", valHex.str(), ", mode: ", Cpsr::GetModeString(mode));
 }
 
 void RegisterFile::SetStatusFlag(Cpsr::StatusFlag flag, bool set)

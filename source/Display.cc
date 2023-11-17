@@ -37,7 +37,7 @@ void Display::StopRenderer()
     SDL_Quit();
 }
 
-Display::Display(std::string_view name, uint32_t width, uint32_t height)
+Display::Display(std::string_view name, unsigned int width, unsigned int height)
   : window(
         SDL_CreateWindow(
             name.data(),

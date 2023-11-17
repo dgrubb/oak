@@ -24,7 +24,7 @@ public:
     static bool StartRenderer();
     static void StopRenderer();
 
-    Display(std::string_view name, uint32_t width, uint32_t height);
+    Display(std::string_view name, unsigned int width, unsigned int height);
     ~Display();
 
     void Clear();

@@ -30,7 +30,7 @@ class Branch: public Op
 {
 public:
 
-    enum BranchInstruction
+    enum class BranchInstruction : int
     {
         BRANCH = 0,
         BRANCH_WITH_LINK

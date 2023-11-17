@@ -20,6 +20,7 @@
 #include "Branch.h"
 
 // Project includes
+#include "Integral.h"
 #include "Log.h"
 
 const char* Branch::instructionNameStrings[] = {
@@ -40,7 +41,7 @@ Branch::~Branch()
 void Branch::ExecuteBranch()
 {
     TRACE("Executing: ",
-          instructionNameStrings[Branch::BranchInstruction::BRANCH],
+          instructionNameStrings[ToIntegral(Branch::BranchInstruction::BRANCH)],
           ", offset: ",
           branchOffset);
 
@@ -57,7 +58,7 @@ void Branch::ExecuteBranch()
 void Branch::ExecuteBranchWithLink()
 {
     TRACE("Executing: ",
-          instructionNameStrings[Branch::BranchInstruction::BRANCH_WITH_LINK],
+          instructionNameStrings[ToIntegral(Branch::BranchInstruction::BRANCH_WITH_LINK)],
           ", offset: ",
           branchOffset);
 

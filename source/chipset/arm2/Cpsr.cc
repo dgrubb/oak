@@ -37,7 +37,7 @@ Cpsr::Cpsr()
 Cpsr::Mode Cpsr::GetMode()
 {
     Mode mode = static_cast<Mode>(value & ModeMask);
-    TRACE("Fetched current Mode: ", modeNameStrings[mode]);
+    TRACE("Fetched current Mode: ", modeNameStrings[ToIntegral(mode)]);
     return mode;
 }
 
@@ -55,8 +55,8 @@ uint32_t Cpsr::GetProgramCounter()
 
 bool Cpsr::GetStatusFlag(StatusFlag flag)
 {
-    bool set = value & statusFlagsMasks[flag];
-    TRACE("Fetched status flag [ ", statusFlagsNameStrings[flag], " ], set: ", set);
+    bool set = value & statusFlagsMasks[ToIntegral(flag)];
+    TRACE("Fetched status flag [ ", statusFlagsNameStrings[ToIntegral(flag)], " ], set: ", set);
     return set;
 }
 
@@ -67,12 +67,12 @@ void Cpsr::PrintState()
     uint32_t mode = value & ModeMask;
 
     TRACE(" | N | Z | C | V | I | F |     PC     | MODE");
-    TRACE(" | ", bool{0 != (value & statusFlagsMasks[StatusFlag::NEGATIVE])},
-          " | ", bool{0 != (value & statusFlagsMasks[StatusFlag::ZERO])},
-          " | ", bool{0 != (value & statusFlagsMasks[StatusFlag::CARRY])},
-          " | ", bool{0 != (value & statusFlagsMasks[StatusFlag::OVERFLOW])},
-          " | ", bool{0 != (value & statusFlagsMasks[StatusFlag::IRQ_DISABLE])},
-          " | ", bool{0 != (value & statusFlagsMasks[StatusFlag::FIQ_DISABLE])},
+    TRACE(" | ", bool{0 != (value & statusFlagsMasks[ToIntegral(StatusFlag::NEGATIVE)])},
+          " | ", bool{0 != (value & statusFlagsMasks[ToIntegral(StatusFlag::ZERO)])},
+          " | ", bool{0 != (value & statusFlagsMasks[ToIntegral(StatusFlag::CARRY)])},
+          " | ", bool{0 != (value & statusFlagsMasks[ToIntegral(StatusFlag::OVERFLOW)])},
+          " | ", bool{0 != (value & statusFlagsMasks[ToIntegral(StatusFlag::IRQ_DISABLE)])},
+          " | ", bool{0 != (value & statusFlagsMasks[ToIntegral(StatusFlag::FIQ_DISABLE)])},
           " | 0x", pcHex.str(),
           " | ", modeNameStrings[mode]);
 }
@@ -80,8 +80,8 @@ void Cpsr::PrintState()
 void Cpsr::SetMode(Mode mode)
 {
     value &= ~ModeMask;
-    value |= mode;
-    TRACE("Set current Mode: ", modeNameStrings[mode]);
+    value |= ToIntegral(mode);
+    TRACE("Set current Mode: ", modeNameStrings[ToIntegral(mode)]);
 }
 
 void Cpsr::SetProgramCounter(uint32_t counter)
@@ -105,13 +105,13 @@ void Cpsr::SetStatusFlag(StatusFlag flag, bool set)
 {
     if (set)
     {
-        value |= statusFlagsMasks[flag];
+        value |= statusFlagsMasks[ToIntegral(flag)];
     }
     else
     {
-        value &= ~statusFlagsMasks[flag];
+        value &= ~statusFlagsMasks[ToIntegral(flag)];
     }
-    TRACE("Set status flag [ ", statusFlagsNameStrings[flag], " ], set: ", set);
+    TRACE("Set status flag [ ", statusFlagsNameStrings[ToIntegral(flag)], " ], set: ", set);
 }
 
 Cpsr::~Cpsr()

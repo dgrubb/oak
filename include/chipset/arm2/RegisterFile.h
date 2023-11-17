@@ -20,7 +20,7 @@ class RegisterFile
 {
 public:
 
-    enum class RegisterRef : uint32_t
+    enum class RegisterRef : int
     {
         R0 = 0,
         R1,
