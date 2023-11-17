@@ -22,6 +22,11 @@ public:
     Arm2(std::shared_ptr<Device::SystemBus> systemBus_);
     ~Arm2();
 
+    Arm2(const Arm2 &orig)          = delete;
+    Arm2(Arm2 &&orig)               = delete;
+    Arm2 &operator=(const Arm2 &)   = delete;
+    Arm2 &operator=(Arm2 &&)        = delete;
+
     void PrintState();
     void Reset();
 

@@ -37,6 +37,11 @@ public:
     Memc(std::shared_ptr<Device::SystemBus> systemBus_);
     ~Memc();
 
+    Memc(const Memc &orig)          = delete;
+    Memc(Memc &&orig)               = delete;
+    Memc &operator=(const Memc &)   = delete;
+    Memc &operator=(Memc &&)        = delete;
+
     void Reset();
 
 private:

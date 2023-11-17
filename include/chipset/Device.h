@@ -48,6 +48,11 @@ public:
     Device(std::shared_ptr<Device::SystemBus> systemBus_);
     ~Device();
 
+    Device(const Device &orig)          = delete;
+    Device(Device &&orig)               = delete;
+    Device &operator=(const Device &)   = delete;
+    Device &operator=(Device &&)        = delete;
+
     void Tick();
 
 protected:

@@ -27,6 +27,11 @@ public:
     A3000();
     ~A3000();
 
+    A3000(const A3000 &orig)          = delete;
+    A3000(A3000 &&orig)               = delete;
+    A3000 &operator=(const A3000 &)   = delete;
+    A3000 &operator=(A3000 &&)        = delete;
+
     bool LoadROM(std::string& romFilePath);
     void PrintState();
     void Reset();

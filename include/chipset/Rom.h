@@ -24,6 +24,11 @@ public:
     Rom(std::shared_ptr<Device::SystemBus> systemBus_);
     ~Rom();
 
+    Rom(const Rom &orig)          = delete;
+    Rom(Rom &&orig)               = delete;
+    Rom &operator=(const Rom &)   = delete;
+    Rom &operator=(Rom &&)        = delete;
+
     std::optional<uint8_t> ReadByte(uint32_t address);
     std::optional<uint32_t> ReadWord(uint32_t address);
 

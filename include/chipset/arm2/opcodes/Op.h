@@ -22,6 +22,11 @@ public:
     Op(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_);
     ~Op();
 
+    Op(const Op &orig)          = delete;
+    Op(Op &&orig)               = delete;
+    Op &operator=(const Op &)   = delete;
+    Op &operator=(Op &&)        = delete;
+
     bool Execute();
 
 protected:

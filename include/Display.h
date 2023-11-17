@@ -27,6 +27,11 @@ public:
     Display(std::string_view name, unsigned int width, unsigned int height);
     ~Display();
 
+    Display(const Display &orig)          = delete;
+    Display(Display &&orig)               = delete;
+    Display &operator=(const Display &)   = delete;
+    Display &operator=(Display &&)        = delete;
+
     void Clear();
     bool ProcessEventQueue(std::vector<SDL_Event>& events);
     bool SetFullscreen(const bool fullscreen_);

@@ -22,6 +22,11 @@ public:
     Ioc(std::shared_ptr<Device::SystemBus> systemBus_);
     ~Ioc();
 
+    Ioc(const Ioc &orig)          = delete;
+    Ioc(Ioc &&orig)               = delete;
+    Ioc &operator=(const Ioc &)   = delete;
+    Ioc &operator=(Ioc &&)        = delete;
+
 private:
 
     void DoTick() override;

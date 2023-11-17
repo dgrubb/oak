@@ -21,6 +21,12 @@ public:
     Register(Cpsr::Mode highestAccessMode_);
     ~Register();
 
+    Register(const Register &orig)          = delete;
+    // N.b., allow usage with emplace_back of vectors
+    Register(Register &&orig)               = default;
+    Register &operator=(const Register &)   = delete;
+    Register &operator=(Register &&)        = delete;
+
     uint32_t Get(Cpsr::Mode mode);
 
     void Set(Cpsr::Mode mode, uint32_t value);

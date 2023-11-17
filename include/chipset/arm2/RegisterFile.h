@@ -43,6 +43,11 @@ public:
     RegisterFile();
     ~RegisterFile();
 
+    RegisterFile(const RegisterFile &orig)          = delete;
+    RegisterFile(RegisterFile &&orig)               = delete;
+    RegisterFile &operator=(const RegisterFile &)   = delete;
+    RegisterFile &operator=(RegisterFile &&)        = delete;
+
     uint32_t GetCPSR();
     Cpsr::Mode GetMode();
     uint32_t GetProgramCounter();

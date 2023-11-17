@@ -26,6 +26,11 @@ public:
     Ram(std::shared_ptr<Device::SystemBus> systemBus_);
     ~Ram();
 
+    Ram(const Ram &orig)          = delete;
+    Ram(Ram &&orig)               = delete;
+    Ram &operator=(const Ram &)   = delete;
+    Ram &operator=(Ram &&)        = delete;
+
     std::optional<uint8_t> Read(uint32_t address);
     bool Write(uint32_t address, uint8_t byte);
 
