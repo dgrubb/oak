@@ -9,6 +9,7 @@
 #include "OpFactory.h"
 
 // Project headers
+#include "BlockTransfer.h"
 #include "Branch.h"
 
 OpFactory::OpFactory() = default;
