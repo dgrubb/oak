@@ -14,6 +14,8 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_LIST_DIR}/chipset/arm2/RegisterFile.cc
         ${CMAKE_CURRENT_LIST_DIR}/chipset/arm2/opcodes/BlockTransfer.cc
         ${CMAKE_CURRENT_LIST_DIR}/chipset/arm2/opcodes/Branch.cc
+        ${CMAKE_CURRENT_LIST_DIR}/chipset/arm2/opcodes/DataProcessing.cc
+        ${CMAKE_CURRENT_LIST_DIR}/chipset/arm2/opcodes/Multiply.cc
         ${CMAKE_CURRENT_LIST_DIR}/chipset/arm2/opcodes/Op.cc
         ${CMAKE_CURRENT_LIST_DIR}/chipset/arm2/opcodes/OpFactory.cc
         ${CMAKE_CURRENT_LIST_DIR}/util/Log.cc
