@@ -101,7 +101,11 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
         auto display = Display(Oak::name, Oak::defaultWindowWidth, Oak::defaultWindowHeight);
         auto a3000 = A3000();
         a3000.Reset();
-        a3000.LoadROM(romFilePath);
+        if (!a3000.LoadROM(romFilePath))
+        {
+            ERROR("Failed to load ROM file: ", romFilePath);
+            return EXIT_FAILURE;
+        }
 
         INFO("Initialised Oak v", Oak_VERSION_MAJOR, ".", Oak_VERSION_MINOR);
 

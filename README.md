@@ -55,6 +55,16 @@ Arguments:
 
 **N.B.,** ROM files for RISC OS 3.71 are available legally at [4corn.co.uk.](https://www.4corn.co.uk/articles/rpcemu371win/)
 
+```
+$ curl -O https://www.4corn.co.uk/archive/roms/riscos3_71.zip && unzip riscos3_71.zip
+```
+
+or:
+
+```
+$ wget https://www.4corn.co.uk/archive/roms/riscos3_71.zip && unzip riscos3_71.zip
+```
+
 # Requirements
 
 The usual tooling for compiling C++ with clang under Linux and the SDL development libraries. Under Debian/Ubuntu:
