@@ -30,8 +30,9 @@ private:
 
     static bool IsBranch(uint32_t opCode);
     static bool IsDataProcessing(uint32_t opCode);
+    static bool IsMultiply(uint32_t opCode);
     static bool IsSingleDataTransfer(uint32_t opCode);
-    static bool IsMultipleDataTransfer(uint32_t opCode);
+    static bool IsBlockDataTransfer(uint32_t opCode);
 };
 
 #endif // OPFACTORY_H

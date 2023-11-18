@@ -15,7 +15,6 @@
 //      at the end of the routine allows for a quick return back
 //      into the program flow.
 
-
 // Implementation header
 #include "Branch.h"
 
