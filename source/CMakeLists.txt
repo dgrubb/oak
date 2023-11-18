@@ -18,5 +18,6 @@ target_sources(${PROJECT_NAME}
         ${CMAKE_CURRENT_LIST_DIR}/chipset/arm2/opcodes/Multiply.cc
         ${CMAKE_CURRENT_LIST_DIR}/chipset/arm2/opcodes/Op.cc
         ${CMAKE_CURRENT_LIST_DIR}/chipset/arm2/opcodes/OpFactory.cc
+        ${CMAKE_CURRENT_LIST_DIR}/chipset/arm2/opcodes/SingleTransfer.cc
         ${CMAKE_CURRENT_LIST_DIR}/util/Log.cc
 )

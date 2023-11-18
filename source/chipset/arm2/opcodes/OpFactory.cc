@@ -11,6 +11,9 @@
 // Project headers
 #include "BlockTransfer.h"
 #include "Branch.h"
+#include "DataProcessing.h"
+#include "Multiply.h"
+#include "SingleTransfer.h"
 
 OpFactory::OpFactory() = default;
 OpFactory::~OpFactory() = default;
@@ -18,9 +21,9 @@ OpFactory::~OpFactory() = default;
 std::optional<std::unique_ptr<Op>> OpFactory::Create(uint32_t opCode, std::shared_ptr<RegisterFile> registerFile)
 {
     if (IsBranch(opCode)) return std::make_unique<Branch>(opCode, registerFile);
-    if (IsDataProcessing(opCode)) return std::make_unique<Branch>(opCode, registerFile);
-    if (IsMultiply(opCode)) return std::make_unique<Branch>(opCode, registerFile);
-    if (IsSingleDataTransfer(opCode)) return std::make_unique<Branch>(opCode, registerFile);
+    if (IsDataProcessing(opCode)) return std::make_unique<DataProcessing>(opCode, registerFile);
+    if (IsMultiply(opCode)) return std::make_unique<Multiply>(opCode, registerFile);
+    if (IsSingleDataTransfer(opCode)) return std::make_unique<SingleTransfer>(opCode, registerFile);
     if (IsBlockDataTransfer(opCode)) return std::make_unique<BlockTransfer>(opCode, registerFile);
 
     return std::nullopt;
