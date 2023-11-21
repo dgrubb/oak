@@ -25,61 +25,61 @@ Op::~Op()
 
 bool Op::CheckConditions()
 {
-    auto cpsr = registerFile->GetCPSRValue();
+    auto& cpsr = registerFile->GetCPSR();
 
     switch (conditionField)
     {
         case EQ:
             // ZERO flag is set
-            return (cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::ZERO)]);
+            return cpsr.GetStatusFlag(Cpsr::StatusFlag::ZERO);
         case NE:
             // ZERO flag is clear
-            return !(cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::ZERO)]);
+            return !cpsr.GetStatusFlag(Cpsr::StatusFlag::ZERO);
         case CS:
             // CARRY flag is set
-            return (cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::CARRY)]);
+            return cpsr.GetStatusFlag(Cpsr::StatusFlag::CARRY);
         case CC:
             // CARRY flag is clear
-            return !(cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::CARRY)]);
+            return !cpsr.GetStatusFlag(Cpsr::StatusFlag::CARRY);
         case MI:
             // NEGATIVE flag is set
-            return (cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::NEGATIVE)]);
+            return cpsr.GetStatusFlag(Cpsr::StatusFlag::NEGATIVE);
         case PL:
             // NEGATIVE flag is clear
-            return !(cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::NEGATIVE)]);
+            return !cpsr.GetStatusFlag(Cpsr::StatusFlag::NEGATIVE);
         case VS:
             // OVERFLOW is set
-            return (cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::OVERFLOW)]);
+            return cpsr.GetStatusFlag(Cpsr::StatusFlag::OVERFLOW);
         case VC:
             // OVERFLOW is clear
-            return !(cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::OVERFLOW)]);
+            return !cpsr.GetStatusFlag(Cpsr::StatusFlag::OVERFLOW);
         case HI:
             // CARRY is set and ZERO is clear
-            return  (cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::CARRY)]) &&
-                   !(cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::ZERO)]);
+            return cpsr.GetStatusFlag(Cpsr::StatusFlag::CARRY) &&
+                   !cpsr.GetStatusFlag(Cpsr::StatusFlag::ZERO);
         case LS:
             // CARRY is clear or ZERO is set
-            return  !(cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::CARRY)]) ||
-                    (cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::ZERO)]);
+            return !cpsr.GetStatusFlag(Cpsr::StatusFlag::CARRY) ||
+                   cpsr.GetStatusFlag(Cpsr::StatusFlag::ZERO);
         case GE:
             // NEGATIVE equals OVERFLOW
-            return ((cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::NEGATIVE)]) ==
-                    (cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::OVERFLOW)]));
+            return cpsr.GetStatusFlag(Cpsr::StatusFlag::NEGATIVE) ==
+                   cpsr.GetStatusFlag(Cpsr::StatusFlag::OVERFLOW);
         case LT:
             // NEGATIVE not equal to OVERFLOW
-            return ((cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::NEGATIVE)]) !=
-                    (cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::OVERFLOW)]));
+            return cpsr.GetStatusFlag(Cpsr::StatusFlag::NEGATIVE) !=
+                   cpsr.GetStatusFlag(Cpsr::StatusFlag::OVERFLOW);
         case GT:
             // ZERO is clear, and either NEGATIVE is set and OVERFLOW is set, or NEGATIVE
             // is clear and OVERFLOW clear
-            return (!(cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::ZERO)]) &&
-                    ((cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::NEGATIVE)]) ==
-                     (cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::OVERFLOW)])));
+            return !cpsr.GetStatusFlag(Cpsr::StatusFlag::ZERO) &&
+                   (cpsr.GetStatusFlag(Cpsr::StatusFlag::NEGATIVE) ==
+                    cpsr.GetStatusFlag(Cpsr::StatusFlag::OVERFLOW));
         case LE:
             // ZERO is set, or NEGATIVE not equal to OVERFLOW
-            return ((cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::ZERO)]) ||
-                    ((cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::NEGATIVE)]) !=
-                    (cpsr & Cpsr::statusFlagsMasks[ToIntegral(Cpsr::StatusFlag::OVERFLOW)])));
+            return cpsr.GetStatusFlag(Cpsr::StatusFlag::ZERO) ||
+                   (cpsr.GetStatusFlag(Cpsr::StatusFlag::NEGATIVE) !=
+                    cpsr.GetStatusFlag(Cpsr::StatusFlag::OVERFLOW));
         case AL:
             // Always
             return true;
