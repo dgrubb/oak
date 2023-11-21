@@ -31,6 +31,17 @@ void Arm2::AdvancePipeline()
     pipeline.decode = pipeline.fetch;
     pipeline.fetch = systemBus->dataBus;
 
+    // TODO: This is a hack to ensure empty pieces of the pipeline
+    // aren't erroneously identified as the wrong instruction at startup
+    // when the first instruction hasn't made it through the pipeline.
+    // Need to research further to understand how the hardware handled
+    // this situation
+    if (0x0 == pipeline.execute)
+    {
+        TRACE("Instruction pipeline empty, skipping cycle");
+        return;
+    }
+
     // Decode the instruction which landed in
     // the execute step of the pipeline
     if (auto instruction = OpFactory::Create(pipeline.execute, registerFile))
