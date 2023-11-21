@@ -51,7 +51,7 @@ const char* DataProcessing::instructionNameStrings[] = {
 DataProcessing::DataProcessing(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_)
   : Op(opCode_, registerFile_)
 {
-
+    ParseInstruction();
 }
 
 DataProcessing::~DataProcessing()
@@ -60,9 +60,112 @@ DataProcessing::~DataProcessing()
 
 bool DataProcessing::DoExecute()
 {
+    dataExecution();
     return true;
 }
 
 void DataProcessing::ParseInstruction()
 {
+    auto instruction = static_cast<DataProcessingInstruction>((opCode & instructionMask) >> 21);
+    switch(instruction)
+    {
+        case DataProcessingInstruction::AND: dataExecution = [this]() { AND(); }; return;
+        case DataProcessingInstruction::EOR: dataExecution = [this]() { EOR(); }; return;
+        case DataProcessingInstruction::SUB: dataExecution = [this]() { SUB(); }; return;
+        case DataProcessingInstruction::RSB: dataExecution = [this]() { RSB(); }; return;
+        case DataProcessingInstruction::ADD: dataExecution = [this]() { ADD(); }; return;
+        case DataProcessingInstruction::ADC: dataExecution = [this]() { ADC(); }; return;
+        case DataProcessingInstruction::SBC: dataExecution = [this]() { SBC(); }; return;
+        case DataProcessingInstruction::RSC: dataExecution = [this]() { RSC(); }; return;
+        case DataProcessingInstruction::TST: dataExecution = [this]() { TST(); }; return;
+        case DataProcessingInstruction::TEQ: dataExecution = [this]() { TEQ(); }; return;
+        case DataProcessingInstruction::CMP: dataExecution = [this]() { CMP(); }; return;
+        case DataProcessingInstruction::CMN: dataExecution = [this]() { CMN(); }; return;
+        case DataProcessingInstruction::ORR: dataExecution = [this]() { ORR(); }; return;
+        case DataProcessingInstruction::MOV: dataExecution = [this]() { MOV(); }; return;
+        case DataProcessingInstruction::BIC: dataExecution = [this]() { BIC(); }; return;
+        case DataProcessingInstruction::MVN: dataExecution = [this]() { MVN(); }; return;
+        default:
+            throw std::runtime_error("Unrecognised instruction: " + std::to_string(static_cast<int>(instruction)));
+    }
+}
+
+void DataProcessing::AND()
+{
+    TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::AND)]);
+}
+
+void DataProcessing::EOR()
+{
+    TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::EOR)]);
+}
+
+void DataProcessing::SUB()
+{
+    TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::SUB)]);
+}
+
+void DataProcessing::RSB()
+{
+    TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::RSB)]);
+}
+
+void DataProcessing::ADD()
+{
+    TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::ADD)]);
+}
+
+void DataProcessing::ADC()
+{
+    TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::ADC)]);
+}
+
+void DataProcessing::SBC()
+{
+    TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::SBC)]);
+}
+
+void DataProcessing::RSC()
+{
+    TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::RSC)]);
+}
+
+void DataProcessing::TST()
+{
+    TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::TST)]);
+}
+
+void DataProcessing::TEQ()
+{
+    TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::TEQ)]);
+}
+
+void DataProcessing::CMP()
+{
+    TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::CMP)]);
+}
+
+void DataProcessing::CMN()
+{
+    TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::CMN)]);
+}
+
+void DataProcessing::ORR()
+{
+    TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::ORR)]);
+}
+
+void DataProcessing::MOV()
+{
+    TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::MOV)]);
+}
+
+void DataProcessing::BIC()
+{
+    TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::BIC)]);
+}
+
+void DataProcessing::MVN()
+{
+    TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::MVN)]);
 }

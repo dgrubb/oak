@@ -27,8 +27,9 @@
 #define DATAPROCESSING_H
 
 // C++ header includes
-#include <cstdint> // uint32_t
-#include <memory>  // std::shared_ptr
+#include <cstdint>    // uint32_t
+#include <functional> // std::function
+#include <memory>     // std::shared_ptr
 
 // Project includes
 #include "Op.h"
@@ -63,6 +64,25 @@ public:
 private:
 
     static const char* instructionNameStrings[];
+    static constexpr uint32_t instructionMask = 0x03C00000;
+    std::function<void(void)> dataExecution;
+
+    void AND();
+    void EOR();
+    void SUB();
+    void RSB();
+    void ADD();
+    void ADC();
+    void SBC();
+    void RSC();
+    void TST();
+    void TEQ();
+    void CMP();
+    void CMN();
+    void ORR();
+    void MOV();
+    void BIC();
+    void MVN();
 
     void ParseInstruction();
     bool DoExecute() override;
