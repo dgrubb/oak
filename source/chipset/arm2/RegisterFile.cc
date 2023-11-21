@@ -64,7 +64,7 @@ void RegisterFile::Init()
     registers.emplace_back(Cpsr::Mode::SVC);  // R14
 }
 
-uint32_t RegisterFile::GetCPSR()
+uint32_t RegisterFile::GetCPSRValue()
 {
     return cpsr.Get();
 }
@@ -123,7 +123,7 @@ void RegisterFile::PrintCPSR()
     cpsr.PrintState();
 }
 
-void RegisterFile::SetCPSR(uint32_t value)
+void RegisterFile::SetCPSRValue(uint32_t value)
 {
     cpsr.Set(value);
 }

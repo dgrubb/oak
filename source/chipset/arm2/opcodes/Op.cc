@@ -25,7 +25,7 @@ Op::~Op()
 
 bool Op::CheckConditions()
 {
-    auto cpsr = registerFile->GetCPSR();
+    auto cpsr = registerFile->GetCPSRValue();
 
     switch (conditionField)
     {

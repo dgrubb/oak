@@ -48,14 +48,15 @@ public:
     RegisterFile &operator=(const RegisterFile &)   = delete;
     RegisterFile &operator=(RegisterFile &&)        = delete;
 
-    uint32_t GetCPSR();
+    Cpsr& GetCPSR() { return cpsr; };
+    uint32_t GetCPSRValue();
     Cpsr::Mode GetMode();
     uint32_t GetProgramCounter();
     uint32_t GetRegisterValue(RegisterRef reg);
     bool GetStatusFlag(Cpsr::StatusFlag flag);
 
     void PrintCPSR();
-    void SetCPSR(uint32_t value);
+    void SetCPSRValue(uint32_t value);
     void SetMode(Cpsr::Mode mode);
     void SetProgramCounter(uint32_t counter);
     void SetRegisterValue(RegisterRef reg, uint32_t value);

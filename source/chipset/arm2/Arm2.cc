@@ -89,7 +89,7 @@ void Arm2::Reset()
     DEBUG("Reset");
 
     // Backup CPSR content into R14
-    uint32_t cpsr = registerFile->GetCPSR();
+    uint32_t cpsr = registerFile->GetCPSRValue();
     registerFile->SetMode(Cpsr::Mode::SVC);
     registerFile->SetRegisterValue(RegisterFile::RegisterRef::R14, cpsr);
 
