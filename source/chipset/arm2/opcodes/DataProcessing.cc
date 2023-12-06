@@ -64,6 +64,31 @@ bool DataProcessing::DoExecute()
     return true;
 }
 
+uint32_t DataProcessing::GetOperand2()
+{
+    // The second operand may be either the contents of another
+    // register or an immediate value, depending on whether
+    // Immediate Value (bit 25) is set.
+    auto immediate = ((opCode >> 24) & 0b1);
+    if (immediate)
+    {
+        TRACE("Instruction uses an immediate value");
+        // "The immediate value is zero extended to 32 bits, and then
+        // subject to a rotate right by twice the value in the rotate
+        // field. This enabled many common constants to be generated,
+        // such as powers of 2. Another example is the the 8 bit constant
+        // may be aligned with the PSR flags"
+        // - ARM Datasheet, page 21
+        auto immediateValue = (opCode & 0xFF) << 26;
+        // TODO: Complete this section with rotations applied.
+    }
+    else
+    {
+        TRACE("Instruction uses a register value");
+    }
+    return 0;
+}
+
 void DataProcessing::ParseInstruction()
 {
     auto instruction = static_cast<DataProcessingInstruction>((opCode & instructionMask) >> 21);

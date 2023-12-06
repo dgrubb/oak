@@ -84,6 +84,7 @@ private:
     void BIC();
     void MVN();
 
+    uint32_t GetOperand2();
     void ParseInstruction();
     bool DoExecute() override;
 };
