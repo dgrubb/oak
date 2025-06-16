@@ -58,12 +58,6 @@ DataProcessing::~DataProcessing()
 {
 }
 
-bool DataProcessing::DoExecute()
-{
-    dataExecution();
-    return true;
-}
-
 uint32_t DataProcessing::GetOperand2()
 {
     // The second operand may be either the contents of another
@@ -79,7 +73,7 @@ uint32_t DataProcessing::GetOperand2()
         // such as powers of 2. Another example is the the 8 bit constant
         // may be aligned with the PSR flags"
         // - ARM Datasheet, page 21
-        auto immediateValue = (opCode & 0xFF) << 26;
+        //auto immediateValue = (opCode & 0xFF) << 26;
         // TODO: Complete this section with rotations applied.
     }
     else
@@ -94,103 +88,120 @@ void DataProcessing::ParseInstruction()
     auto instruction = static_cast<DataProcessingInstruction>((opCode & instructionMask) >> 21);
     switch(instruction)
     {
-        case DataProcessingInstruction::AND: dataExecution = [this]() { AND(); }; return;
-        case DataProcessingInstruction::EOR: dataExecution = [this]() { EOR(); }; return;
-        case DataProcessingInstruction::SUB: dataExecution = [this]() { SUB(); }; return;
-        case DataProcessingInstruction::RSB: dataExecution = [this]() { RSB(); }; return;
-        case DataProcessingInstruction::ADD: dataExecution = [this]() { ADD(); }; return;
-        case DataProcessingInstruction::ADC: dataExecution = [this]() { ADC(); }; return;
-        case DataProcessingInstruction::SBC: dataExecution = [this]() { SBC(); }; return;
-        case DataProcessingInstruction::RSC: dataExecution = [this]() { RSC(); }; return;
-        case DataProcessingInstruction::TST: dataExecution = [this]() { TST(); }; return;
-        case DataProcessingInstruction::TEQ: dataExecution = [this]() { TEQ(); }; return;
-        case DataProcessingInstruction::CMP: dataExecution = [this]() { CMP(); }; return;
-        case DataProcessingInstruction::CMN: dataExecution = [this]() { CMN(); }; return;
-        case DataProcessingInstruction::ORR: dataExecution = [this]() { ORR(); }; return;
-        case DataProcessingInstruction::MOV: dataExecution = [this]() { MOV(); }; return;
-        case DataProcessingInstruction::BIC: dataExecution = [this]() { BIC(); }; return;
-        case DataProcessingInstruction::MVN: dataExecution = [this]() { MVN(); }; return;
+        case DataProcessingInstruction::AND: execute = [this]() { return AND(); }; return;
+        case DataProcessingInstruction::EOR: execute = [this]() { return EOR(); }; return;
+        case DataProcessingInstruction::SUB: execute = [this]() { return SUB(); }; return;
+        case DataProcessingInstruction::RSB: execute = [this]() { return RSB(); }; return;
+        case DataProcessingInstruction::ADD: execute = [this]() { return ADD(); }; return;
+        case DataProcessingInstruction::ADC: execute = [this]() { return ADC(); }; return;
+        case DataProcessingInstruction::SBC: execute = [this]() { return SBC(); }; return;
+        case DataProcessingInstruction::RSC: execute = [this]() { return RSC(); }; return;
+        case DataProcessingInstruction::TST: execute = [this]() { return TST(); }; return;
+        case DataProcessingInstruction::TEQ: execute = [this]() { return TEQ(); }; return;
+        case DataProcessingInstruction::CMP: execute = [this]() { return CMP(); }; return;
+        case DataProcessingInstruction::CMN: execute = [this]() { return CMN(); }; return;
+        case DataProcessingInstruction::ORR: execute = [this]() { return ORR(); }; return;
+        case DataProcessingInstruction::MOV: execute = [this]() { return MOV(); }; return;
+        case DataProcessingInstruction::BIC: execute = [this]() { return BIC(); }; return;
+        case DataProcessingInstruction::MVN: execute = [this]() { return MVN(); }; return;
         default:
             throw std::runtime_error("Unrecognised instruction: " + std::to_string(static_cast<int>(instruction)));
     }
 }
 
-void DataProcessing::AND()
+bool DataProcessing::AND()
 {
     TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::AND)]);
+    return true;
 }
 
-void DataProcessing::EOR()
+bool DataProcessing::EOR()
 {
     TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::EOR)]);
+    return true;
 }
 
-void DataProcessing::SUB()
+bool DataProcessing::SUB()
 {
     TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::SUB)]);
+    return true;
 }
 
-void DataProcessing::RSB()
+bool DataProcessing::RSB()
 {
     TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::RSB)]);
+    return true;
 }
 
-void DataProcessing::ADD()
+bool DataProcessing::ADD()
 {
     TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::ADD)]);
+    return true;
+    return true;
 }
 
-void DataProcessing::ADC()
+bool DataProcessing::ADC()
 {
     TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::ADC)]);
+    return true;
 }
 
-void DataProcessing::SBC()
+bool DataProcessing::SBC()
 {
     TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::SBC)]);
+    return true;
 }
 
-void DataProcessing::RSC()
+bool DataProcessing::RSC()
 {
     TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::RSC)]);
+    return true;
 }
 
-void DataProcessing::TST()
+bool DataProcessing::TST()
 {
     TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::TST)]);
+    return true;
 }
 
-void DataProcessing::TEQ()
+bool DataProcessing::TEQ()
 {
     TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::TEQ)]);
+    return true;
 }
 
-void DataProcessing::CMP()
+bool DataProcessing::CMP()
 {
     TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::CMP)]);
+    return true;
 }
 
-void DataProcessing::CMN()
+bool DataProcessing::CMN()
 {
     TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::CMN)]);
+    return true;
 }
 
-void DataProcessing::ORR()
+bool DataProcessing::ORR()
 {
     TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::ORR)]);
+    return true;
 }
 
-void DataProcessing::MOV()
+bool DataProcessing::MOV()
 {
     TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::MOV)]);
+    return true;
 }
 
-void DataProcessing::BIC()
+bool DataProcessing::BIC()
 {
     TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::BIC)]);
+    return true;
 }
 
-void DataProcessing::MVN()
+bool DataProcessing::MVN()
 {
     TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::MVN)]);
+    return true;
 }

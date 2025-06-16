@@ -12,6 +12,7 @@
 #include "BlockTransfer.h"
 #include "Branch.h"
 #include "DataProcessing.h"
+#include "Log.h"
 #include "Multiply.h"
 #include "SingleTransfer.h"
 
@@ -20,11 +21,31 @@ OpFactory::~OpFactory() = default;
 
 std::optional<std::unique_ptr<Op>> OpFactory::Create(uint32_t opCode, std::shared_ptr<RegisterFile> registerFile)
 {
-    if (IsBranch(opCode)) return std::make_unique<Branch>(opCode, registerFile);
-    if (IsDataProcessing(opCode)) return std::make_unique<DataProcessing>(opCode, registerFile);
-    if (IsMultiply(opCode)) return std::make_unique<Multiply>(opCode, registerFile);
-    if (IsSingleDataTransfer(opCode)) return std::make_unique<SingleTransfer>(opCode, registerFile);
-    if (IsBlockDataTransfer(opCode)) return std::make_unique<BlockTransfer>(opCode, registerFile);
+    if (IsBranch(opCode)) 
+    {
+        DEBUG("Detected branch instruction");
+        return std::make_unique<Branch>(opCode, registerFile);
+    }
+    if (IsDataProcessing(opCode))
+    {
+        DEBUG("Detected data processing instruction");
+        return std::make_unique<DataProcessing>(opCode, registerFile);
+    }
+    if (IsMultiply(opCode)) 
+    {
+        DEBUG("Detected multiply instruction");
+        return std::make_unique<Multiply>(opCode, registerFile);
+    }
+    if (IsSingleDataTransfer(opCode))
+    {
+        DEBUG("Detected single data transfer instruction");
+        return std::make_unique<SingleTransfer>(opCode, registerFile);
+    }
+    if (IsBlockDataTransfer(opCode))
+    {
+        DEBUG("Detected block data transfer instruction");
+        return std::make_unique<BlockTransfer>(opCode, registerFile);
+    }
 
     return std::nullopt;
 }

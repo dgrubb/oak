@@ -34,8 +34,17 @@ Multiply::~Multiply()
 {
 }
 
-bool Multiply::DoExecute()
+bool Multiply::ExecuteMultiply()
 {
+    TRACE("Executing: ",
+          instructionNameStrings[ToIntegral(Multiply::MultiplyInstruction::MULTIPLY)]);
+    return true;
+}
+
+bool Multiply::ExecuteMultiplyAccumulate()
+{
+    TRACE("Executing: ",
+        instructionNameStrings[ToIntegral(Multiply::MultiplyInstruction::MULTIPLY_ACCUMULATE)]);
     return true;
 }
 

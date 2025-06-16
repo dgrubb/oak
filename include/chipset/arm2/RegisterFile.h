@@ -54,6 +54,7 @@ public:
     uint32_t GetProgramCounter();
     uint32_t GetRegisterValue(RegisterRef reg);
     bool GetStatusFlag(Cpsr::StatusFlag flag);
+    uint32_t IncrementProgramCounter();
 
     void PrintCPSR();
     void SetCPSRValue(uint32_t value);

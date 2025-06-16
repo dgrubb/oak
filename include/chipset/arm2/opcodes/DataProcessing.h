@@ -65,28 +65,26 @@ private:
 
     static const char* instructionNameStrings[];
     static constexpr uint32_t instructionMask = 0x03C00000;
-    std::function<void(void)> dataExecution;
 
-    void AND();
-    void EOR();
-    void SUB();
-    void RSB();
-    void ADD();
-    void ADC();
-    void SBC();
-    void RSC();
-    void TST();
-    void TEQ();
-    void CMP();
-    void CMN();
-    void ORR();
-    void MOV();
-    void BIC();
-    void MVN();
+    bool AND();
+    bool EOR();
+    bool SUB();
+    bool RSB();
+    bool ADD();
+    bool ADC();
+    bool SBC();
+    bool RSC();
+    bool TST();
+    bool TEQ();
+    bool CMP();
+    bool CMN();
+    bool ORR();
+    bool MOV();
+    bool BIC();
+    bool MVN();
 
     uint32_t GetOperand2();
     void ParseInstruction();
-    bool DoExecute() override;
 };
 
 #endif // DATAPROCESSING_H

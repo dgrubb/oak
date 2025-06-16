@@ -53,7 +53,7 @@ Arguments:
             CRITICAL
     -r  Specify ROM file (e.g., ./Oak -r myROM). Defaults to ./riscos-3.71.rom
 
-**N.B.,** ROM files for RISC OS 3.71 are available legally at [4corn.co.uk.](https://www.4corn.co.uk/articles/rpcemu371win/)
+**N.B.,** ROM files for RISC OS 3.71 are available legally at [4corn.co.uk](https://www.4corn.co.uk/articles/rpcemu371win/)
 
 ```
 $ curl -O https://www.4corn.co.uk/archive/roms/riscos3_71.zip && unzip riscos3_71.zip

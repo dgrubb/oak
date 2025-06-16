@@ -12,6 +12,25 @@
 #include "Integral.h"
 #include "Log.h"
 
+const char* Op::conditionFieldsNameStrings[] = {
+    "0000, EQ, Z set (equal)",
+    "0001, NE, Z clear (not equal)",
+    "0010, CS, C set (unsigned higher or same)",
+    "0011, CC, C clear (unsigned lower)",
+    "0100, MI, N set (negative)",
+    "0101, PL, N clear (negative)",
+    "0110, VS, V set (overflow)",
+    "0111, VC, V clear (no overflow)",
+    "1000, HI, C set and Z clear (unsigned higher)",
+    "1001, LS, C clear or Z set (unsigned lower or same)",
+    "1010, GE, N set and V set, or N clear and V clear (greater or equal)",
+    "1011, LT, N set and V clear, or N clear and V set (less than)",
+    "1100, GT, Z clear, and either N set and V set, or N clear and V clear (greater than)",
+    "1101, LE, Z set, or N set and V clear, or N clear and V set (less than or equal)",
+    "1110, AL, always",
+    "1111, NV, never"
+};
+
 Op::Op(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_)
   :  opCode{opCode_},
      registerFile{registerFile_}
@@ -25,6 +44,7 @@ Op::~Op()
 
 bool Op::CheckConditions()
 {
+    TRACE("Checking: ", conditionFieldsNameStrings[conditionField]);
     auto& cpsr = registerFile->GetCPSR();
 
     switch (conditionField)
@@ -114,5 +134,5 @@ bool Op::Execute()
     // Execute a tick of the derived instruction
     cycleCount++;
     TRACE("Instruction cycle count: ", cycleCount);
-    return DoExecute();
+    return execute();
 }

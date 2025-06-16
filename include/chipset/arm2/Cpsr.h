@@ -54,6 +54,7 @@ public:
     Mode GetMode();
     uint32_t GetProgramCounter();
     bool GetStatusFlag(StatusFlag flag);
+    uint32_t IncrementProgramCounter();
 
     void PrintState();
 

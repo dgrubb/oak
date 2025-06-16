@@ -31,11 +31,21 @@ BlockTransfer::~BlockTransfer()
 {
 }
 
-bool BlockTransfer::DoExecute()
+bool BlockTransfer::ExecuteLoadMemory()
 {
+    TRACE("Executing: ",
+          instructionNameStrings[ToIntegral(BlockTransfer::BlockTransferInstruction::LOAD_MEMORY)]);
+    return true;
+}
+
+bool BlockTransfer::ExecuteStoreMemory()
+{
+    TRACE("Executing: ",
+          instructionNameStrings[ToIntegral(BlockTransfer::BlockTransferInstruction::STORE_MEMORY)]);
     return true;
 }
 
 void BlockTransfer::ParseInstruction()
 {
+    execute = [this](){ return ExecuteLoadMemory(); };
 }

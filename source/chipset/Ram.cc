@@ -27,7 +27,7 @@ std::optional<uint8_t> Ram::Read(uint32_t address)
     {
         return ram.at(address);
     }
-    catch(std::out_of_range&)
+    catch (std::out_of_range&)
     {
         ERROR("Failed to read RAM, address out of range: ", address);
     }
@@ -41,7 +41,7 @@ bool Ram::Write(uint32_t address, uint8_t byte)
         ram.at(address) = byte;
         return true;
     }
-    catch(std::out_of_range&)
+    catch (std::out_of_range&)
     {
         ERROR("Failed to write RAM, address out of range: ", address);
     }

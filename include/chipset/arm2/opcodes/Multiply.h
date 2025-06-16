@@ -39,8 +39,9 @@ private:
 
     static const char* instructionNameStrings[];
 
+    bool ExecuteMultiply();
+    bool ExecuteMultiplyAccumulate();
     void ParseInstruction();
-    bool DoExecute() override;
 };
 
 #endif // MULTIPLY_H

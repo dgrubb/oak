@@ -9,8 +9,9 @@
 #define OP_H
 
 // C++ library includes
-#include <cstdint> // uint32_t
-#include <memory>  // std::shared_ptr
+#include <cstdint>    // uint32_t
+#include <functional> // std::function
+#include <memory>     // std::shared_ptr
 
 // Project includes
 #include "RegisterFile.h"
@@ -31,6 +32,7 @@ public:
 
 protected:
 
+    std::function<bool(void)> execute;
     uint32_t opCode{0};
     std::shared_ptr<RegisterFile> registerFile;
 
@@ -55,6 +57,7 @@ private:
         AL,     // 1110, AL, always
         NV,     // 1111, NV, never
     };
+    static const char* conditionFieldsNameStrings[];
 
     static constexpr uint32_t ConditionFieldMask = 0xF0000000;
 
@@ -63,8 +66,6 @@ private:
     uint32_t cycleCount{0};
 
     bool CheckConditions();
-
-    virtual bool DoExecute() = 0;
 
 };
 

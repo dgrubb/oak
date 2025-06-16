@@ -45,6 +45,7 @@ private:
 
     void AdvancePipeline();
     void FlushPipeline();
+    void UpdateAddressBus();
 
     void DoTick() override;
 };

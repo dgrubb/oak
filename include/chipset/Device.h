@@ -20,6 +20,9 @@ public:
     // is used for convenience so this mask is used to access only the
     // bits which should actually be utilised.
     static constexpr uint32_t AddressBusMask = 0x0FFFFFFF;
+
+    // Struct which describes all the interconnections
+    // between devices (e.g., buses, control signals etc).
     struct SystemBus
     {
         enum class ReadWrite : int

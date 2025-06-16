@@ -30,8 +30,17 @@ SingleTransfer::~SingleTransfer()
 {
 }
 
-bool SingleTransfer::DoExecute()
+bool SingleTransfer::ExecuteLoadMemory()
 {
+    TRACE("Executing: ",
+          instructionNameStrings[ToIntegral(SingleTransfer::SingleTransferInstruction::LOAD_MEMORY)]);
+    return true;
+}
+
+bool SingleTransfer::ExecuteStoreMemory()
+{
+    TRACE("Executing: ",
+          instructionNameStrings[ToIntegral(SingleTransfer::SingleTransferInstruction::STORE_MEMORY)]);
     return true;
 }
 

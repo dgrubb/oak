@@ -47,12 +47,10 @@ private:
 
     BranchInstruction branchInstruction{BranchInstruction::BRANCH};
     uint32_t branchOffset{0};
-    std::function<void(void)> branchExecution;
 
-    void ExecuteBranch();
-    void ExecuteBranchWithLink();
+    bool ExecuteBranch();
+    bool ExecuteBranchWithLink();
     void ParseInstruction();
-    bool DoExecute() override;
 };
 
 #endif // BRANCH_H

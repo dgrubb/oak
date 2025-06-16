@@ -53,6 +53,13 @@ uint32_t Cpsr::GetProgramCounter()
     return counter;
 }
 
+uint32_t Cpsr::IncrementProgramCounter()
+{
+    TRACE("Incrementing program counter");
+    SetProgramCounter(GetProgramCounter()+1);
+    return GetProgramCounter();
+}
+
 bool Cpsr::GetStatusFlag(StatusFlag flag)
 {
     bool set = value & statusFlagsMasks[ToIntegral(flag)];

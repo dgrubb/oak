@@ -58,19 +58,45 @@ void Arm2::DoTick()
 {
     // TODO: Check for MEMC abort here
 
+    // If a current instruction is valid then the CPU is in the middle of
+    // executing an operation which requires multiple re-entrant clock ticks.
+    //
+    if (!currentInstruction)
+    {
+        // Once the current instruction has completed execution the CPU
+        // will fetch the next instruction from the data bus.
+        AdvancePipeline();
+        return;
+    }
+
+    // Stash this to detect programmatic changes to the program counter
+    // (i.e., branches) which obviate the need for automatically incrementing
+    // the program counter.
+    uint32_t pc = registerFile->GetProgramCounter();
+
     // Execute() will return "true" to indicate computation was
     // completed in this clock tick. This is so instructions which
     // require multiple clock ticks to execute fully can be simulated
     // accurately.
-    if (currentInstruction && !currentInstruction->Execute())
+    if (!currentInstruction->Execute())
     {
         return;
     }
 
-    // Once the current instruction has completed execution the CPU
-    // will fetch the next instruction from the data bus.
-    AdvancePipeline();
+    // The current instruction has fully executed and the next tick will
+    // fetch the next instruction from memory. Clear the stale instruction.
+    currentInstruction.reset();
+
+    // The completed instruction had no effect on the program counter so
+    // there's a need to arrange for fetching the next one from memory.
+    if (pc == registerFile->GetProgramCounter())
+    {
+        registerFile->IncrementProgramCounter();
+    }
+
+    UpdateAddressBus();
 }
+
 
 void Arm2::FlushPipeline()
 {
@@ -100,6 +126,13 @@ void Arm2::Reset()
     registerFile->SetStatusFlag(Cpsr::StatusFlag::FIQ_DISABLE, true);
     systemBus->readWrite = Device::SystemBus::ReadWrite::READ;
     systemBus->byteWord = Device::SystemBus::ByteWord::WORD;
+}
+
+void Arm2::UpdateAddressBus()
+{
+    systemBus->readWrite = Device::SystemBus::ReadWrite::READ;
+    systemBus->addressBus = registerFile->GetProgramCounter();
+    systemBus->dataBus = 0;
 }
 
 Arm2::~Arm2()

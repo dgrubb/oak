@@ -47,7 +47,7 @@ void A3000::Tick()
         memc.Tick();
         rom.Tick();
     }
-    catch(std::exception& e)
+    catch (std::exception& e)
     {
         arm2.PrintState();
         throw std::runtime_error(e.what());

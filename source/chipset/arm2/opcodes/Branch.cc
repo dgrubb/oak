@@ -37,7 +37,7 @@ Branch::~Branch()
 {
 }
 
-void Branch::ExecuteBranch()
+bool Branch::ExecuteBranch()
 {
     TRACE("Executing: ",
           instructionNameStrings[ToIntegral(Branch::BranchInstruction::BRANCH)],
@@ -52,9 +52,10 @@ void Branch::ExecuteBranch()
 
     // Reload the appropriate register contents
     registerFile->SetProgramCounter(pc);
+    return true;
 }
 
-void Branch::ExecuteBranchWithLink()
+bool Branch::ExecuteBranchWithLink()
 {
     TRACE("Executing: ",
           instructionNameStrings[ToIntegral(Branch::BranchInstruction::BRANCH_WITH_LINK)],
@@ -75,11 +76,6 @@ void Branch::ExecuteBranchWithLink()
     // Reload the appropriate register contents
     registerFile->SetRegisterValue(RegisterFile::RegisterRef::R14, linkAddress);
     registerFile->SetProgramCounter(pc);
-}
-
-bool Branch::DoExecute()
-{
-    branchExecution();
     return true;
 }
 
@@ -88,11 +84,10 @@ void Branch::ParseInstruction()
     branchOffset = (Branch::OffsetMask & opCode);
     if (Branch::LinkBitMask & opCode)
     {
-        branchExecution = [this](){ ExecuteBranchWithLink(); };
+        execute = [this](){ return ExecuteBranchWithLink(); };
     }
     else
     {
-        branchExecution = [this](){ ExecuteBranch(); };
+        execute = [this](){ return ExecuteBranch(); };
     }
-
 }

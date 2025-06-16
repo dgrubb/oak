@@ -35,8 +35,9 @@ private:
 
     static const char* instructionNameStrings[];
 
+    bool ExecuteLoadMemory();
+    bool ExecuteStoreMemory();
     void ParseInstruction();
-    bool DoExecute() override;
 };
 
 #endif // SINGLETRANSFER_H

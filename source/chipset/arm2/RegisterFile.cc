@@ -118,6 +118,11 @@ bool RegisterFile::GetStatusFlag(Cpsr::StatusFlag flag)
     return cpsr.GetStatusFlag(flag);
 }
 
+uint32_t RegisterFile::IncrementProgramCounter()
+{
+    return cpsr.IncrementProgramCounter();
+}
+
 void RegisterFile::PrintCPSR()
 {
     cpsr.PrintState();
