@@ -24,8 +24,8 @@ const char* Multiply::instructionNameStrings[] = {
     "[MLA] MULTIPLY ACCUMULATE"
 };
 
-Multiply::Multiply(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_)
-  : Op(opCode_, registerFile_)
+Multiply::Multiply(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_, std::shared_ptr<Device::SystemBus> systemBus_)
+  : Op(opCode_, registerFile_, systemBus_)
 {
 
 }

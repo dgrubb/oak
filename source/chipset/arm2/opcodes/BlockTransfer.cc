@@ -21,8 +21,8 @@ const char* BlockTransfer::instructionNameStrings[] = {
     "[STM] STORE MEMORY"
 };
 
-BlockTransfer::BlockTransfer(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_)
-  : Op(opCode_, registerFile_)
+BlockTransfer::BlockTransfer(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_, std::shared_ptr<Device::SystemBus> systemBus_)
+  : Op(opCode_, registerFile_, systemBus_)
 {
 
 }

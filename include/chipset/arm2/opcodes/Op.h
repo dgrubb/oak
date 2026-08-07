@@ -14,13 +14,14 @@
 #include <memory>     // std::shared_ptr
 
 // Project includes
+#include "Device.h"
 #include "RegisterFile.h"
 
 class Op
 {
 public:
 
-    Op(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_);
+    Op(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_, std::shared_ptr<Device::SystemBus> systemBus_);
     ~Op();
 
     Op(const Op &orig)          = delete;
@@ -29,12 +30,14 @@ public:
     Op &operator=(Op &&)        = delete;
 
     bool Execute();
+    uint32_t Field(unsigned int bit, unsigned int length);
 
 protected:
 
     std::function<bool(void)> execute;
     uint32_t opCode{0};
     std::shared_ptr<RegisterFile> registerFile;
+    std::shared_ptr<Device::SystemBus> systemBus;
 
 private:
 

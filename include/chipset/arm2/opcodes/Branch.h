@@ -36,7 +36,7 @@ public:
         BRANCH_WITH_LINK
     };
 
-    Branch(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_);
+    Branch(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_, std::shared_ptr<Device::SystemBus> systemBus_);
     ~Branch();
 
 private:

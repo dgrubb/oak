@@ -58,7 +58,7 @@ public:
         MVN = 0b1111
     };
 
-    DataProcessing(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_);
+    DataProcessing(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_, std::shared_ptr<Device::SystemBus> systemBus_);
     ~DataProcessing();
 
 private:

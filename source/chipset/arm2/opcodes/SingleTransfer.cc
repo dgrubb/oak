@@ -20,30 +20,44 @@ const char* SingleTransfer::instructionNameStrings[] = {
     "[STR] STORE MEMORY"
 };
 
-SingleTransfer::SingleTransfer(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_)
-  : Op(opCode_, registerFile_)
+SingleTransfer::SingleTransfer(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_, std::shared_ptr<Device::SystemBus> systemBus_)
+  : Op(opCode_, registerFile_, systemBus_)
 {
-
+    ParseInstruction();
 }
 
 SingleTransfer::~SingleTransfer()
 {
 }
 
-bool SingleTransfer::ExecuteLoadMemory()
-{
-    TRACE("Executing: ",
-          instructionNameStrings[ToIntegral(SingleTransfer::SingleTransferInstruction::LOAD_MEMORY)]);
-    return true;
-}
-
-bool SingleTransfer::ExecuteStoreMemory()
-{
-    TRACE("Executing: ",
-          instructionNameStrings[ToIntegral(SingleTransfer::SingleTransferInstruction::STORE_MEMORY)]);
-    return true;
-}
-
 void SingleTransfer::ParseInstruction()
 {
+    immediate = !Field(25, 1);
+    preIndexed = Field(24, 1);
+    addOffset = Field(23, 4);
+    byte = Field(22, 1);
+    writeBack = Field(21, 1);
+    load = Field(20, 1);
+    Rn = Field(16, 4);
+    Rd = Field(12, 4);
+    offset = Field(0, 12);
+
+    if (load) {
+        execute = [this]() { return LDR(); };
+    }
+    else {
+        execute = [this]() { return STR(); };
+    }
+}
+
+bool SingleTransfer::LDR()
+{
+    TRACE("Executing: ", instructionNameStrings[ToIntegral(SingleTransfer::SingleTransferInstruction::LOAD_MEMORY)]);
+    return true;
+}
+
+bool SingleTransfer::STR()
+{
+    TRACE("Executing: ", instructionNameStrings[ToIntegral(SingleTransfer::SingleTransferInstruction::STORE_MEMORY)]);
+    return true;
 }

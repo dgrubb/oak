@@ -32,7 +32,7 @@ public:
         MULTIPLY_ACCUMULATE
     };
 
-    Multiply(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_);
+    Multiply(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_, std::shared_ptr<Device::SystemBus> systemBus_);
     ~Multiply();
 
 private:

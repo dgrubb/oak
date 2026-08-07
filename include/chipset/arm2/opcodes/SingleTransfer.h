@@ -12,7 +12,7 @@
 #define SINGLETRANSFER_H
 
 // C++ header includes
-#include <cstdint> // uint32_t
+#include <cstdint> // uint8_t, uint16_t, uint32_t
 #include <memory>  // std::shared_ptr
 
 // Project includes
@@ -28,15 +28,26 @@ public:
         STORE_MEMORY
     };
 
-    SingleTransfer(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_);
+    SingleTransfer(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_, std::shared_ptr<Device::SystemBus> systemBus_);
     ~SingleTransfer();
 
 private:
 
     static const char* instructionNameStrings[];
 
-    bool ExecuteLoadMemory();
-    bool ExecuteStoreMemory();
+    bool immediate{false};  // I
+    bool preIndexed{false}; // P
+    bool addOffset{false};  // U
+    bool byte{false};       // B
+    bool writeBack{false};  // W
+    bool load{false};       // L
+    uint8_t Rn{0};          // Base register
+    uint8_t Rd{0};          // Destination register
+    uint16_t offset{0};     // Offset
+
+    bool LDR();
+    bool STR();
+
     void ParseInstruction();
 };
 

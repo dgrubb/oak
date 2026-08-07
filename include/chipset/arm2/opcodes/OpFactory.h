@@ -14,6 +14,7 @@
 #include <optional> // std::optional
 
 // Project includes
+#include "Device.h"
 #include "Op.h"
 #include "RegisterFile.h"
 
@@ -24,7 +25,7 @@ public:
     OpFactory();
     ~OpFactory();
 
-    static std::optional<std::unique_ptr<Op>> Create(uint32_t opCode, std::shared_ptr<RegisterFile> registerFile);
+    static std::optional<std::unique_ptr<Op>> Create(uint32_t opCode, std::shared_ptr<RegisterFile> registerFile, std::shared_ptr<Device::SystemBus> systemBus);
 
 private:
 

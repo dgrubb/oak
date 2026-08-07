@@ -9,6 +9,7 @@
 
 // Project includes
 #include "Cpsr.h" // Mode, StatusFlag
+#include "Endian.h"
 #include "Log.h"
 #include "OpFactory.h"
 #include "Register.h"
@@ -29,7 +30,8 @@ void Arm2::AdvancePipeline()
     // step with the content of the data bus
     pipeline.execute = pipeline.decode;
     pipeline.decode = pipeline.fetch;
-    pipeline.fetch = systemBus->dataBus;
+    // Correct for endianess (ARM2 is little endian)
+    pipeline.fetch = ReverseEndianess(systemBus->dataBus);
 
     // TODO: This is a hack to ensure empty pieces of the pipeline
     // aren't erroneously identified as the wrong instruction at startup
@@ -44,7 +46,7 @@ void Arm2::AdvancePipeline()
 
     // Decode the instruction which landed in
     // the execute step of the pipeline
-    if (auto instruction = OpFactory::Create(pipeline.execute, registerFile))
+    if (auto instruction = OpFactory::Create(pipeline.execute, registerFile, systemBus))
     {
         currentInstruction = std::move(instruction.value());
     }

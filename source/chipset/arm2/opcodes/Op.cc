@@ -31,9 +31,10 @@ const char* Op::conditionFieldsNameStrings[] = {
     "1111, NV, never"
 };
 
-Op::Op(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_)
+Op::Op(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_, std::shared_ptr<Device::SystemBus> systemBus_)
   :  opCode{opCode_},
-     registerFile{registerFile_}
+     registerFile{registerFile_},
+     systemBus{systemBus_}
 {
     conditionField = ((opCode & ConditionFieldMask) >> 28);
 }
@@ -135,4 +136,9 @@ bool Op::Execute()
     cycleCount++;
     TRACE("Instruction cycle count: ", cycleCount);
     return execute();
+}
+
+uint32_t Op::Field(unsigned int bit, unsigned int length)
+{
+    return ((opCode >> bit) & ((1 << length) -1));
 }

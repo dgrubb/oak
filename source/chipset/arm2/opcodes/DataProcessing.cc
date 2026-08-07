@@ -48,8 +48,8 @@ const char* DataProcessing::instructionNameStrings[] = {
     "[MVN] MOVE NOT OP 2"
 };
 
-DataProcessing::DataProcessing(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_)
-  : Op(opCode_, registerFile_)
+DataProcessing::DataProcessing(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_, std::shared_ptr<Device::SystemBus> systemBus_)
+  : Op(opCode_, registerFile_, systemBus_)
 {
     ParseInstruction();
 }
@@ -136,7 +136,6 @@ bool DataProcessing::RSB()
 bool DataProcessing::ADD()
 {
     TRACE("Executing: ", instructionNameStrings[ToIntegral(DataProcessing::DataProcessingInstruction::ADD)]);
-    return true;
     return true;
 }
 

@@ -29,7 +29,7 @@ public:
         STORE_MEMORY
     };
 
-    BlockTransfer(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_);
+    BlockTransfer(uint32_t opCode_, std::shared_ptr<RegisterFile> registerFile_, std::shared_ptr<Device::SystemBus> systemBus_);
     ~BlockTransfer();
 
 private:
