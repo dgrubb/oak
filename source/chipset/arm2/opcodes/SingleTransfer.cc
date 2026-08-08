@@ -11,6 +11,9 @@
 // Implementation header
 #include "SingleTransfer.h"
 
+// C++ library includes
+#include <string>   // to_string
+
 // Project includes
 #include "Integral.h"
 #include "Log.h"
@@ -30,16 +33,55 @@ SingleTransfer::~SingleTransfer()
 {
 }
 
+uint32_t SingleTransfer::CalculateImmediateAddress()
+{
+    uint32_t calculatedAddress = registerFile->GetRegisterValue(Rn);
+    if (addOffset) {
+        calculatedAddress += offset;
+    } else {
+        calculatedAddress -= offset;
+    }
+    return calculatedAddress;
+}
+
 void SingleTransfer::ParseInstruction()
 {
+    // I - Immediate.
+    // When 0 the address accessed is formed by adding, or subtracting, depending
+    // on the value of U, the address stored in the register specifed in the base
+    // register (Rn) with the offset value. E.g.,
+    // Effective address = Rn +/- offset
+    // When 1 the address accessed is formed by adding, or subtracing, depending
+    // on the valye of U, the address stored in a register specified in the base
+    // register (Rn) with the address stored in the offset with a possible shift
+    // applied. Eg.,
+    // Effective address = Rn +/- (Rm shifted by shift amount)
     immediate = !Field(25, 1);
+
+    // P - Pre/Post indexed.
+    //
     preIndexed = Field(24, 1);
+
+    // U - Up/Down
+    //
     addOffset = Field(23, 4);
+
+    // B - Byte/Word
     byte = Field(22, 1);
+
+    // W - Write-back
     writeBack = Field(21, 1);
+
+    // L - Load/Store
     load = Field(20, 1);
+
+    // Base register
     Rn = Field(16, 4);
+
+    // Source/Destination register
     Rd = Field(12, 4);
+
+    // Offset
     offset = Field(0, 12);
 
     if (load) {
@@ -53,6 +95,35 @@ void SingleTransfer::ParseInstruction()
 bool SingleTransfer::LDR()
 {
     TRACE("Executing: ", instructionNameStrings[ToIntegral(SingleTransfer::SingleTransferInstruction::LOAD_MEMORY)]);
+
+    static uint32_t value{0};
+
+    systemBus->memoryAccess = true;
+
+    switch (cycleCount)
+    {
+        case 0:
+            // Calculate read address and apply to buses
+            systemBus->addressBus = CalculateImmediateAddress();
+            systemBus->byteWord = (byte ? Device::SystemBus::ByteWord::BYTE : Device::SystemBus::ByteWord::WORD);
+            return false;
+        case 1:
+            value = systemBus->dataBus;
+            return false;
+        case 2:
+            // Write to destination register
+            registerFile->SetRegisterValue(Rd, value);
+            systemBus->memoryAccess = false;
+            value = 0;
+            return true;
+        default:
+            std::string msg{"Invalid cycle count [ "};
+            msg += std::to_string(cycleCount);
+            msg += " ] for instruction: ";
+            msg += instructionNameStrings[ToIntegral(SingleTransfer::SingleTransferInstruction::LOAD_MEMORY)];
+            ERROR(msg);
+            throw std::runtime_error(msg);
+    }
     return true;
 }
 

@@ -35,19 +35,21 @@ private:
 
     static const char* instructionNameStrings[];
 
-    bool immediate{false};  // I
-    bool preIndexed{false}; // P
-    bool addOffset{false};  // U
-    bool byte{false};       // B
-    bool writeBack{false};  // W
-    bool load{false};       // L
-    uint8_t Rn{0};          // Base register
-    uint8_t Rd{0};          // Destination register
-    uint16_t offset{0};     // Offset
+    // Instruction decoded fields
+    bool immediate{false};
+    bool preIndexed{false};
+    bool addOffset{false};
+    bool byte{false};
+    bool writeBack{false};
+    bool load{false};
+    uint8_t Rn{0};
+    uint8_t Rd{0};
+    uint16_t offset{0};
 
     bool LDR();
     bool STR();
 
+    uint32_t CalculateImmediateAddress();
     void ParseInstruction();
 };
 

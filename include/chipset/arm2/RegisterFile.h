@@ -9,11 +9,13 @@
 #define REGISTERFILE_H
 
 // C++ library includes
-#include <cstdint> // uint32_t
-#include <vector>  // std::vector
+#include <cstdint>  // uint32_t
+#include <string>   // to_string()
+#include <vector>   // std::vector
 
 // Project includes
 #include "Cpsr.h"  // Mode, StatusFlag
+#include "Log.h"
 #include "Register.h"
 
 class RegisterFile
@@ -62,6 +64,30 @@ public:
     void SetProgramCounter(uint32_t counter);
     void SetRegisterValue(RegisterRef reg, uint32_t value);
     void SetStatusFlag(Cpsr::StatusFlag flag, bool set);
+
+    template<typename T>
+    constexpr RegisterRef ToRegisterRef(T t)
+    {
+        if (t > registers.size())
+        {
+            std::string errorMsg{"Invalid register address: "};
+            errorMsg += std::to_string(t);
+            throw(errorMsg);
+        }
+        return RegisterRef{t};
+    }
+
+    template<typename R>
+    constexpr uint32_t GetRegisterValue(R registerRef)
+    {
+        return GetRegisterValue(ToRegisterRef(registerRef));
+    }
+
+    template<typename R>
+    constexpr void SetRegisterValue(R registerRef, uint32_t value)
+    {
+        SetRegisterValue(ToRegisterRef(registerRef), value);
+    }
 
 private:
 

@@ -44,6 +44,7 @@ public:
         ByteWord byteWord{ByteWord::BYTE};
 
         // MEMC I/O
+        bool memoryAccess{false};
         bool abortMemoryAccess{false};
         bool enableROM{false};
     };

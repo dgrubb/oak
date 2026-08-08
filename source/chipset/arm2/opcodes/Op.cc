@@ -133,9 +133,10 @@ bool Op::Execute()
     }
 
     // Execute a tick of the derived instruction
-    cycleCount++;
     TRACE("Instruction cycle count: ", cycleCount);
-    return execute();
+    bool retVal = execute();
+    cycleCount++;
+    return retVal;
 }
 
 uint32_t Op::Field(unsigned int bit, unsigned int length)
