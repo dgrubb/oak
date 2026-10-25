@@ -54,9 +54,9 @@ std::optional<std::unique_ptr<Op>> OpFactory::Create(uint32_t opCode, std::share
 bool OpFactory::IsBranch(uint32_t opCode)
 {
     // Identified by bits 25 through 27 having a value
-    // of 101. ARM datasheet, page 15
+    // of 101 (binary). ARM datasheet, page 15
     opCode >>= 25;
-    return (opCode & 0x5);
+    return (opCode & 0x7) == 0x5;
 }
 
 bool OpFactory::IsDataProcessing(uint32_t opCode)
